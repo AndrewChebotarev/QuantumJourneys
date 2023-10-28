@@ -1,10 +1,16 @@
-﻿using Microsoft.Extensions.Logging;
+﻿//Класс для запуска приложения
+//-----------------------------------------------------------------------------------------------------------------------------
+
+using Plugin.Maui.Audio;
 
 namespace QuantumJourneys;
 
+//------------------------------------------------------------------------------------------------------------------------------
+
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
+    //--------------------------------------------------------------------------------------------------------------------------
+    public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
 		builder
@@ -15,10 +21,20 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+		builder.Services.AddSingleton(AudioManager.Current);
+		builder.Services.AddTransient<MainPage>();
+
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
+#if IOS
+        AVAudioSession.SharedInstance().SetActive(true);
+        AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
+#endif
+
+        return builder.Build();
 	}
+    //--------------------------------------------------------------------------------------------------------------------------
 }
+//------------------------------------------------------------------------------------------------------------------------------

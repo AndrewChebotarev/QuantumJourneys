@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shell="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="QuantumJourneys.MainPage"
+             BackgroundImageSource="menuimg.png"
+             shell:Shell.NavBarIsVisible="False"
+             Shell.PresentationMode="Modal">
+
+    <toolkit:MediaElement Source="embed://test.mp3" x:Name="mediaElement" />
+
+    <ScrollView>
+
+        <StackLayout Orientation="Vertical">
+            
+            <Button
+                
+                x:Name="SoloGameBtn"
+                Clicked="OnSoloButtonClicked"
+
+                HorizontalOptions="Center" 
+                VerticalOptions="Start"
+                Margin="0,40,0,40"
+                
+                BackgroundColor="#5C2ACE"
+                FontSize="Title"
+                TextColor="#FFFFFF"
+                BorderWidth="1"
+                BorderColor="#000000"/>
+
+            <Button
+                
+                x:Name="MultyGameBtn"
+                Clicked="OnMultyButtonClicked"
+
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                Margin="0,0,0,40"
+                
+                BackgroundColor="#5C2ACE"
+                FontSize="Title"
+                TextColor="#FFFFFF"
+                BorderWidth="1"
+                BorderColor="#000000"/>
+
+            <Button
+                
+                x:Name="SettingBtn"
+                Clicked="OnSettingButtonClicked"
+
+                HorizontalOptions="Center"
+                VerticalOptions="StartAndExpand"
+                Margin="0,0,0,80"
+                
+                BackgroundColor="#5C2ACE"
+                FontSize="Title"
+                TextColor="#FFFFFF"
+                BorderWidth="1"
+                BorderColor="#000000"/>
+
+            <Button
+                
+                x:Name="ExitBtn"
+                Clicked="OnExitButtonClicked"
+                Text="Выход"
+                
+                HorizontalOptions="Center" 
+                VerticalOptions="EndAndExpand"
+                Margin="0,0,0,40"
+                
+                BackgroundColor="#5C2ACE"
+                FontSize="Title"
+                TextColor="#FFFFFF"
+                BorderWidth="1"
+                BorderColor="#000000"
+                />
+            
+        </StackLayout>
+
+    </ScrollView>
+
+</ContentPage>
