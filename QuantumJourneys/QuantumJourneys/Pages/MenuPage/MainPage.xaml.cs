@@ -32,30 +32,21 @@ public partial class MainPage : ContentPage
         player.Play();
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    private void OnSoloButtonClicked(object sender, EventArgs args)
+    private async void OnSoloButtonClicked(object sender, EventArgs args)
     {
-        NewOrOldGameSolo nextPage = new NewOrOldGameSolo();
-        CloseAndOpenPage(nextPage);
+        await Navigation.PushModalAsync(new NewOrOldGameSolo());
     }
-    private void OnMultyButtonClicked(object sender, EventArgs args)
+    private async void OnMultyButtonClicked(object sender, EventArgs args)
     {
-        CreateGameMultyPage nextPage = new CreateGameMultyPage();
-        CloseAndOpenPage(nextPage);
+        await Navigation.PushModalAsync(new CreateGameMultyPage());
     }
-    private void OnSettingButtonClicked(object sender, EventArgs args)
+    private async void OnSettingButtonClicked(object sender, EventArgs args)
     {
-        SettingPage nextPage = new SettingPage();
-        CloseAndOpenPage(nextPage);
+        await Navigation.PushModalAsync(new SettingPage());
     }
     private void OnExitButtonClicked(object sender, EventArgs args)
     {
         App.Current.Quit();
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
-    private void CloseAndOpenPage(Page newPage)
-    {
-        Application.Current.MainPage.Navigation.PopAsync();
-        Application.Current.MainPage = newPage;
     }
     //--------------------------------------------------------------------------------------------------------------------------
 }

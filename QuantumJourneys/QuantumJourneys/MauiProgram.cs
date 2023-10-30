@@ -28,11 +28,6 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-#if IOS
-        AVAudioSession.SharedInstance().SetActive(true);
-        AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
-#endif
-
         return builder.Build();
 	}
     //--------------------------------------------------------------------------------------------------------------------------

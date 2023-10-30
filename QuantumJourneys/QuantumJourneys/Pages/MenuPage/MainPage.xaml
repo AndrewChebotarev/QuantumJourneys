@@ -8,12 +8,10 @@
              shell:Shell.NavBarIsVisible="False"
              Shell.PresentationMode="Modal">
 
-    <toolkit:MediaElement Source="embed://test.mp3" x:Name="mediaElement" />
-
     <ScrollView>
 
         <StackLayout Orientation="Vertical">
-            
+
             <Button
                 
                 x:Name="SoloGameBtn"
@@ -63,7 +61,6 @@
                 
                 x:Name="ExitBtn"
                 Clicked="OnExitButtonClicked"
-                Text="Выход"
                 
                 HorizontalOptions="Center" 
                 VerticalOptions="EndAndExpand"

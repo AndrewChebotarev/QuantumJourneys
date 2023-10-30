@@ -2,26 +2,55 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QuantumJourneys.Pages.SettingPage.SettingPage"
+             BackgroundImageSource="menuimg.png"
              Title="SettingPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="В разработке!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Button
+
+    <ScrollView>
+
+        <StackLayout Orientation="Vertical">
+
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Border Background="#80000000" Margin="20">
+                    <Grid>
+                        <Label FontSize="Title"
+                               Text = "Настройки"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Start"
+                               Margin="0,40,0,0"/>
+
+                        <Label Text="Язык:" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Margin="0,160,0,0" FontSize="Title"/>
+                        <Picker x:Name="languagePicker" Title = "Русский" HorizontalOptions="Center" VerticalOptions="Start" HorizontalTextAlignment="Center" FontSize="Title" Margin="0,190,0,0">
+                            <Picker.Items>
+                                <x:String>Русский</x:String>
+                                <x:String>Английский</x:String>
+                            </Picker.Items>
+                        </Picker>
+
+
+                        <Label Text="Громкость:" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,60" FontSize="Title"/>
+                        <Slider Maximum="360" Margin="0,60,0,0" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" MinimumTrackColor="DeepPink" MaximumTrackColor="LightPink" ThumbColor="DeepPink"/>
+
+                            <Button
                 
-                x:Name="SoloGameBtn"
-                Clicked="SoloGameBtn_Clicked"
-                Text="Назад"
+                                x:Name="ExitBtn"
+                                Clicked="SoloGameBtn_Clicked"
+                                Text="Назад"
                 
-                HorizontalOptions="Center" 
-                VerticalOptions="End"
-                Margin="0,40,0,40"
+                                HorizontalOptions="Center" 
+                                VerticalOptions="EndAndExpand"
+                                Margin="0,0,0,40"
                 
-                BackgroundColor="#5C2ACE"
-                FontSize="Title"
-                TextColor="#FFFFFF"
-                BorderWidth="1"
-                BorderColor="#000000"/>
-    </VerticalStackLayout>
+                                BackgroundColor="#5C2ACE"
+                                FontSize="Title"
+                                TextColor="#FFFFFF"
+                                BorderWidth="1"
+                                BorderColor="#000000"/>
+                    </Grid>
+                </Border>
+            </Grid>
+
+        </StackLayout>
+
+    </ScrollView>
+    
 </ContentPage>

@@ -1,6 +1,8 @@
 //Класс для мультиплеерной игры
 //--------------------------------------------------------------------------------------------------------------------------
 
+using System.Security.AccessControl;
+
 namespace QuantumJourneys.Pages.CreateGameMulty;
 
 //--------------------------------------------------------------------------------------------------------------------------
@@ -13,13 +15,9 @@ public partial class CreateGameMultyPage : ContentPage
 		InitializeComponent();
 	}
     //--------------------------------------------------------------------------------------------------------------------------
-    private void SoloGameBtn_Clicked(object sender, EventArgs e)
+    private async void SoloGameBtn_Clicked(object sender, EventArgs e)
     {
-        var nextPage = new MainPage();
-        var currentPage = Application.Current.MainPage;
-
-        currentPage.Navigation.PopAsync();
-        Application.Current.MainPage = nextPage;
+        await Navigation.PopModalAsync();
     }
     //--------------------------------------------------------------------------------------------------------------------------
 }

@@ -82,6 +82,7 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\MenuImg.png" />
+	  <None Remove="Resources\Images\Setting\menuimg.png" />
 	  <None Remove="Resources\Raw\test.mp3" />
 	</ItemGroup>
 
@@ -93,6 +94,7 @@
 
 	<ItemGroup>
 	  <MauiImage Include="Resources\Images\Menu\menuimg.png" />
+	  <MauiImage Include="Resources\Images\Setting\menuimg.png" />
 	</ItemGroup>
 
 	<ItemGroup>
