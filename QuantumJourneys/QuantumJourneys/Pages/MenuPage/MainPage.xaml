@@ -44,7 +44,7 @@
 
             <Button
                 
-                x:Name="SettingBtn"
+                x:Name="SettingsBtn"
                 Clicked="OnSettingButtonClicked"
 
                 HorizontalOptions="Center"

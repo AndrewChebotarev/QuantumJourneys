@@ -9,19 +9,22 @@ namespace QuantumJourneys;
 
 public partial class MainPage : ContentPage
 {
+    //--------------------------------------------------------------------------------------------------------------------------
 
+    public string currentLanguage;
     private readonly IAudioManager audioManager;
+
     //--------------------------------------------------------------------------------------------------------------------------
     public MainPage()
     {
         InitializeComponent();
-        new SettingMenuText(this);
+        new SettingsText(this);
     }
 
     public MainPage(IAudioManager audioManager)
 	{
 		InitializeComponent();
-        new SettingMenuText(this);
+        new SettingsText(this);
         this.audioManager = audioManager;
         test();
     }
@@ -29,6 +32,7 @@ public partial class MainPage : ContentPage
     private async void test()
     {
         var player = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("test.mp3"));
+        player.Loop = true;
         player.Play();
     }
     //--------------------------------------------------------------------------------------------------------------------------
@@ -42,7 +46,7 @@ public partial class MainPage : ContentPage
     }
     private async void OnSettingButtonClicked(object sender, EventArgs args)
     {
-        await Navigation.PushModalAsync(new SettingPage());
+        await Navigation.PushModalAsync(new SettingsPage(currentLanguage));
     }
     private void OnExitButtonClicked(object sender, EventArgs args)
     {
