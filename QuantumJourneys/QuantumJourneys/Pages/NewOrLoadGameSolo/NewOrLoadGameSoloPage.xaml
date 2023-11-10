@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuantumJourneys.Pages.NewOrLoadGameSoloPage"
+             Title="NewOrLoadGameSoloPage"
+             BackgroundImageSource="menuimg.png">
+        
+        <ScrollView>
+
+            <StackLayout Orientation="Vertical">
+
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                    <Border Background="#80000000" Margin="20">
+
+                        <Grid>
+
+                        <Button
+                
+                            x:Name="NewGameBtn"
+                            Clicked="NewGameBtn_Clicked"
+                
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Start"
+                            Margin="0,20,0,40"
+                
+                            BackgroundColor="#5C2ACE"
+                            FontSize="Title"
+                            TextColor="#FFFFFF"
+                            BorderWidth="1"
+                            BorderColor="#000000"/>
+
+                        <ActivityIndicator
+                            
+                           x:Name="loadingIndicator" 
+                           IsRunning="False"
+                           Color="#5C2ACE"/>
+
+                        <Button
+                
+                            x:Name="LoadGameBtn"
+                            Clicked="LoadGameBtn_Clicked"
+                
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Start"
+                            Margin="0,120,0,0"
+                
+                            BackgroundColor="#5C2ACE"
+                            FontSize="Title"
+                            TextColor="#FFFFFF"
+                            BorderWidth="1"
+                            BorderColor="#000000"/>
+
+                        <Button
+                
+                            x:Name="BacktBtn"
+                            Clicked="BackBtn_Clicked"
+                
+                            HorizontalOptions="Center" 
+                            VerticalOptions="EndAndExpand"
+                            Margin="0,0,0,40"
+                
+                            BackgroundColor="#5C2ACE"
+                            FontSize="Title"
+                            TextColor="#FFFFFF"
+                            BorderWidth="1"
+                            BorderColor="#000000"/>
+
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+
+            </StackLayout>
+
+        </ScrollView>
+        
+</ContentPage>

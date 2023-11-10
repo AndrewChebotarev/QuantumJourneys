@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuantumJourneys.Pages.СharacterCreation.CharacterCreationPage"
+             Title="CharacterCreationPage">
+
+    <ScrollView>
+    
+        <StackLayout Orientation="Vertical">
+
+            <Image
+                
+                x:Name="ImageMainCharacter"
+                Source="femalecharacter.png"
+                
+                VerticalOptions="Start"
+                Aspect="AspectFit"
+                Margin="0,0,0,40"/>
+
+            <Label 
+            
+                x:Name="CreateCharacterAppearanceLabel"
+                
+                FontSize="Title"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                
+                HorizontalOptions="Center" 
+                Margin="0,0,0,50"/>
+
+            <Label 
+            
+                x:Name="GenderLabel"
+                
+                FontSize="Title"
+                
+                HorizontalOptions="Center"         
+                Margin="0,0,0,10"/>
+
+            <StackLayout x:Name="GenderStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,40">
+                
+                <Button
+                    
+                    x:Name="LeftGenderBtn"
+                    Clicked="ChangeGenderBtn_Clicked"
+                    
+                    Text="-"
+                    FontSize="Title"
+                    TextColor="Black"
+                    
+                    HorizontalOptions="StartAndExpand"
+                    Margin="0,0,20,0"/>
+
+                <Label 
+                    
+                    x:Name="SelectedGender"
+                    
+                    FontSize="Title"        
+                    
+                    VerticalOptions="Center"/>
+
+                <Button
+                    
+                    x:Name="RightGenderBtn"
+                    Clicked="ChangeGenderBtn_Clicked"
+                    
+                    Text="+"
+                    FontSize="Title"
+                    TextColor="Black"
+                    
+                    HorizontalOptions="EndAndExpand"
+                    Margin="20,0,0,0"/>
+                
+            </StackLayout>
+
+            <Label 
+            
+                x:Name="EyeColorLabel"
+                
+                FontSize="Title"
+                
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Margin="0,0,0,10"/>
+
+            <StackLayout x:Name="EyeColorStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,40">
+                
+                <Button
+                    
+                    x:Name="LeftEyeColorBtn"
+                    Clicked="ChangeEyeColorBtn_Clicked"
+                    
+                    Text="-"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    
+                    HorizontalOptions="Start"  
+                    Margin="0,0,20,0"/>
+
+                <Label 
+                    
+                    x:Name="SelectedEyeColor"
+                    
+                    FontSize="Title"    
+                    
+                    VerticalOptions="Center"/>
+
+                <Button
+                    
+                    x:Name="RightEyeColorBtn"
+                    Clicked="ChangeEyeColorBtn_Clicked"
+                    
+                    Text="+"
+                    TextColor="Black"
+                    
+                    HorizontalOptions="EndAndExpand"
+                    Margin="20,0,0,0"
+                    FontSize="Title"/>
+                
+            </StackLayout>
+
+            <Label 
+            
+                x:Name="HairColorLabel"
+                
+                FontSize="Title"
+                
+                HorizontalOptions="Center"         
+                VerticalOptions="Center"
+                Margin="0,0,0,10"/>
+
+            <StackLayout x:Name="HairColorStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
+                
+                <Button
+                    
+                    x:Name="LeftHairColorBtn"
+                    Clicked="ChangeHairColorBtn_Clicked"
+                    
+                    Text="-"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="Start"  
+                    Margin="0,0,20,0"/>
+
+                <Label
+                    
+                    x:Name="SelectedHairColor"
+                    
+                    FontSize="Title"        
+                    
+                    VerticalOptions="Center"/>
+
+                <Button
+                    
+                    x:Name="RightHairColorBtn"
+                    Clicked="ChangeHairColorBtn_Clicked"
+                    
+                    Text="+"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="EndAndExpand" 
+                    Margin="20,0,0,0"/>
+                
+            </StackLayout>
+        
+            <Label 
+            
+                IsVisible="false"
+                x:Name="CreateCharacterNatureLabel"
+                
+                FontSize="Title"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                
+                HorizontalOptions="Center" 
+                Margin="0,0,0,50"/>
+
+            <Label 
+            
+                IsVisible="false"
+                x:Name="MentalityLabel"
+                
+                FontSize="Title"
+                
+                HorizontalOptions="Center"         
+                VerticalOptions="Center"
+                Margin="0,0,0,10"/>
+
+            <StackLayout IsVisible="false" x:Name="MentalityStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,40">
+
+                <Button
+                    
+                    x:Name="LeftMentalityBtn"
+                    Clicked="ChangeMentalityBtn_Clicked"
+                    
+                    Text="-"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="Start"  
+                    Margin="0,0,20,0"/>
+
+                <Label
+                    
+                    x:Name="SelectedMentality"
+                    
+                    FontSize="Title"        
+                    
+                    VerticalOptions="Center"/>
+
+                <Button
+                    
+                    x:Name="RightMentalityBtn"
+                    Clicked="ChangeMentalityBtn_Clicked"
+                    
+                    Text="+"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="EndAndExpand" 
+                    Margin="20,0,0,0"/>
+
+            </StackLayout>
+
+            <Label 
+            
+                IsVisible="false"
+                x:Name="ProfessionLabel"
+                
+                FontSize="Title"
+                
+                HorizontalOptions="Center"         
+                VerticalOptions="Center"
+                Margin="0,0,0,10"/>
+
+            <StackLayout IsVisible="false" x:Name="ProfessionStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,40">
+
+                <Button
+                    
+                    x:Name="LeftProfessionBtn"
+                    Clicked="ChangeProfessionBtn_Clicked"
+                    
+                    Text="-"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="Start"  
+                    Margin="0,0,20,0"/>
+
+                <Label
+                    
+                    x:Name="SelectedProfession"
+                    
+                    FontSize="Title"        
+                    
+                    VerticalOptions="Center"/>
+
+                <Button
+                    
+                    x:Name="RightProfessionBtn"
+                    Clicked="ChangeProfessionBtn_Clicked"
+                    
+                    Text="+"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="EndAndExpand" 
+                    Margin="20,0,0,0"/>
+
+            </StackLayout>
+
+            <Label 
+            
+                IsVisible="false"
+                x:Name="CharacterLabel"
+                
+                FontSize="Title"
+                
+                HorizontalOptions="Center"         
+                VerticalOptions="Center"
+                Margin="0,0,0,10"/>
+
+            <StackLayout IsVisible="false" x:Name="CharacterStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
+
+                <Button
+                    
+                    x:Name="LeftCharacterBtn"
+                    Clicked="ChangeCharacterBtn_Clicked"
+                    
+                    Text="-"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="Start"  
+                    Margin="0,0,20,0"/>
+
+                <Label
+                    
+                    x:Name="SelectedCharacter"
+                    
+                    FontSize="Title"        
+                    
+                    VerticalOptions="Center"/>
+
+                <Button
+                    
+                    x:Name="RightCharacterBtn"
+                    Clicked="ChangeCharacterBtn_Clicked"
+                    
+                    Text="+"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="EndAndExpand" 
+                    Margin="20,0,0,0"/>
+
+            </StackLayout>
+
+            <Label 
+            
+                IsVisible="false"
+                x:Name="CreateCharacterStatsLabel"
+                
+                FontSize="Title"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                
+                HorizontalOptions="CenterAndExpand" 
+                Margin="0,0,0,30"/>
+
+            <Label 
+            
+                IsVisible="false"
+                x:Name="StrengthLabel"
+                
+                FontSize="Title"
+                
+                HorizontalOptions="Center"         
+                VerticalOptions="Center"
+                Margin="0,0,0,10"/>
+
+            <StackLayout IsVisible="false" x:Name="StrengthStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,10">
+
+                <Button
+                    
+                    x:Name="LeftStrengthBtn"
+                    Clicked="ChangeStrengthBtn_Clicked"
+                    
+                    Text="-"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="Start"  
+                    Margin="0,0,20,0"/>
+
+                <Label
+                    
+                    x:Name="SelectedStrength"
+                
+                    Text="1"
+                    
+                    FontSize="Title"        
+                    
+                    VerticalOptions="Center"/>
+
+                <Button
+                    
+                    x:Name="RightStrengthBtn"
+                    Clicked="ChangeStrengthBtn_Clicked"
+                    
+                    Text="+"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="EndAndExpand" 
+                    Margin="20,0,0,0"/>
+
+            </StackLayout>
+
+            <Label 
+            
+                IsVisible="false"
+                x:Name="AgilityLabel"
+                
+                FontSize="Title"
+                
+                HorizontalOptions="Center"         
+                VerticalOptions="Center"
+                Margin="0,0,0,10"/>
+
+            <StackLayout IsVisible="false" x:Name="AgilityStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,10">
+
+                <Button
+                    
+                    x:Name="LeftAgilityBtn"
+                    Clicked="ChangeAgilityBtn_Clicked"
+                    
+                    Text="-"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="Start"  
+                    Margin="0,0,20,0"/>
+
+                <Label
+                    
+                    x:Name="SelectedAgility"
+                
+                    Text="1"
+                    
+                    FontSize="Title"        
+                    
+                    VerticalOptions="Center"/>
+
+                <Button
+                    
+                    x:Name="RightAgilityBtn"
+                    Clicked="ChangeAgilityBtn_Clicked"
+                    
+                    Text="+"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="EndAndExpand" 
+                    Margin="20,0,0,0"/>
+
+            </StackLayout>
+
+            <Label 
+            
+                IsVisible="false"
+                x:Name="IntelligenceLabel"
+                
+                FontSize="Title"
+                
+                HorizontalOptions="Center"         
+                VerticalOptions="Center"
+                Margin="0,0,0,10"/>
+
+            <StackLayout IsVisible="false" x:Name="IntelligenceStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,10">
+
+                <Button
+                    
+                    x:Name="LeftIntelligenceBtn"
+                    Clicked="ChangeIntelligenceBtn_Clicked"
+                    
+                    Text="-"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="Start"  
+                    Margin="0,0,20,0"/>
+
+                <Label
+                    
+                    x:Name="SelectedIntelligence"
+                
+                    Text="1"
+                    
+                    FontSize="Title"        
+                    
+                    VerticalOptions="Center"/>
+
+                <Button
+                    
+                    x:Name="RightIntelligenceBtn"
+                    Clicked="ChangeIntelligenceBtn_Clicked"
+                    
+                    Text="+"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="EndAndExpand" 
+                    Margin="20,0,0,0"/>
+
+            </StackLayout>
+
+            <Label 
+            
+                IsVisible="false"
+                x:Name="FortuneLabel"
+                
+                FontSize="Title"
+                
+                HorizontalOptions="Center"         
+                VerticalOptions="Center"
+                Margin="0,0,0,10"/>
+
+            <StackLayout IsVisible="false" x:Name="FortuneStack" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
+
+                <Button
+                    
+                    x:Name="LeftFortuneBtn"
+                    Clicked="ChangeFortuneBtn_Clicked"
+                    
+                    Text="-"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="Start"  
+                    Margin="0,0,20,0"/>
+
+                <Label
+                    
+                    x:Name="SelectedFortune"
+                
+                    Text="1"
+                    
+                    FontSize="Title"        
+                    
+                    VerticalOptions="Center"/>
+
+                <Button
+                    
+                    x:Name="RightFortuneBtn"
+                    Clicked="ChangeFortuneBtn_Clicked"
+                    
+                    Text="+"
+                    FontSize="Title" 
+                    TextColor="Black"
+                    HorizontalOptions="EndAndExpand" 
+                    Margin="20,0,0,0"/>
+
+            </StackLayout>
+
+            <Label 
+            
+                IsVisible="false"
+                x:Name="CreateCharacterNameLabel"
+                
+                FontSize="Title"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                
+                HorizontalOptions="Center" 
+                Margin="0,0,0,50"/>
+
+            <Entry 
+                
+                IsVisible="false"
+                x:Name="NameLabel"
+            
+                Placeholder = "Введите имя"
+                FontSize="Title"
+                MaxLength ="20"
+                
+                HorizontalOptions="Center"         
+                VerticalOptions="Center"
+                Margin="0,0,0,10"/>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0" VerticalOptions="EndAndExpand">
+
+            <Button
+                
+                x:Name="BackBtn"
+                Clicked="BackBtn_Clicked"
+                
+                TextColor="#FFFFFF"
+                FontSize="Title"
+                
+                BackgroundColor="#5C2ACE"
+                BorderWidth="1"
+                BorderColor="#000000"
+                
+                HorizontalOptions="Start" 
+                VerticalOptions="EndAndExpand"
+                Margin="10,0,0,10"/>
+
+            <BoxView 
+                
+                HorizontalOptions="FillAndExpand" 
+                Color="Black"/>
+
+            <Button
+                
+                x:Name="NextBtn"
+                Clicked="NextBtn_Clicked"
+                
+                TextColor="#FFFFFF"
+                FontSize="Title"
+                
+                BackgroundColor="#5C2ACE"
+                BorderWidth="1"
+                BorderColor="#000000"
+                
+                HorizontalOptions="Start" 
+                VerticalOptions="EndAndExpand"
+                Margin="0,0,10,10"/>
+
+            </StackLayout>
+
+        </StackLayout>
+        
+    </ScrollView>
+
+</ContentPage>

@@ -15,7 +15,7 @@ public partial class CreateGameMultyPage : ContentPage
 		InitializeComponent();
 	}
     //--------------------------------------------------------------------------------------------------------------------------
-    private async void SoloGameBtn_Clicked(object sender, EventArgs e)
+    private async void BackBtn_Clicked(object sender, EventArgs e)
     {
         await Navigation.PopModalAsync();
     }

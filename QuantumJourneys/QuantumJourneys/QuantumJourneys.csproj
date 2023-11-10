@@ -82,8 +82,7 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\MenuImg.png" />
-	  <None Remove="Resources\Images\Setting\menuimg.png" />
-	  <None Remove="Resources\Raw\test.mp3" />
+	  <None Remove="Resources\Raw\Menu.mp3" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -93,15 +92,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Include="Resources\Images\CreateCharacter\femalecharacter.png" />
 	  <MauiImage Include="Resources\Images\Menu\menuimg.png" />
-	  <MauiImage Include="Resources\Images\Setting\menuimg.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Pages\NewOrOldGameSolo\NewOrOldGameSoloPage.xaml.cs">
-	    <DependentUpon>NewOrOldGameSoloPage.xaml</DependentUpon>
+	  <Compile Update="Pages\NewOrLoadGameSolo\NewOrLoadGameSoloPage.xaml.cs">
+	    <DependentUpon>NewOrLoadGameSoloPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\SettingsPage\SettingsPage.xaml.cs">
+	  <Compile Update="Pages\Settings\SettingsPage.xaml.cs">
 	    <DependentUpon>SettingsPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
@@ -110,10 +109,19 @@
 	  <MauiXaml Update="Pages\CreateGameMulty\CreateGameMultyPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\NewOrOldGameSolo\NewOrOldGameSoloPage.xaml">
+	  <MauiXaml Update="Pages\Game\GamePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\SettingsPage\SettingsPage.xaml">
+	  <MauiXaml Update="Pages\LoadGame\LoadGamePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\NewOrLoadGameSolo\NewOrLoadGameSoloPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Settings\SettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\СharacterCreation\CharacterCreationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

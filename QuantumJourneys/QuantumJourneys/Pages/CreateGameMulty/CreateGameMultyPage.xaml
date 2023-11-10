@@ -16,7 +16,7 @@
         <Button
                 
                 x:Name="SoloGameBtn"
-                Clicked="SoloGameBtn_Clicked"
+                Clicked="BackBtn_Clicked"
                 Text="Назад"
                 
                 HorizontalOptions="Center" 

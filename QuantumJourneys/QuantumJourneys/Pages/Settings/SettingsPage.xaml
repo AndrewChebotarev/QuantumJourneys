@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuantumJourneys.Pages.Settings.SettingsPage"
+             BackgroundImageSource="menuimg.png"
+             Title="SettingsPage">
+
+    <ScrollView>
+
+        <StackLayout Orientation="Vertical">
+
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                
+                <Border Background="#80000000" Margin="20">
+                    
+                    <Grid>
+                        
+                        <Label
+                            
+                            x:Name="settingLabel"
+                            FontSize="Title"
+
+                            HorizontalOptions="Center"
+                            VerticalOptions="Start"
+                            Margin="0,40,0,0"/>
+
+                        <Label 
+                            
+                            x:Name="languageLabel"
+                            FontSize="Title"
+                            
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="Start"
+                            Margin="0,160,0,0"/>
+
+                        <Picker 
+                            
+                            x:Name="languagePicker"
+                            Title = "Русский"
+                            FontSize="Title"
+                            
+                            HorizontalOptions="Center"
+                            VerticalOptions="Start"
+                            HorizontalTextAlignment="Center"
+                            Margin="0,190,0,0">
+
+                        </Picker>
+
+                        <Label
+                            
+                            x:Name="soundLabel"
+                            FontSize="Title"
+                            
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Margin="0,60"/>
+                        
+                        <Slider
+                            
+                            x:Name="soundSlider"
+                            ValueChanged="OnSoundValueChanged"
+                            
+                            Maximum="1"
+                            WidthRequest="300"
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="Center"
+                            Margin="0,60,0,0"
+                            
+                            MinimumTrackColor="DeepPink"
+                            MaximumTrackColor="LightPink"
+                            ThumbColor="DeepPink"/>
+
+                        <Button
+                
+                            x:Name="BackBtn"
+                            Clicked="BackBtn_Clicked"
+                
+                            HorizontalOptions="Center" 
+                            VerticalOptions="EndAndExpand"
+                            Margin="0,0,0,40"
+                
+                            BackgroundColor="#5C2ACE"
+                            FontSize="Title"
+                            TextColor="#FFFFFF"
+                            BorderWidth="1"
+                            BorderColor="#000000"/>
+                        
+                    </Grid>
+                    
+                </Border>
+                
+            </Grid>
+
+        </StackLayout>
+
+    </ScrollView>
+    
+</ContentPage>
