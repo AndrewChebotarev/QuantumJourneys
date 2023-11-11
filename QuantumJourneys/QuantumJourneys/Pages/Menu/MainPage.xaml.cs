@@ -38,6 +38,10 @@ public partial class MainPage : ContentPage
     {
         await Navigation.PushModalAsync(new CreateGameMultyPage());
     }
+    private async void StatisticsBtn_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new StatisticsPage());
+    }
     private async void OnSettingButtonClicked(object sender, EventArgs args)
     {
         await Navigation.PushModalAsync(new SettingsPage(currentLanguage, audioPlayer));

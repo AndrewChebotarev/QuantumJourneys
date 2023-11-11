@@ -30,26 +30,28 @@
                             BorderWidth="1"
                             BorderColor="#000000"/>
 
-                        <ActivityIndicator
-                            
-                           x:Name="loadingIndicator" 
-                           IsRunning="False"
-                           Color="#5C2ACE"/>
-
                         <Button
-                
+                            
+                            IsVisible="False"
+                            
                             x:Name="LoadGameBtn"
                             Clicked="LoadGameBtn_Clicked"
                 
                             HorizontalOptions="Center" 
                             VerticalOptions="Start"
-                            Margin="0,120,0,0"
+                            Margin="0,120,0,40"
                 
                             BackgroundColor="#5C2ACE"
                             FontSize="Title"
                             TextColor="#FFFFFF"
                             BorderWidth="1"
                             BorderColor="#000000"/>
+
+                        <ActivityIndicator
+                            
+                           x:Name="loadingIndicator" 
+                           IsRunning="False"
+                           Color="#5C2ACE"/>
 
                         <Button
                 

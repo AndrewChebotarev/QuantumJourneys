@@ -1,6 +1,8 @@
 //Класс для создания персонажа игрока
 //--------------------------------------------------------------------------------------------------------------------------------------
 
+using QuantumJourneys.Pages.Game;
+
 namespace QuantumJourneys.Pages.СharacterCreation;
 
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -12,6 +14,8 @@ public partial class CharacterCreationPage : ContentPage
     private string characteristicsName;
     private int numberStatsChange;
 
+    private Button loadGameBtn;
+
     private СharacterСharacteristics сharacterСharacteristics;
     private SelectedGenderСharacter selectedGenderCharacter;
     private SelectedEyeColorCharacter selectedEyeColorCharacter;
@@ -22,12 +26,12 @@ public partial class CharacterCreationPage : ContentPage
     private SelectedStatCharacter selectedStatCharacter;
 
     //----------------------------------------------------------------------------------------------------------------------------------
-    public CharacterCreationPage(string selectedLanguage)
-	{
-		InitializeComponent();
+    public CharacterCreationPage(string selectedLanguage, Button loadGameBtn)
+    {
+        InitializeComponent();
         InitLanguage(selectedLanguage);
-        InitDefaultCharacteristics();
-	}
+        InitDefaultCharacteristics(loadGameBtn);
+     }
     private void InitLanguage(string language)
     {
         switch (language)
@@ -47,7 +51,7 @@ public partial class CharacterCreationPage : ContentPage
 
         this.language= language;
     }
-    private void InitDefaultCharacteristics()
+    private void InitDefaultCharacteristics(Button loadGameBtn)
     {
         сharacterСharacteristics = new()
         {
@@ -65,6 +69,10 @@ public partial class CharacterCreationPage : ContentPage
             characterName = ""
         };
 
+        this.loadGameBtn = loadGameBtn;
+
+        ImageMainCharacter.Source = "femalebrownginger.png";
+
         selectedGenderCharacter = new();
         selectedEyeColorCharacter = new();
         selectedHairColorCharacter = new();
@@ -81,6 +89,7 @@ public partial class CharacterCreationPage : ContentPage
     {
         NewSelectedGenderFromStruct();
         ChangeGenderLabel();
+        ChangeCharacterImg();
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void NewSelectedGenderFromStruct()
@@ -100,6 +109,7 @@ public partial class CharacterCreationPage : ContentPage
         else NewSelectedEyeColorFromStruct("right");
 
         ChangeEyeColorLabel();
+        ChangeCharacterImg();
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void NewSelectedEyeColorFromStruct(string leftOrRightBtn)
@@ -119,6 +129,7 @@ public partial class CharacterCreationPage : ContentPage
         else NewSelectedHairColorFromStruct("right");
 
         ChangeHairColorLabel();
+        ChangeCharacterImg();
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void NewSelectedHairColorFromStruct(string leftOrRight)
@@ -128,6 +139,118 @@ public partial class CharacterCreationPage : ContentPage
     private void ChangeHairColorLabel()
     {
         SelectedHairColor.Text = selectedHairColorCharacter.NewTextHairColor(language, сharacterСharacteristics.hairColor);
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------
+    private void ChangeCharacterImg()
+    {
+        if(сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Brown
+            && сharacterСharacteristics.hairColor == HairColorEnum.Ginger)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBrownGinger;
+            ImageMainCharacter.Source = "femalebrownginger.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Brown
+            && сharacterСharacteristics.hairColor == HairColorEnum.Black)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBrownBlack;
+            ImageMainCharacter.Source = "femalebrownblack.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Brown
+            && сharacterСharacteristics.hairColor == HairColorEnum.Blonde)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBrownBlonde;
+            ImageMainCharacter.Source = "femalebrownblonde.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Blue
+            && сharacterСharacteristics.hairColor == HairColorEnum.Ginger)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBlueGinger;
+            ImageMainCharacter.Source = "femaleblueginger.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Blue
+            && сharacterСharacteristics.hairColor == HairColorEnum.Black)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBlueBlack;
+            ImageMainCharacter.Source = "femaleblueblack.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Blue
+            && сharacterСharacteristics.hairColor == HairColorEnum.Blonde)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBlueBlonde;
+            ImageMainCharacter.Source = "femaleblueblonde.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Green
+            && сharacterСharacteristics.hairColor == HairColorEnum.Ginger)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleGreenGinger;
+            ImageMainCharacter.Source = "femalegreenginger.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Green
+            && сharacterСharacteristics.hairColor == HairColorEnum.Black)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleGreenBlack;
+            ImageMainCharacter.Source = "femalegreenblack.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Green
+            && сharacterСharacteristics.hairColor == HairColorEnum.Blonde)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleGreenBlonde;
+            ImageMainCharacter.Source = "femalegreenblonde.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Male && сharacterСharacteristics.eyeColor == EyeColorEnum.Brown
+            && сharacterСharacteristics.hairColor == HairColorEnum.Ginger)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBrownGinger;
+            ImageMainCharacter.Source = "malebrownginger.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Male && сharacterСharacteristics.eyeColor == EyeColorEnum.Brown
+            && сharacterСharacteristics.hairColor == HairColorEnum.Black)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBrownBlack;
+            ImageMainCharacter.Source = "malebrownblack.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Male && сharacterСharacteristics.eyeColor == EyeColorEnum.Brown
+            && сharacterСharacteristics.hairColor == HairColorEnum.Blonde)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBrownBlonde;
+            ImageMainCharacter.Source = "malebrownblonde.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Male && сharacterСharacteristics.eyeColor == EyeColorEnum.Blue
+            && сharacterСharacteristics.hairColor == HairColorEnum.Ginger)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBlueGinger;
+            ImageMainCharacter.Source = "maleblueginger.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Male && сharacterСharacteristics.eyeColor == EyeColorEnum.Blue
+            && сharacterСharacteristics.hairColor == HairColorEnum.Black)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBlueBlack;
+            ImageMainCharacter.Source = "maleblueblack.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Male && сharacterСharacteristics.eyeColor == EyeColorEnum.Blue
+            && сharacterСharacteristics.hairColor == HairColorEnum.Blonde)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleBlueBlonde;
+            ImageMainCharacter.Source = "maleblueblonde.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Male && сharacterСharacteristics.eyeColor == EyeColorEnum.Green
+            && сharacterСharacteristics.hairColor == HairColorEnum.Ginger)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleGreenGinger;
+            ImageMainCharacter.Source = "malegreenginger.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Male && сharacterСharacteristics.eyeColor == EyeColorEnum.Green
+            && сharacterСharacteristics.hairColor == HairColorEnum.Black)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleGreenBlack;
+            ImageMainCharacter.Source = "malegreenblack.png";
+        }
+        else if (сharacterСharacteristics.gender == GenderEnum.Male && сharacterСharacteristics.eyeColor == EyeColorEnum.Green
+            && сharacterСharacteristics.hairColor == HairColorEnum.Blonde)
+        {
+            сharacterСharacteristics.img = ImgCharacterEnum.FemaleGreenBlonde;
+            ImageMainCharacter.Source = "malegreenblonde.png";
+        }
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeMentalityBtn_Clicked(object sender, EventArgs e)
@@ -331,7 +454,16 @@ public partial class CharacterCreationPage : ContentPage
         if (characteristicsName == "CreateCharacterAppearance") CreateCharacterAppearancePanelNext();
         else if (characteristicsName == "CreateCharacterNature") CreateCharacterNaturePanelNext();
         else if (characteristicsName == "CreateCharacterStats") CreateCharacterStatsPanelNext();
-        else if (characteristicsName == "CreateCharacterName") { }
+        else if (characteristicsName == "CreateCharacterName") 
+        {
+            if (CheckNameCharacter())
+            {
+                SetNameFromStruct();
+                SaveCharacterFromFile();
+                StartGamePage();
+            }
+            else NameError();
+        }
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void CreateCharacterAppearancePanelNext()
@@ -389,9 +521,39 @@ public partial class CharacterCreationPage : ContentPage
         FortuneStack.IsVisible = false;
 
         CreateCharacterNameLabel.IsVisible = true;
-        NameLabel.IsVisible = true;
+        NameEntry.IsVisible = true;
 
         characteristicsName = "CreateCharacterName";
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------
+    private bool CheckNameCharacter()
+    {
+        Regex regex = new Regex(@"[а-яА-Яa-zA-Z]");
+
+        if (NameEntry.Text != null && regex.IsMatch(NameEntry.Text)) return true;
+
+        else return false;
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------
+    private void SetNameFromStruct()
+    {
+        сharacterСharacteristics.characterName = NameEntry.Text;
+    }
+    private void NameError()
+    {
+        if (language == "Ru") DisplayAlert("Некорректное имя", "В имени должна присутствовать хотя бы одна буква!", "Ок");
+        else if (language == "En") DisplayAlert("Incorrect name", "The name must contain at least one letter!", "Ok");
+        else DisplayAlert("Incorrect name", "The name must contain at least one letter!", "Ok");
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------
+    private void SaveCharacterFromFile()
+    {
+        new SaveCharacterFromStruct(сharacterСharacteristics);
+    }
+    private async void StartGamePage()
+    {
+        loadGameBtn.IsVisible = true;
+        await Navigation.PushModalAsync(new GamePage());
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private async void BackBtn_Clicked(object sender, EventArgs e)
@@ -457,7 +619,7 @@ public partial class CharacterCreationPage : ContentPage
         FortuneStack.IsVisible = true;
 
         CreateCharacterNameLabel.IsVisible = false;
-        NameLabel.IsVisible = false;
+        NameEntry.IsVisible = false;
 
         characteristicsName = "CreateCharacterStats";
     }

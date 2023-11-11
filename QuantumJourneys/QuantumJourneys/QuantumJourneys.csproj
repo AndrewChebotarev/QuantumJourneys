@@ -81,6 +81,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\CreateCharacter\femaleblueblack.png" />
+	  <None Remove="Resources\Images\CreateCharacter\femaleblueblonde.png" />
+	  <None Remove="Resources\Images\CreateCharacter\femaleblueginger.png" />
+	  <None Remove="Resources\Images\CreateCharacter\femalebrownblack.png" />
+	  <None Remove="Resources\Images\CreateCharacter\femalebrownblonde.png" />
+	  <None Remove="Resources\Images\CreateCharacter\femalebrownginger.png" />
+	  <None Remove="Resources\Images\CreateCharacter\femalegreenblack.png" />
+	  <None Remove="Resources\Images\CreateCharacter\femalegreenblonde.png" />
+	  <None Remove="Resources\Images\CreateCharacter\femalegreenginger.png" />
+	  <None Remove="Resources\Images\CreateCharacter\maleblueblack.png" />
+	  <None Remove="Resources\Images\CreateCharacter\maleblueblonde.png" />
+	  <None Remove="Resources\Images\CreateCharacter\maleblueginger.png" />
+	  <None Remove="Resources\Images\CreateCharacter\malebrownblack.png" />
+	  <None Remove="Resources\Images\CreateCharacter\malebrownblonde.png" />
+	  <None Remove="Resources\Images\CreateCharacter\malebrownginger.png" />
+	  <None Remove="Resources\Images\CreateCharacter\malegreenblack.png" />
+	  <None Remove="Resources\Images\CreateCharacter\malegreenblonde.png" />
+	  <None Remove="Resources\Images\CreateCharacter\malegreenginger.png" />
 	  <None Remove="Resources\Images\MenuImg.png" />
 	  <None Remove="Resources\Raw\Menu.mp3" />
 	</ItemGroup>
@@ -92,7 +110,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Include="Resources\Images\CreateCharacter\femalecharacter.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\femaleblueblack.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\femaleblueblonde.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\femaleblueginger.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\femalebrownblack.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\femalebrownblonde.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\femalebrownginger.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\femalegreenblack.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\femalegreenblonde.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\femalegreenginger.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\maleblueblack.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\maleblueblonde.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\maleblueginger.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\malebrownblack.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\malebrownblonde.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\malebrownginger.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\malegreenblack.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\malegreenblonde.png" />
+	  <MauiImage Include="Resources\Images\CreateCharacter\malegreenginger.png" />
 	  <MauiImage Include="Resources\Images\Menu\menuimg.png" />
 	</ItemGroup>
 
@@ -119,6 +154,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Settings\SettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Statistics\StatisticsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\СharacterCreation\CharacterCreationPage.xaml">

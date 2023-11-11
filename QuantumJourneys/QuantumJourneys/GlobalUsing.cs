@@ -3,6 +3,7 @@
 
 global using Microsoft.Extensions.Logging;
 global using Plugin.Maui.Audio;
+global using System.Text.RegularExpressions;
 
 global using QuantumJourneys.Pages;
 global using QuantumJourneys.Pages.CreateGameMulty;
@@ -17,5 +18,6 @@ global using QuantumJourneys.Pages.СharacterCreation.Language;
 global using QuantumJourneys.StructAndEnum;
 global using QuantumJourneys.StructAndEnum.MainCharacter;
 global using QuantumJourneys.StructAndEnum.MainCharacter.SelectionOfСharacteristics;
+global using QuantumJourneys.Pages.Statistics;
 
 //--------------------------------------------------------------------------------------------------------------------------

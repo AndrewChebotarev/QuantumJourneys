@@ -48,8 +48,23 @@
                 Clicked="OnSettingButtonClicked"
 
                 HorizontalOptions="Center"
+                VerticalOptions="Start"
+                Margin="0,0,0,100"
+                
+                BackgroundColor="#5C2ACE"
+                FontSize="Title"
+                TextColor="#FFFFFF"
+                BorderWidth="1"
+                BorderColor="#000000"/>
+
+            <Button
+                
+                x:Name="StatisticsBtn"
+                Clicked="StatisticsBtn_Clicked"
+
+                HorizontalOptions="Center"
                 VerticalOptions="StartAndExpand"
-                Margin="0,0,0,80"
+                Margin="0,0,0,40"
                 
                 BackgroundColor="#5C2ACE"
                 FontSize="Title"

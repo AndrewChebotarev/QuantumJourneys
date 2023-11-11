@@ -12,6 +12,8 @@ namespace QuantumJourneys.Pages.Menu.Language
             SoloGameBtn.Text = "Single player";
             Button MultyGameBtn = (Button)mainPage.FindByName("MultyGameBtn");
             MultyGameBtn.Text = "Multiplayer";
+            Button StatisticsBtn = (Button)mainPage.FindByName("StatisticsBtn");
+            StatisticsBtn.Text = "Statistics";
             Button SettingsBtn = (Button)mainPage.FindByName("SettingsBtn");
             SettingsBtn.Text = "Settings";
             Button ExitBtn = (Button)mainPage.FindByName("ExitBtn");

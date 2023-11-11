@@ -68,8 +68,8 @@ namespace QuantumJourneys.Pages.СharacterCreation.Language
             Label CreateCharacterNameLabel = (Label)characterCreationPage.FindByName("CreateCharacterNameLabel");
             CreateCharacterNameLabel.Text = "Имя персонажа";
 
-            Entry NameLabel = (Entry)characterCreationPage.FindByName("NameLabel");
-            NameLabel.Placeholder = "Выберите имя персонажа";
+            Entry NameEntry = (Entry)characterCreationPage.FindByName("NameEntry");
+            NameEntry.Placeholder = "Выберите имя персонажа";
 
             Button BackBtn = (Button)characterCreationPage.FindByName("BackBtn");
             BackBtn.Text = "Назад";

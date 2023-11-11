@@ -9,12 +9,14 @@ public partial class NewOrLoadGameSoloPage : ContentPage
     //------------------------------------------------------------------------------------------------------------------------------
 
     private string language;
+    private LoadGameSoloPage loadGameSoloPage;
 
     //------------------------------------------------------------------------------------------------------------------------------
     public NewOrLoadGameSoloPage(string currentLanguage)
 	{
 		InitializeComponent();
         InitLanguage(currentLanguage);
+        InitLoadGameBtn();
 	}
     //------------------------------------------------------------------------------------------------------------------------------
     private void InitLanguage(string language)
@@ -36,16 +38,23 @@ public partial class NewOrLoadGameSoloPage : ContentPage
 
         this.language = language;
     }
+    private void InitLoadGameBtn()
+    {
+        LoadGameSoloPage loadGameSoloPage = new();
+        this.loadGameSoloPage = loadGameSoloPage;
+        LoadGameBtn.IsVisible = loadGameSoloPage.CheckOldGame();
+    }
     //------------------------------------------------------------------------------------------------------------------------------
+    private async void LoadGameBtn_Clicked(object sender, EventArgs e)
+    {
+        —haracter—haracteristics Òharacter—haracteristics = loadGameSoloPage.GetCurrentCharacterToStruct();
+        await Navigation.PushModalAsync(new LoadGamePage());
+    }
     private async void NewGameBtn_Clicked(object sender, EventArgs e)
     {
         loadingIndicator.IsRunning = true;
-        await Navigation.PushModalAsync(new CharacterCreationPage(language));
+        await Navigation.PushModalAsync(new CharacterCreationPage(language, LoadGameBtn));
         loadingIndicator.IsRunning = false;
-    }
-    private async void LoadGameBtn_Clicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new LoadGamePage());
     }
     private async void BackBtn_Clicked(object sender, EventArgs e)
     {
