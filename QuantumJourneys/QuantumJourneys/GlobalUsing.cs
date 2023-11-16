@@ -16,8 +16,11 @@ global using QuantumJourneys.Pages.LoadGame;
 global using QuantumJourneys.Pages.СharacterCreation;
 global using QuantumJourneys.Pages.СharacterCreation.Language;
 global using QuantumJourneys.StructAndEnum;
-global using QuantumJourneys.StructAndEnum.MainCharacter;
 global using QuantumJourneys.StructAndEnum.MainCharacter.SelectionOfСharacteristics;
 global using QuantumJourneys.Pages.Statistics;
+global using QuantumJourneys.Animation;
+global using QuantumJourneys.Pages.Game;
+global using QuantumJourneys.StaticObject.AudioPlayer;
+global using QuantumJourneys.StaticObject.SelectLanguage;
 
 //--------------------------------------------------------------------------------------------------------------------------

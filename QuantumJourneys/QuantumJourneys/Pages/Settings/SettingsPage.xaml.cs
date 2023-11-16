@@ -9,27 +9,26 @@ public partial class SettingsPage : ContentPage
 {
     //------------------------------------------------------------------------------------------------------------------------------------------
 
-    public int oldSelectedIndexLanguage;
-    private IAudioPlayer audioPlayer;
     private bool IsInitSound = false;
+    MainPage mainPage;
 
     //------------------------------------------------------------------------------------------------------------------------------------------
-    public SettingsPage(string language, IAudioPlayer audioPlayer)
+    public SettingsPage(MainPage mainPage)
 	{
-		InitializeComponent(); 
-        InitAudio(audioPlayer);
-        InitLanguage(language);
+		InitializeComponent();
+        this.mainPage = mainPage;
+        InitAudio();
+        InitLanguage();
     }
     //------------------------------------------------------------------------------------------------------------------------------------------
-    private void InitAudio(IAudioPlayer audioPlayer)
+    private void InitAudio()
     {
-        this.audioPlayer = audioPlayer;
-        soundSlider.Value = audioPlayer.Volume;
+        soundSlider.Value = WorkingAudioPlayer.audioPlayer.Volume;
         IsInitSound = true;
     }
-    private void InitLanguage(string language)
+    private void InitLanguage()
     {
-        switch (language)
+        switch (SelectLanguage.language)
         {
             case "Ru":
                 new Settings_Ru(this);
@@ -47,8 +46,7 @@ public partial class SettingsPage : ContentPage
     //------------------------------------------------------------------------------------------------------------------------------------------
     public void SelectedIndexLanguagePicker(object sender, EventArgs eventArgs)
     {
-        if (languagePicker.SelectedIndex == oldSelectedIndexLanguage) return;
-        else ChoiceLanguage();
+        ChoiceLanguage();
     }
     private async void BackBtn_Clicked(object sender, EventArgs e)
     {
@@ -62,27 +60,19 @@ public partial class SettingsPage : ContentPage
         else ChangeLanguageEn();
     }
     //------------------------------------------------------------------------------------------------------------------------------------------
-    private async void ChangeLanguageEn()
+    private void ChangeLanguageEn()
     {
-        bool result = await DisplayAlert("Применить изменения", "Для изменения нужно перезагрузить приложение! Вы согласны?", "Да", "Нет");
-
-        if (result) 
-        {
-            ReWriteTXTSettingFile("En");
-            App.Current.Quit();
-        }
-        else languagePicker.SelectedIndex = oldSelectedIndexLanguage;
+        ReWriteTXTSettingFile("En");
+        SelectLanguage.language = "En";
+        new Settings_En(this);
+        new Menu_En(mainPage);
     }
-    private async void ChangeLanguageRu()
+    private void ChangeLanguageRu()
     {
-        bool result = await DisplayAlert("Apply changes", "To change you need to restart the application! Do you agree?", "Yes", "No");
-
-        if (result) 
-        {
-            ReWriteTXTSettingFile("Ru");
-            App.Current.Quit();
-        }
-        else languagePicker.SelectedIndex = oldSelectedIndexLanguage;
+        ReWriteTXTSettingFile("Ru");
+        SelectLanguage.language = "Ru";
+        new Settings_Ru(this);
+        new Menu_Ru(mainPage);
     }
     //------------------------------------------------------------------------------------------------------------------------------------------
     private async void OnSoundValueChanged(object sender, EventArgs e)
@@ -90,7 +80,7 @@ public partial class SettingsPage : ContentPage
         if (IsInitSound)
         {
             await ChangeSettingSoundValue();
-            audioPlayer.Volume = soundSlider.Value;
+            WorkingAudioPlayer.audioPlayer.Volume = soundSlider.Value;
         }
     }
     //------------------------------------------------------------------------------------------------------------------------------------------
@@ -110,7 +100,7 @@ public partial class SettingsPage : ContentPage
 
     //------------------------------------------------------------------------------------------------------------------------------------------
     private string[] ReadAllLinesSettingsFile() => File.ReadAllLines(Path.Combine(GetFolderPath(), "setting.txt"));
-    private string ChangeSettingLine(string[] lines) => audioPlayer.Volume.ToString();
+    private string ChangeSettingLine(string[] lines) => WorkingAudioPlayer.audioPlayer.Volume.ToString();
     private void ReWriteSettingsFile(string[] lines)
     {
         File.WriteAllLines(Path.Combine(GetFolderPath(), "setting.txt"), lines);

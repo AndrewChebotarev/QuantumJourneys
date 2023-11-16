@@ -1,4 +1,4 @@
-﻿//Чтение выбранного языка приложения и установка в приложении
+﻿//Чтение выбранного языка приложения и уровня звука - установка в приложении
 //--------------------------------------------------------------------------------------------------------------------------------------
 namespace QuantumJourneys.Pages.Menu.Language
 {
@@ -7,13 +7,11 @@ namespace QuantumJourneys.Pages.Menu.Language
     {
         //------------------------------------------------------------------------------------------------------------------------------
 
-        IAudioPlayer audioPlayer;
         static private string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         //------------------------------------------------------------------------------------------------------------------------------
-        public SettingsInit(MainPage mainPage, IAudioPlayer audioPlayer) 
+        public SettingsInit(MainPage mainPage) 
         {
-            this.audioPlayer = audioPlayer;
             CheckFolderPath();
             CheckSettingsFile();
             GetCurrentSettings(mainPage);
@@ -36,30 +34,34 @@ namespace QuantumJourneys.Pages.Menu.Language
         {
             using (StreamReader reader = new StreamReader(Path.Combine(folderPath, "setting.txt")))
             {
-                SettingCurrentLanguage(ReadCurrentLanguage(reader), mainPage);
+                ReadCurrentLanguage(reader);
+                SettingCurrentLanguage(mainPage);
 
                 string ValueSoundString = ReadCurrentValueSound(reader);
-                SettingCurrentValueSound(GetCurrentValueSoundInt(ValueSoundString), mainPage);
+                SettingCurrentValueSound(GetCurrentValueSoundInt(ValueSoundString));
             }
         }
         //------------------------------------------------------------------------------------------------------------------------------
-        private string ReadCurrentLanguage(StreamReader reader) => reader.ReadLine().Replace("\n", "");
-        private void SettingCurrentLanguage(string currentLanguage, MainPage mainPage)
+        private void ReadCurrentLanguage(StreamReader reader)
         {
-            switch (currentLanguage)
+            SelectLanguage.language = reader.ReadLine().Replace("\n", "");
+        }
+        private void SettingCurrentLanguage( MainPage mainPage)
+        {
+            switch (SelectLanguage.language)
             {
                 case "Ru":
-                    mainPage.currentLanguage = "Ru";
+                    SelectLanguage.language = "Ru";
                     new Menu_Ru(mainPage);
                     break;
 
                 case "En":
-                    mainPage.currentLanguage = "En";
+                    SelectLanguage.language = "En";
                     new Menu_En(mainPage);
                     break;
 
                 default:
-                    mainPage.currentLanguage = "En";
+                    SelectLanguage.language = "En";
                     new Menu_En(mainPage);
                     break;
             }
@@ -67,9 +69,9 @@ namespace QuantumJourneys.Pages.Menu.Language
         //------------------------------------------------------------------------------------------------------------------------------
         private string ReadCurrentValueSound(StreamReader reader) => reader.ReadLine().Replace("\n", "");
         private double GetCurrentValueSoundInt(string value) => double.Parse(value);
-        private void SettingCurrentValueSound(double currentValue, MainPage mainPage)
+        private void SettingCurrentValueSound(double currentValue)
         {
-            audioPlayer.Volume = currentValue;
+            WorkingAudioPlayer.audioPlayer.Volume = currentValue;
         }
         //------------------------------------------------------------------------------------------------------------------------------
     }

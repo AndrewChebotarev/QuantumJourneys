@@ -3,31 +3,117 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QuantumJourneys.Pages.Game.GamePage"
              Title="GamePage">
-    
-    <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
 
-        <Label 
-            Text="В разработке..."
-            FontSize="Title"
+    <Grid>
+        
+        <Grid.RowDefinitions>
             
-            VerticalOptions="Center" 
-            HorizontalOptions="Center"/>
+            <RowDefinition Height="*"/>
+            
+            <RowDefinition Height="2*"/>
+            
+            <RowDefinition Height="0.25*"/>
+            
+        </Grid.RowDefinitions>
 
-        <Button
+        <Grid Grid.Row="0">
+            
+            <Grid.ColumnDefinitions>
                 
-                x:Name="SoloGameBtn"
-                Clicked="BackBtn_Clicked"
-                Text="Назад"
+                <ColumnDefinition />
                 
-                HorizontalOptions="Center" 
-                VerticalOptions="End"
-                Margin="0,40,0,40"
-                
-                BackgroundColor="#5C2ACE"
-                FontSize="Title"
-                TextColor="#FFFFFF"
-                BorderWidth="1"
-                BorderColor="#000000"/>
+            </Grid.ColumnDefinitions>
 
-    </StackLayout>
+            <VerticalStackLayout x:Name="SpaceForClickFirst">
+
+                <Image
+                
+                    x:Name="ImageWindow"
+                    
+                    Opacity="0"
+                
+                    VerticalOptions="Start"
+                    Aspect="AspectFill"
+                    Margin="0,0,0,40"/>
+
+            </VerticalStackLayout>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            
+            <Grid.ColumnDefinitions>
+                
+                <ColumnDefinition />
+                
+            </Grid.ColumnDefinitions>
+            
+            <ScrollView>
+
+                <VerticalStackLayout x:Name="SpaceForClickSecond">
+                    
+                </VerticalStackLayout>
+
+            </ScrollView>
+            
+        </Grid>
+
+        <Grid Grid.Row="2">
+            
+            <Grid.ColumnDefinitions>
+                
+                <ColumnDefinition />
+                
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0" VerticalOptions="EndAndExpand">
+
+                <Button
+                
+                    x:Name="BackBtn"
+                    Clicked="BackBtn_Clicked"
+                    
+                    Text="Меню"
+                    TextColor="#FFFFFF"
+                    FontSize="Subtitle"
+                
+                    BackgroundColor="#5C2ACE"
+                    BorderWidth="1"
+                    BorderColor="#000000"
+                
+                    HorizontalOptions="Start" 
+                    VerticalOptions="EndAndExpand"
+                    Margin="10,0,0,10"/>
+
+                <BoxView 
+                    
+                    x:Name="EndBoxView"
+                    
+                    Opacity="0"
+                    
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Button
+                
+                    x:Name="AudioBtn"
+                    Clicked="AudioBtn_Clicked"
+                    
+                    Text="🔊"
+                    TextColor="#FFFFFF"
+                    FontSize="Subtitle"
+                
+                    BackgroundColor="#5C2ACE"
+                    BorderWidth="1"
+                    BorderColor="#000000"
+                
+                    HorizontalOptions="End" 
+                    VerticalOptions="EndAndExpand"
+                    Margin="0,0,10,10"/>
+
+            </StackLayout>
+
+        </Grid>
+        
+    </Grid>
+
 </ContentPage>

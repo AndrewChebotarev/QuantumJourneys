@@ -7,11 +7,12 @@
     <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
 
         <Label 
-            Text="В разработке..."
-            FontSize="Title"
+
+                Text="В разработке..."
+                FontSize="Title"
             
-            VerticalOptions="Center" 
-            HorizontalOptions="Center"/>
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"/>
 
         <Button
                 

@@ -8,20 +8,19 @@ public partial class NewOrLoadGameSoloPage : ContentPage
 {
     //------------------------------------------------------------------------------------------------------------------------------
 
-    private string language;
     private LoadGameSoloPage loadGameSoloPage;
 
     //------------------------------------------------------------------------------------------------------------------------------
-    public NewOrLoadGameSoloPage(string currentLanguage)
+    public NewOrLoadGameSoloPage()
 	{
 		InitializeComponent();
-        InitLanguage(currentLanguage);
+        InitLanguage();
         InitLoadGameBtn();
 	}
     //------------------------------------------------------------------------------------------------------------------------------
-    private void InitLanguage(string language)
+    private void InitLanguage()
     {
-        switch (language)
+        switch (SelectLanguage.language)
         {
             case "Ru":
                 new NewOrLoadGameSolo_Ru(this);
@@ -35,8 +34,6 @@ public partial class NewOrLoadGameSoloPage : ContentPage
                 new NewOrLoadGameSolo_En(this);
                 break;
         }
-
-        this.language = language;
     }
     private void InitLoadGameBtn()
     {
@@ -53,7 +50,7 @@ public partial class NewOrLoadGameSoloPage : ContentPage
     private async void NewGameBtn_Clicked(object sender, EventArgs e)
     {
         loadingIndicator.IsRunning = true;
-        await Navigation.PushModalAsync(new CharacterCreationPage(language, LoadGameBtn));
+        await Navigation.PushModalAsync(new CharacterCreationPage(LoadGameBtn));
         loadingIndicator.IsRunning = false;
     }
     private async void BackBtn_Clicked(object sender, EventArgs e)

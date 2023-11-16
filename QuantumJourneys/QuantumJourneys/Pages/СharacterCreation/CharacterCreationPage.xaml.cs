@@ -1,18 +1,19 @@
 //Класс для создания персонажа игрока
 //--------------------------------------------------------------------------------------------------------------------------------------
 
-using QuantumJourneys.Pages.Game;
-
 namespace QuantumJourneys.Pages.СharacterCreation;
+
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 public partial class CharacterCreationPage : ContentPage
 {
     //----------------------------------------------------------------------------------------------------------------------------------
 
-    private string language;
     private string characteristicsName;
     private int numberStatsChange;
+
+    private CharacterCreation_En characterCreation_En;
+    private CharacterCreation_Ru characterCreation_Ru;
 
     private Button loadGameBtn;
 
@@ -26,30 +27,28 @@ public partial class CharacterCreationPage : ContentPage
     private SelectedStatCharacter selectedStatCharacter;
 
     //----------------------------------------------------------------------------------------------------------------------------------
-    public CharacterCreationPage(string selectedLanguage, Button loadGameBtn)
+    public CharacterCreationPage(Button loadGameBtn)
     {
         InitializeComponent();
-        InitLanguage(selectedLanguage);
+        InitLanguage();
         InitDefaultCharacteristics(loadGameBtn);
-     }
-    private void InitLanguage(string language)
+    }
+    private void InitLanguage()
     {
-        switch (language)
+        switch (SelectLanguage.language)
         {
             case "Ru":
-                new CharacterCreation_Ru(this);
+                characterCreation_Ru = new(this);
                 break;
 
             case "En":
-                new CharacterCreation_En(this);
+                characterCreation_En = new(this);
                 break;
 
             default:
-                new CharacterCreation_En(this);
+                characterCreation_En = new(this);
                 break;
         }
-
-        this.language= language;
     }
     private void InitDefaultCharacteristics(Button loadGameBtn)
     {
@@ -98,7 +97,7 @@ public partial class CharacterCreationPage : ContentPage
     }
     private void ChangeGenderLabel()
     {
-        SelectedGender.Text = selectedGenderCharacter.NewTextGender(language, сharacterСharacteristics.gender);
+        SelectedGender.Text = selectedGenderCharacter.NewTextGender(SelectLanguage.language, сharacterСharacteristics.gender);
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeEyeColorBtn_Clicked(object sender, EventArgs e)
@@ -118,7 +117,7 @@ public partial class CharacterCreationPage : ContentPage
     }
     private void ChangeEyeColorLabel()
     {
-        SelectedEyeColor.Text = selectedEyeColorCharacter.NewTextEyeColor(language, сharacterСharacteristics.eyeColor);
+        SelectedEyeColor.Text = selectedEyeColorCharacter.NewTextEyeColor(SelectLanguage.language, сharacterСharacteristics.eyeColor);
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeHairColorBtn_Clicked(object sender, EventArgs e)
@@ -138,12 +137,12 @@ public partial class CharacterCreationPage : ContentPage
     }
     private void ChangeHairColorLabel()
     {
-        SelectedHairColor.Text = selectedHairColorCharacter.NewTextHairColor(language, сharacterСharacteristics.hairColor);
+        SelectedHairColor.Text = selectedHairColorCharacter.NewTextHairColor(SelectLanguage.language, сharacterСharacteristics.hairColor);
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeCharacterImg()
     {
-        if(сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Brown
+        if (сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Brown
             && сharacterСharacteristics.hairColor == HairColorEnum.Ginger)
         {
             сharacterСharacteristics.img = ImgCharacterEnum.FemaleBrownGinger;
@@ -265,11 +264,11 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     private void NewSelectedMentalityFromStruct(string leftOrRightBtn)
     {
-        сharacterСharacteristics.mentality= selectedMentalityCharacter.SelectedMentality(сharacterСharacteristics.mentality, leftOrRightBtn);
+        сharacterСharacteristics.mentality = selectedMentalityCharacter.SelectedMentality(сharacterСharacteristics.mentality, leftOrRightBtn);
     }
     private void ChangeMentalityLabel()
     {
-        SelectedMentality.Text = selectedMentalityCharacter.NewTextMentality(language, сharacterСharacteristics.mentality);
+        SelectedMentality.Text = selectedMentalityCharacter.NewTextMentality(SelectLanguage.language, сharacterСharacteristics.mentality);
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeProfessionBtn_Clicked(object sender, EventArgs e)
@@ -288,7 +287,7 @@ public partial class CharacterCreationPage : ContentPage
     }
     private void ChangeProfessionLabel()
     {
-        SelectedProfession.Text = selectedProfessionCharacter.NewTextProfession(language, сharacterСharacteristics.profession);
+        SelectedProfession.Text = selectedProfessionCharacter.NewTextProfession(SelectLanguage.language, сharacterСharacteristics.profession);
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeCharacterBtn_Clicked(object sender, EventArgs e)
@@ -307,7 +306,7 @@ public partial class CharacterCreationPage : ContentPage
     }
     private void ChangeCharacterLabel()
     {
-        SelectedCharacter.Text = selectedNatureCharacter.NewTextСharacter(language, сharacterСharacteristics.character);
+        SelectedCharacter.Text = selectedNatureCharacter.NewTextСharacter(SelectLanguage.language, сharacterСharacteristics.character);
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeStrengthBtn_Clicked(object sender, EventArgs e)
@@ -449,20 +448,20 @@ public partial class CharacterCreationPage : ContentPage
         CreateCharacterStatsLabel.Text = newText + $"{numberStatsChange}";
     }
     //----------------------------------------------------------------------------------------------------------------------------------
+    private void CloseKeyboard_Clicked(object sender, EventArgs e)
+    {
+        NameEntry.IsEnabled = false;
+        NameEntry.IsEnabled = true;
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------
     private void NextBtn_Clicked(object sender, EventArgs e)
     {
         if (characteristicsName == "CreateCharacterAppearance") CreateCharacterAppearancePanelNext();
         else if (characteristicsName == "CreateCharacterNature") CreateCharacterNaturePanelNext();
-        else if (characteristicsName == "CreateCharacterStats") CreateCharacterStatsPanelNext();
-        else if (characteristicsName == "CreateCharacterName") 
+        else if (characteristicsName == "CreateCharacterStats")
         {
-            if (CheckNameCharacter())
-            {
-                SetNameFromStruct();
-                SaveCharacterFromFile();
-                StartGamePage();
-            }
-            else NameError();
+            CreateCharacterStatsPanelNext();
+            ChangeNextButton();
         }
     }
     //----------------------------------------------------------------------------------------------------------------------------------
@@ -525,6 +524,11 @@ public partial class CharacterCreationPage : ContentPage
 
         characteristicsName = "CreateCharacterName";
     }
+    private void ChangeNextButton()
+    {
+        NextBtn.IsVisible = false;
+        StartAdventureBtn.IsVisible = true;
+    }
     //----------------------------------------------------------------------------------------------------------------------------------
     private bool CheckNameCharacter()
     {
@@ -535,33 +539,16 @@ public partial class CharacterCreationPage : ContentPage
         else return false;
     }
     //----------------------------------------------------------------------------------------------------------------------------------
-    private void SetNameFromStruct()
-    {
-        сharacterСharacteristics.characterName = NameEntry.Text;
-    }
-    private void NameError()
-    {
-        if (language == "Ru") DisplayAlert("Некорректное имя", "В имени должна присутствовать хотя бы одна буква!", "Ок");
-        else if (language == "En") DisplayAlert("Incorrect name", "The name must contain at least one letter!", "Ok");
-        else DisplayAlert("Incorrect name", "The name must contain at least one letter!", "Ok");
-    }
-    //----------------------------------------------------------------------------------------------------------------------------------
-    private void SaveCharacterFromFile()
-    {
-        new SaveCharacterFromStruct(сharacterСharacteristics);
-    }
-    private async void StartGamePage()
-    {
-        loadGameBtn.IsVisible = true;
-        await Navigation.PushModalAsync(new GamePage());
-    }
-    //----------------------------------------------------------------------------------------------------------------------------------
     private async void BackBtn_Clicked(object sender, EventArgs e)
     {
         if (characteristicsName == "CreateCharacterAppearance") await Navigation.PopModalAsync();
         else if (characteristicsName == "CreateCharacterNature") CreateCharacterAppearancePanelBack();
         else if (characteristicsName == "CreateCharacterStats") CreateCharacterNaturePanelBack();
-        else if (characteristicsName == "CreateCharacterName") CreateCharacterStatsPanelBack();
+        else if (characteristicsName == "CreateCharacterName")
+        {
+            CreateCharacterStatsPanelBack();
+            ChangeNextButtonFromBack();
+        }
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void CreateCharacterAppearancePanelBack()
@@ -622,6 +609,54 @@ public partial class CharacterCreationPage : ContentPage
         NameEntry.IsVisible = false;
 
         characteristicsName = "CreateCharacterStats";
+    }
+    private void ChangeNextButtonFromBack()
+    {
+        NextBtn.IsVisible = true;
+        StartAdventureBtn.IsVisible = false;
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------
+    private void StartAdventureBtn_Clicked(object sender, EventArgs e)
+    {
+        if (characteristicsName == "CreateCharacterName")
+        {
+            if (CheckNameCharacter())
+            {
+                SetNameFromStruct();
+                SaveCharacterFromFile();
+                StartGamePage();
+            }
+            else NameError();
+        }
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------
+    private void SetNameFromStruct()
+    {
+        сharacterСharacteristics.characterName = NameEntry.Text;
+    }
+    private void NameError()
+    {
+        if (characterCreation_Ru != null) DisplayAlert("Некорректное имя", "В имени должна присутствовать хотя бы одна буква!", "Ок");
+        else if (characterCreation_En != null) DisplayAlert("Incorrect name", "The name must contain at least one letter!", "Ok");
+        else DisplayAlert("Incorrect name", "The name must contain at least one letter!", "Ok");
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------
+    private void SaveCharacterFromFile()
+    {
+        new SaveCharacterFromStruct(сharacterСharacteristics);
+    }
+    private async void StartGamePage()
+    {
+
+        loadGameBtn.IsVisible = true;
+        loadingIndicator.IsRunning = true;
+        await Navigation.PushModalAsync(new GamePage(this));
+        loadingIndicator.IsRunning = false;
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------
+    public async Task BackGamePage()
+    {
+        await Navigation.PopModalAsync(false);
     }
     //----------------------------------------------------------------------------------------------------------------------------------
 }

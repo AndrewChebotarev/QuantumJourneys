@@ -8,31 +8,23 @@ namespace QuantumJourneys;
 public partial class MainPage : ContentPage
 {
     //--------------------------------------------------------------------------------------------------------------------------
-
-    public string currentLanguage;
-    public IAudioManager audioManager;
-    private IAudioPlayer audioPlayer;
-
-    //--------------------------------------------------------------------------------------------------------------------------
     public MainPage(IAudioManager audioManager)
 	{
 		InitializeComponent();
         InitAudio(audioManager);
-        new SettingsInit(this, audioPlayer);
+        new SettingsInit(this);
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private async void InitAudio(IAudioManager audioManager)
     {
-        this.audioManager = audioManager;
-        IAudioPlayer player = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("Menu.mp3"));
-        audioPlayer = player;
-        player.Loop = true;
-        player.Play();
+        WorkingAudioPlayer.audioPlayer = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("Menu.mp3"));
+        WorkingAudioPlayer.audioPlayer.Loop = true;
+        WorkingAudioPlayer.audioPlayer.Play();
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private async void OnSoloButtonClicked(object sender, EventArgs args)
     {
-        await Navigation.PushModalAsync(new NewOrLoadGameSoloPage(currentLanguage));
+        await Navigation.PushModalAsync(new NewOrLoadGameSoloPage());
     }
     private async void OnMultyButtonClicked(object sender, EventArgs args)
     {
@@ -44,7 +36,7 @@ public partial class MainPage : ContentPage
     }
     private async void OnSettingButtonClicked(object sender, EventArgs args)
     {
-        await Navigation.PushModalAsync(new SettingsPage(currentLanguage, audioPlayer));
+        await Navigation.PushModalAsync(new SettingsPage(this));
     }
     private void OnExitButtonClicked(object sender, EventArgs args)
     {

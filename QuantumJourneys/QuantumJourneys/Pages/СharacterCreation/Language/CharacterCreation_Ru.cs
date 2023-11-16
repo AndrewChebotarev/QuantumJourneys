@@ -76,6 +76,9 @@ namespace QuantumJourneys.Pages.СharacterCreation.Language
 
             Button NextBtn = (Button)characterCreationPage.FindByName("NextBtn");
             NextBtn.Text = "Далее";
+
+            Button StartAdventureBtn = (Button)characterCreationPage.FindByName("StartAdventureBtn");
+            StartAdventureBtn.Text = "Начать приключение";
         }
         //----------------------------------------------------------------------------------------------------------------------------------
     }

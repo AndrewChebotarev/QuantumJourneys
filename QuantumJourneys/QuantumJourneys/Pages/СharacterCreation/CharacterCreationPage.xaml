@@ -5,7 +5,7 @@
              Title="CharacterCreationPage">
 
     <ScrollView>
-    
+
         <StackLayout Orientation="Vertical">
 
             <Image
@@ -525,14 +525,31 @@
                 
                 IsVisible="false"
                 x:Name="NameEntry"
+                Completed="CloseKeyboard_Clicked"
             
-                Placeholder = "Введите имя"
                 FontSize="Title"
                 MaxLength ="20"
                 
                 HorizontalOptions="Center"         
                 VerticalOptions="Center"
-                Margin="0,0,0,10"/>
+                Margin="0,0,0,120"/>
+
+            <Button
+                
+                IsVisible="false"
+                x:Name="StartAdventureBtn"
+                Clicked="StartAdventureBtn_Clicked"
+                
+                TextColor="#FFFFFF"
+                FontSize="Title"
+                
+                BackgroundColor="#5C2ACE"
+                BorderWidth="1"
+                BorderColor="#000000"
+                
+                HorizontalOptions="Center" 
+                VerticalOptions="Center"
+                Margin="0,0,10,10"/>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0" VerticalOptions="EndAndExpand">
 
@@ -574,6 +591,14 @@
                 Margin="0,0,10,10"/>
 
             </StackLayout>
+
+            <ActivityIndicator
+                            
+                x:Name="loadingIndicator" 
+                IsRunning="False"
+                Color="#5C2ACE" 
+                MaximumHeightRequest="1" 
+                MaximumWidthRequest="1"/>
 
         </StackLayout>
         

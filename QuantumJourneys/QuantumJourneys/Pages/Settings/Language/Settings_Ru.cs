@@ -16,10 +16,7 @@ namespace QuantumJourneys.Pages.Settings.Language
 
             Picker languagePicker = (Picker)settingsPage.FindByName("languagePicker");
             languagePicker.Title = "Выберите язык:";
-            languagePicker.Items.Add("Английский");
-            languagePicker.Items.Add("Русский");
             languagePicker.SelectedIndex = 1;
-            settingsPage.oldSelectedIndexLanguage = languagePicker.SelectedIndex;
             languagePicker.SelectedIndexChanged += settingsPage.SelectedIndexLanguagePicker;
 
             Label soundLabel = (Label)settingsPage.FindByName("soundLabel");
