@@ -48,10 +48,10 @@
                 
             </Grid.ColumnDefinitions>
             
-            <ScrollView>
+            <ScrollView x:Name="ScrollAreaLabel">
 
                 <VerticalStackLayout x:Name="SpaceForClickSecond">
-                    
+
                 </VerticalStackLayout>
 
             </ScrollView>
@@ -70,8 +70,8 @@
 
                 <Button
                 
-                    x:Name="BackBtn"
-                    Clicked="BackBtn_Clicked"
+                    x:Name="menuBtn"
+                    Clicked="MenuBtn_Clicked"
                     
                     Text="Меню"
                     TextColor="#FFFFFF"
@@ -95,7 +95,7 @@
 
                 <Button
                 
-                    x:Name="AudioBtn"
+                    x:Name="audioBtn"
                     Clicked="AudioBtn_Clicked"
                     
                     Text="🔊"

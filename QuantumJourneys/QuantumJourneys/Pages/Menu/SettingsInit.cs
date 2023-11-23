@@ -19,32 +19,62 @@ namespace QuantumJourneys.Pages.Menu.Language
         //------------------------------------------------------------------------------------------------------------------------------
         private void CheckFolderPath()
         {
-            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+            if (!Directory.Exists(folderPath))
+            {
+#if DEBUG
+                MyLogger.logger.LogInformation("Папка для хранения информации не найдена, попытка создания папки.");
+#endif
+                Directory.CreateDirectory(folderPath);
+#if DEBUG
+                MyLogger.logger.LogInformation("Папка для хранения информации создана.");
+#endif
+            }
+#if DEBUG
+            MyLogger.logger.LogInformation("Папка для хранения информации найдена.");
+#endif
         }
         private void CheckSettingsFile()
         {
             if (!File.Exists(Path.Combine(folderPath, "setting.txt")))
             {
+#if DEBUG
+                MyLogger.logger.LogInformation("Файл для хранения информации о настройках не найден, попытка создания папки и записи информации поумолчанию.");
+#endif
                 using (FileStream fs = File.Create(Path.Combine(folderPath, "setting.txt"))) { }
                 using (StreamWriter writer = new StreamWriter(Path.Combine(folderPath, "setting.txt"))) { writer.WriteLine("En"); writer.WriteLine("1"); }
+#if DEBUG
+                MyLogger.logger.LogInformation("Файл для хранения информации о настройках создан, информация записана.");
+#endif
             }
+#if DEBUG
+            MyLogger.logger.LogInformation("Файл для хранения информации о настройка найден.");
+#endif
         }
         //------------------------------------------------------------------------------------------------------------------------------
         private void GetCurrentSettings(MainPage mainPage)
         {
             using (StreamReader reader = new StreamReader(Path.Combine(folderPath, "setting.txt")))
             {
+#if DEBUG
+                MyLogger.logger.LogInformation("Начало считывания информации с файла настроек.");
+#endif
                 ReadCurrentLanguage(reader);
                 SettingCurrentLanguage(mainPage);
 
                 string ValueSoundString = ReadCurrentValueSound(reader);
                 SettingCurrentValueSound(GetCurrentValueSoundInt(ValueSoundString));
+#if DEBUG
+                MyLogger.logger.LogInformation("Конец считывания информации с файла настроек.");
+#endif
             }
         }
         //------------------------------------------------------------------------------------------------------------------------------
         private void ReadCurrentLanguage(StreamReader reader)
         {
             SelectLanguage.language = reader.ReadLine().Replace("\n", "");
+#if DEBUG
+            MyLogger.logger.LogInformation($"Считывания языка - {SelectLanguage.language}");
+#endif
         }
         private void SettingCurrentLanguage( MainPage mainPage)
         {
@@ -67,11 +97,22 @@ namespace QuantumJourneys.Pages.Menu.Language
             }
         }
         //------------------------------------------------------------------------------------------------------------------------------
-        private string ReadCurrentValueSound(StreamReader reader) => reader.ReadLine().Replace("\n", "");
+        private string ReadCurrentValueSound(StreamReader reader)
+        {
+            string currentValueSound = reader.ReadLine().Replace("\n", "");
+#if DEBUG
+            MyLogger.logger.LogInformation($"Считывания значения громкости звука - {currentValueSound}");
+#endif
+            return currentValueSound;
+        }
         private double GetCurrentValueSoundInt(string value) => double.Parse(value);
         private void SettingCurrentValueSound(double currentValue)
         {
-            WorkingAudioPlayer.audioPlayer.Volume = currentValue;
+            WorkingAudioPlayer.valume = currentValue;
+            WorkingAudioPlayer.audioPlayer.Volume = WorkingAudioPlayer.valume;
+#if DEBUG
+            MyLogger.logger.LogInformation("Установка значений для игры.");
+#endif
         }
         //------------------------------------------------------------------------------------------------------------------------------
     }

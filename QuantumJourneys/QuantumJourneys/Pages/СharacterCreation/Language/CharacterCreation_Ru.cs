@@ -79,6 +79,10 @@ namespace QuantumJourneys.Pages.СharacterCreation.Language
 
             Button StartAdventureBtn = (Button)characterCreationPage.FindByName("StartAdventureBtn");
             StartAdventureBtn.Text = "Начать приключение";
+
+#if DEBUG
+            MyLogger.logger.LogInformation("Инициализация текста для UI русский - завершена.");
+#endif
         }
         //----------------------------------------------------------------------------------------------------------------------------------
     }

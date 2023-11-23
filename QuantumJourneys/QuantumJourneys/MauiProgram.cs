@@ -1,6 +1,9 @@
 ﻿//Класс для запуска приложения
 //-----------------------------------------------------------------------------------------------------------------------------
 
+using CommunityToolkit.Maui;
+using MetroLog.MicrosoftExtensions;
+
 namespace QuantumJourneys;
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -10,10 +13,11 @@ public static class MauiProgram
     //--------------------------------------------------------------------------------------------------------------------------
     public static MauiApp CreateMauiApp()
 	{
-		var builder = MauiApp.CreateBuilder();
+        var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
+            .UseMauiCommunityToolkitMediaElement()
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
@@ -23,7 +27,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<App>();
 
 #if DEBUG
-		builder.Logging.AddDebug();
+		builder.Logging.AddTraceLogger(_ => { });
+		builder.Services.AddTransient<MainPage>();
 #endif
 
         return builder.Build();

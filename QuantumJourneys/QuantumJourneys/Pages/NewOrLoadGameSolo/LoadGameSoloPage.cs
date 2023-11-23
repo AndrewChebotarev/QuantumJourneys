@@ -19,6 +19,9 @@ namespace QuantumJourneys.Pages.NewOrLoadGameSolo
 
             using (StreamReader reader = new StreamReader(Path.Combine(folderPath, "character.txt")))
             {
+#if DEBUG
+                MyLogger.logger.LogInformation("Начало чтение и запись в структуру характеристик персонажа.");
+#endif
                 GetCharacterCharacteristicsImg(reader.ReadLine());
                 GetCharacterCharacteristicsGender(reader.ReadLine());
                 GetCharacterCharacteristicsEyeColor(reader.ReadLine());
@@ -31,6 +34,9 @@ namespace QuantumJourneys.Pages.NewOrLoadGameSolo
                 GetCharacterCharacteristicsIntelligence(reader.ReadLine());
                 GetCharacterCharacteristicsFortune(reader.ReadLine());
                 GetCharacterCharacteristicsName(reader.ReadLine());
+#if DEBUG
+                MyLogger.logger.LogInformation("Конец чтение и запись в структуру характеристик персонажа.");
+#endif
             }
 
             return сharacterСharacteristics;
@@ -38,6 +44,9 @@ namespace QuantumJourneys.Pages.NewOrLoadGameSolo
         //----------------------------------------------------------------------------------------------------------------------------------
         public void GetCharacterCharacteristicsImg(string img)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру картинки персонажа - {img}.");
+#endif
             switch (img)
             {
                 case "0":
@@ -101,6 +110,9 @@ namespace QuantumJourneys.Pages.NewOrLoadGameSolo
         }
         public void GetCharacterCharacteristicsGender(string gender)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру пола персонажа - {gender}.");
+#endif
             switch (gender)
             {
                 case "0":
@@ -116,6 +128,9 @@ namespace QuantumJourneys.Pages.NewOrLoadGameSolo
         }
         public void GetCharacterCharacteristicsEyeColor(string eyeGender)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру цвета глаз персонажа - {eyeGender}.");
+#endif
             switch (eyeGender)
             {
                 case "0":
@@ -134,6 +149,9 @@ namespace QuantumJourneys.Pages.NewOrLoadGameSolo
         }
         public void GetCharacterCharacteristicsHairColor(string hairColor)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру цвета волос персонажа - {hairColor}.");
+#endif
             switch (hairColor)
             {
                 case "0":
@@ -152,6 +170,9 @@ namespace QuantumJourneys.Pages.NewOrLoadGameSolo
         }
         public void GetCharacterCharacteristicsMentality(string mentality)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру склада ума персонажа - {mentality}.");
+#endif
             switch (mentality)
             {
                 case "0":
@@ -170,6 +191,9 @@ namespace QuantumJourneys.Pages.NewOrLoadGameSolo
         }
         public void GetCharacterCharacteristicsProfession(string profession)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру профессию персонажа - {profession}.");
+#endif
             switch (profession)
             {
                 case "0":
@@ -206,6 +230,9 @@ namespace QuantumJourneys.Pages.NewOrLoadGameSolo
         }
         public void GetCharacterCharacteristicsCharacter(string character)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру характер персонажа - {character}.");
+#endif
             switch (character)
             {
                 case "0":
@@ -227,22 +254,37 @@ namespace QuantumJourneys.Pages.NewOrLoadGameSolo
         }
         public void GetCharacterCharacteristicsStrength(string strength)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру значение силы персонажа - {strength}.");
+#endif
             сharacterСharacteristics.strength = Convert.ToInt32(strength);
         }
         public void GetCharacterCharacteristicsAgiluty(string agiluty)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру значение ловкости персонажа - {agiluty}.");
+#endif
             сharacterСharacteristics.agiluty = Convert.ToInt32(agiluty);
         }
         public void GetCharacterCharacteristicsIntelligence(string intelligence)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру значение интеллекта персонажа - {intelligence}.");
+#endif
             сharacterСharacteristics.intelligence = Convert.ToInt32(intelligence);
         }
         public void GetCharacterCharacteristicsFortune(string fortune)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру значение удачи персонажа - {fortune}.");
+#endif
             сharacterСharacteristics.fortune = Convert.ToInt32(fortune);
         }
         public void GetCharacterCharacteristicsName(string characterName)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Начало чтение и запись в структуру имя персонажа - {characterName}.");
+#endif
             сharacterСharacteristics.characterName = characterName;
         }
         //----------------------------------------------------------------------------------------------------------------------------------

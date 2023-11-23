@@ -7,14 +7,36 @@ namespace QuantumJourneys.Pages.LoadGame;
 public partial class LoadGamePage : ContentPage
 {
     //--------------------------------------------------------------------------------------------------------------------------
+
+    private bool isBusy = false;
+
+    //--------------------------------------------------------------------------------------------------------------------------
     public LoadGamePage()
 	{
-		InitializeComponent();
-	}
+#if DEBUG
+        MyLogger.logger.LogInformation("Начало инициализации страницы загрузки игры.");
+#endif
+        InitializeComponent();
+#if DEBUG
+        MyLogger.logger.LogInformation("Конец инициализации страницы загрузки игры.");
+#endif
+    }
     //--------------------------------------------------------------------------------------------------------------------------
     private async void BackBtn_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PopModalAsync();
+        if (!isBusy)
+        {
+            isBusy = true;
+            await Navigation.PopModalAsync();
+            isBusy = false;
+#if DEBUG
+            MyLogger.logger.LogInformation("Переход на страницу меню - успешен.");
+#endif
+            return;
+        }
+#if DEBUG
+        MyLogger.logger.LogInformation("Кнопка открытия страницы меню - занята!");
+#endif
     }
     //--------------------------------------------------------------------------------------------------------------------------
 }

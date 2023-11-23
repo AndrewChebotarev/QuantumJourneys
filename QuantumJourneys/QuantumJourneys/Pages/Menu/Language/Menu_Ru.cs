@@ -18,6 +18,9 @@ namespace QuantumJourneys.Pages.Menu.Language
             SettingsBtn.Text = "Настройки";
             Button ExitBtn = (Button)mainPage.FindByName("ExitBtn");
             ExitBtn.Text = "Выход";
+#if DEBUG
+            MyLogger.logger.LogInformation("Инициализация текста для UI русский - завершена.");
+#endif
         }
         //------------------------------------------------------------------------------------------------------------------------------
     }

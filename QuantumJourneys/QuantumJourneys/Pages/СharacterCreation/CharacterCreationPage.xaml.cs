@@ -9,6 +9,8 @@ public partial class CharacterCreationPage : ContentPage
 {
     //----------------------------------------------------------------------------------------------------------------------------------
 
+    private bool isBusy = false;
+
     private string characteristicsName;
     private int numberStatsChange;
 
@@ -29,12 +31,21 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     public CharacterCreationPage(Button loadGameBtn)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Начало инициализации страницы создания персонажа.");
+#endif
         InitializeComponent();
         InitLanguage();
         InitDefaultCharacteristics(loadGameBtn);
+#if DEBUG
+        MyLogger.logger.LogInformation("Конец инициализации страницы создания персонажа.");
+#endif
     }
     private void InitLanguage()
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Начало инициализации языка для страницы создания персонажа.");
+#endif
         switch (SelectLanguage.language)
         {
             case "Ru":
@@ -82,10 +93,21 @@ public partial class CharacterCreationPage : ContentPage
 
         characteristicsName = "CreateCharacterAppearance";
         numberStatsChange = 4;
+
+#if DEBUG
+        MyLogger.logger.LogInformation($"Инициализация характеристик поумолчанию - {сharacterСharacteristics.img}," +
+            $" {сharacterСharacteristics.gender}, {сharacterСharacteristics.eyeColor}, {сharacterСharacteristics.hairColor}, " +
+            $"{сharacterСharacteristics.mentality}, {сharacterСharacteristics.profession}, {сharacterСharacteristics.character}, " +
+            $"{сharacterСharacteristics.strength}, {сharacterСharacteristics.agiluty}, {сharacterСharacteristics.intelligence}," +
+            $"{сharacterСharacteristics.fortune}, {сharacterСharacteristics.character}.");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeGenderBtn_Clicked(object sender, EventArgs e)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: cмена пола персонажа.");
+#endif
         NewSelectedGenderFromStruct();
         ChangeGenderLabel();
         ChangeCharacterImg();
@@ -98,10 +120,16 @@ public partial class CharacterCreationPage : ContentPage
     private void ChangeGenderLabel()
     {
         SelectedGender.Text = selectedGenderCharacter.NewTextGender(SelectLanguage.language, сharacterСharacteristics.gender);
+#if DEBUG
+        MyLogger.logger.LogInformation($"Выбран новый пол - {SelectedGender.Text}.");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeEyeColorBtn_Clicked(object sender, EventArgs e)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: cмена цвета глаз персонажа.");
+#endif
         Button clickedButton = (Button)sender;
 
         if (clickedButton.Text == "-") NewSelectedEyeColorFromStruct("left");
@@ -118,10 +146,16 @@ public partial class CharacterCreationPage : ContentPage
     private void ChangeEyeColorLabel()
     {
         SelectedEyeColor.Text = selectedEyeColorCharacter.NewTextEyeColor(SelectLanguage.language, сharacterСharacteristics.eyeColor);
+#if DEBUG
+        MyLogger.logger.LogInformation($"Выбран новый цвет глаз - {SelectedEyeColor.Text}.");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeHairColorBtn_Clicked(object sender, EventArgs e)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: cмена цвета волос персонажа.");
+#endif
         Button clickedButton = (Button)sender;
 
         if (clickedButton.Text == "-") NewSelectedHairColorFromStruct("left");
@@ -138,10 +172,16 @@ public partial class CharacterCreationPage : ContentPage
     private void ChangeHairColorLabel()
     {
         SelectedHairColor.Text = selectedHairColorCharacter.NewTextHairColor(SelectLanguage.language, сharacterСharacteristics.hairColor);
+#if DEBUG
+        MyLogger.logger.LogInformation($"Выбран новый цвет волос - {SelectedHairColor.Text}.");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeCharacterImg()
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Изменение картинки персонажа.");
+#endif
         if (сharacterСharacteristics.gender == GenderEnum.Female && сharacterСharacteristics.eyeColor == EyeColorEnum.Brown
             && сharacterСharacteristics.hairColor == HairColorEnum.Ginger)
         {
@@ -250,10 +290,16 @@ public partial class CharacterCreationPage : ContentPage
             сharacterСharacteristics.img = ImgCharacterEnum.FemaleGreenBlonde;
             ImageMainCharacter.Source = "malegreenblonde.png";
         }
+#if DEBUG
+        MyLogger.logger.LogInformation($"Картинка изменена на - {сharacterСharacteristics.img}.");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeMentalityBtn_Clicked(object sender, EventArgs e)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: cмена склада ума персонажа.");
+#endif
         Button clickedButton = (Button)sender;
 
         if (clickedButton.Text == "-") NewSelectedMentalityFromStruct("left");
@@ -269,10 +315,16 @@ public partial class CharacterCreationPage : ContentPage
     private void ChangeMentalityLabel()
     {
         SelectedMentality.Text = selectedMentalityCharacter.NewTextMentality(SelectLanguage.language, сharacterСharacteristics.mentality);
+#if DEBUG
+        MyLogger.logger.LogInformation($"Выбран новый склад ума - {SelectedMentality.Text}.");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeProfessionBtn_Clicked(object sender, EventArgs e)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: cмена профессии персонажа.");
+#endif
         Button clickedButton = (Button)sender;
 
         if (clickedButton.Text == "-") NewSelectedProfessionFromStruct("left");
@@ -288,10 +340,16 @@ public partial class CharacterCreationPage : ContentPage
     private void ChangeProfessionLabel()
     {
         SelectedProfession.Text = selectedProfessionCharacter.NewTextProfession(SelectLanguage.language, сharacterСharacteristics.profession);
+#if DEBUG
+        MyLogger.logger.LogInformation($"Выбрана новая профессия - {SelectedProfession.Text}.");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeCharacterBtn_Clicked(object sender, EventArgs e)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: cмена характера персонажа.");
+#endif
         Button clickedButton = (Button)sender;
 
         if (clickedButton.Text == "-") NewSelectedCharacterFromStruct("left");
@@ -307,10 +365,16 @@ public partial class CharacterCreationPage : ContentPage
     private void ChangeCharacterLabel()
     {
         SelectedCharacter.Text = selectedNatureCharacter.NewTextСharacter(SelectLanguage.language, сharacterСharacteristics.character);
+#if DEBUG
+        MyLogger.logger.LogInformation($"Выбран новый характер - {SelectedCharacter.Text}.");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeStrengthBtn_Clicked(object sender, EventArgs e)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: cмена характеристики(сила) персонажа.");
+#endif
         Button clickedButton = (Button)sender;
 
         if (clickedButton.Text == "-") { NewSelectedStrengthFromStruct("left"); numberStatsChange++; }
@@ -328,6 +392,9 @@ public partial class CharacterCreationPage : ContentPage
     private void ChangeStrengthLabel()
     {
         SelectedStrength.Text = сharacterСharacteristics.strength.ToString();
+#if DEBUG
+        MyLogger.logger.LogInformation($"Изменение: сила - {SelectedStrength.Text}.");
+#endif
     }
     private void CheckingValueStrenght()
     {
@@ -338,6 +405,9 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeAgilityBtn_Clicked(object sender, EventArgs e)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: cмена характеристики(ловкость) персонажа.");
+#endif
         Button clickedButton = (Button)sender;
 
         if (clickedButton.Text == "-") { NewSelectedAgilityFromStruct("left"); numberStatsChange++; }
@@ -355,6 +425,9 @@ public partial class CharacterCreationPage : ContentPage
     private void ChangeAgilityLabel()
     {
         SelectedAgility.Text = сharacterСharacteristics.agiluty.ToString();
+#if DEBUG
+        MyLogger.logger.LogInformation($"Изменение: ловкость - {SelectedAgility.Text}.");
+#endif
     }
     private void CheckingValueAgility()
     {
@@ -365,6 +438,9 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeIntelligenceBtn_Clicked(object sender, EventArgs e)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: cмена характеристики(интеллект) персонажа.");
+#endif
         Button clickedButton = (Button)sender;
 
         if (clickedButton.Text == "-") { NewSelectedIntelligenceFromStruct("left"); numberStatsChange++; }
@@ -382,6 +458,9 @@ public partial class CharacterCreationPage : ContentPage
     private void ChangeIntelligenceLabel()
     {
         SelectedIntelligence.Text = сharacterСharacteristics.intelligence.ToString();
+#if DEBUG
+        MyLogger.logger.LogInformation($"Изменение: интеллект - {SelectedIntelligence.Text}.");
+#endif
     }
     private void CheckingValueIntelligence()
     {
@@ -392,6 +471,9 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     private void ChangeFortuneBtn_Clicked(object sender, EventArgs e)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: cмена характеристики(удача) персонажа.");
+#endif
         Button clickedButton = (Button)sender;
 
         if (clickedButton.Text == "-") { NewSelectedFortuneFromStruct("left"); numberStatsChange++; }
@@ -409,6 +491,9 @@ public partial class CharacterCreationPage : ContentPage
     private void ChangeFortuneLabel()
     {
         SelectedFortune.Text = сharacterСharacteristics.fortune.ToString();
+#if DEBUG
+        MyLogger.logger.LogInformation($"Изменение: удача - {SelectedFortune.Text}.");
+#endif
     }
     private void CheckingValueFortune()
     {
@@ -456,13 +541,26 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     private void NextBtn_Clicked(object sender, EventArgs e)
     {
-        if (characteristicsName == "CreateCharacterAppearance") CreateCharacterAppearancePanelNext();
-        else if (characteristicsName == "CreateCharacterNature") CreateCharacterNaturePanelNext();
-        else if (characteristicsName == "CreateCharacterStats")
+        if (!isBusy)
         {
-            CreateCharacterStatsPanelNext();
-            ChangeNextButton();
+#if DEBUG
+            MyLogger.logger.LogInformation("Кнопка перехода далее нажата.");
+#endif
+            isBusy = true;
+            if (characteristicsName == "CreateCharacterAppearance") CreateCharacterAppearancePanelNext();
+            else if (characteristicsName == "CreateCharacterNature") CreateCharacterNaturePanelNext();
+            else if (characteristicsName == "CreateCharacterStats")
+            {
+                CreateCharacterStatsPanelNext();
+                ChangeNextButton();
+            }
+            isBusy = false;
+
+            return;
         }
+#if DEBUG
+        MyLogger.logger.LogInformation("Кнопка перехода далее занята!");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void CreateCharacterAppearancePanelNext()
@@ -532,6 +630,9 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     private bool CheckNameCharacter()
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Проверка имени персонажа - начата.");
+#endif
         Regex regex = new Regex(@"[а-яА-Яa-zA-Z]");
 
         if (NameEntry.Text != null && regex.IsMatch(NameEntry.Text)) return true;
@@ -541,14 +642,27 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     private async void BackBtn_Clicked(object sender, EventArgs e)
     {
-        if (characteristicsName == "CreateCharacterAppearance") await Navigation.PopModalAsync();
-        else if (characteristicsName == "CreateCharacterNature") CreateCharacterAppearancePanelBack();
-        else if (characteristicsName == "CreateCharacterStats") CreateCharacterNaturePanelBack();
-        else if (characteristicsName == "CreateCharacterName")
+        if (!isBusy)
         {
-            CreateCharacterStatsPanelBack();
-            ChangeNextButtonFromBack();
+#if DEBUG
+            MyLogger.logger.LogInformation("Кнопка перехода назад нажата.");
+#endif
+            isBusy = true;
+            if (characteristicsName == "CreateCharacterAppearance") await Navigation.PopModalAsync();
+            else if (characteristicsName == "CreateCharacterNature") CreateCharacterAppearancePanelBack();
+            else if (characteristicsName == "CreateCharacterStats") CreateCharacterNaturePanelBack();
+            else if (characteristicsName == "CreateCharacterName")
+            {
+                CreateCharacterStatsPanelBack();
+                ChangeNextButtonFromBack();
+            }
+            isBusy = false;
+
+            return;
         }
+#if DEBUG
+        MyLogger.logger.LogInformation("Кнопка перехода назад занята!");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     private void CreateCharacterAppearancePanelBack()
@@ -633,9 +747,15 @@ public partial class CharacterCreationPage : ContentPage
     private void SetNameFromStruct()
     {
         сharacterСharacteristics.characterName = NameEntry.Text;
+#if DEBUG
+        MyLogger.logger.LogInformation($"Имя персонажа успешно записано - {сharacterСharacteristics.characterName}.");
+#endif
     }
     private void NameError()
     {
+#if DEBUG
+        MyLogger.logger.LogInformation($"Неверное имя персонажа.");
+#endif
         if (characterCreation_Ru != null) DisplayAlert("Некорректное имя", "В имени должна присутствовать хотя бы одна буква!", "Ок");
         else if (characterCreation_En != null) DisplayAlert("Incorrect name", "The name must contain at least one letter!", "Ok");
         else DisplayAlert("Incorrect name", "The name must contain at least one letter!", "Ok");
@@ -647,16 +767,40 @@ public partial class CharacterCreationPage : ContentPage
     }
     private async void StartGamePage()
     {
+        if (!isBusy)
+        {
+#if DEBUG
+            MyLogger.logger.LogInformation("Переход на страницу игры - успешен.");
+#endif
+            isBusy = true;
+            loadGameBtn.IsVisible = true;
+            loadingIndicator.IsRunning = true;
+            await Navigation.PushModalAsync(new GamePage(this));
+            loadingIndicator.IsRunning = false;
+            isBusy = false;
 
-        loadGameBtn.IsVisible = true;
-        loadingIndicator.IsRunning = true;
-        await Navigation.PushModalAsync(new GamePage(this));
-        loadingIndicator.IsRunning = false;
+            return;
+        }
+#if DEBUG
+        MyLogger.logger.LogInformation("Кнопка открытия страницы игры - занята!");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
     public async Task BackGamePage()
     {
-        await Navigation.PopModalAsync(false);
+        if (!isBusy)
+        {
+            isBusy = true;
+            await Navigation.PopModalAsync(false);
+            isBusy = false;
+#if DEBUG
+            MyLogger.logger.LogInformation("Переход на страницу выбора одиночной игры - успешен.");
+#endif
+            return;
+        }
+#if DEBUG
+        MyLogger.logger.LogInformation("Кнопка открытия страницы выбора одиночной игры - занята!");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
 }

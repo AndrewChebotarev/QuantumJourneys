@@ -28,39 +28,60 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<NeutralLanguage>ru-RU</NeutralLanguage>
+		<EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
 		<!--SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion -->
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
 	  <ApplicationTitle>Quantum Journeys</ApplicationTitle>
+	  <Optimize>True</Optimize>
+	  <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+	  <RunAOTCompilation>False</RunAOTCompilation>
+	  <AndroidEnableProfiledAot>False</AndroidEnableProfiledAot>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
 	  <ApplicationTitle>Quantum Journeys</ApplicationTitle>
+	  <Optimize>True</Optimize>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+	  <DebugSymbols>True</DebugSymbols>
+	  <PublishTrimmed>False</PublishTrimmed>
+	  <AndroidEnableProfiledAot>False</AndroidEnableProfiledAot>
+	  <RunAOTCompilation>False</RunAOTCompilation>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
 	  <ApplicationTitle>Quantum Journeys</ApplicationTitle>
+	  <Optimize>True</Optimize>
+	  <BuildIpa>False</BuildIpa>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
 	  <ApplicationTitle>Quantum Journeys</ApplicationTitle>
+	  <Optimize>True</Optimize>
+	  <MtouchLink>None</MtouchLink>
+	  <BuildIpa>False</BuildIpa>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
 	  <ApplicationTitle>Quantum Journeys</ApplicationTitle>
+	  <Optimize>True</Optimize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
 	  <ApplicationTitle>Quantum Journeys</ApplicationTitle>
+	  <Optimize>True</Optimize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
 	  <ApplicationTitle>Quantum Journeys</ApplicationTitle>
+	  <Optimize>True</Optimize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
 	  <ApplicationTitle>Quantum Journeys</ApplicationTitle>
+	  <Optimize>True</Optimize>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -106,6 +127,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="2.0.0" />
+		<PackageReference Include="MetroLog.Maui" Version="2.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Plugin.Maui.Audio" Version="2.0.0" />
 	</ItemGroup>
@@ -170,5 +192,9 @@
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionQuantumJourneysHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
+	<ItemGroup>
+	  <EditorConfigFiles Remove="D:\sds\QuantumJourneys\QuantumJourneys\QuantumJourneys\.editorconfig" />
+	</ItemGroup>
 
 </Project>

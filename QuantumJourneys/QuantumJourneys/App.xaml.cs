@@ -9,10 +9,10 @@ namespace QuantumJourneys;
 public partial class App : Application
 {
     //--------------------------------------------------------------------------------------------------------------------------
-    public App(IAudioManager audioManager)
+    public App(IAudioManager audioManager, ILogger<MainPage> logger)
 	{
 		InitializeComponent();
-        MainPage = new MainPage(audioManager);
+        MainPage = new MainPage(audioManager, logger);
 	}
     //--------------------------------------------------------------------------------------------------------------------------
 }

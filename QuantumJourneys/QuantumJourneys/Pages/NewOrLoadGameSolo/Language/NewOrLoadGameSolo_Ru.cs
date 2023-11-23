@@ -14,6 +14,10 @@ namespace QuantumJourneys.Pages.NewOrLoadGameSolo.Language
             NewGameBtn.Text = "Новое приключение";
             Button BacktBtn = (Button)newOrLoadGameSoloPage.FindByName("BacktBtn");
             BacktBtn.Text = "Назад";
+
+#if DEBUG
+            MyLogger.logger.LogInformation("Инициализация текста для UI русский - завершена.");
+#endif
         }
         //------------------------------------------------------------------------------------------------------------------------------
     }

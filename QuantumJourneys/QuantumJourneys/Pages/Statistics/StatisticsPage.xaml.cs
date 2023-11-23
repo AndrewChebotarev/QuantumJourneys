@@ -7,14 +7,36 @@ namespace QuantumJourneys.Pages.Statistics;
 public partial class StatisticsPage : ContentPage
 {
     //----------------------------------------------------------------------------------------------------------------------------------
+
+    private bool isBusy = false;
+
+    //----------------------------------------------------------------------------------------------------------------------------------
     public StatisticsPage()
 	{
-		InitializeComponent();
-	}
+#if DEBUG
+        MyLogger.logger.LogInformation("Начало инициализации страницы статистики.");
+#endif
+        InitializeComponent();
+#if DEBUG
+        MyLogger.logger.LogInformation("Конец инициализации страницы статистики.");
+#endif
+    }
     //----------------------------------------------------------------------------------------------------------------------------------
     private async void BackBtn_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PopModalAsync();
+        if (!isBusy)
+        {
+            isBusy = true;
+            await Navigation.PopModalAsync();
+            isBusy = false;
+#if DEBUG
+            MyLogger.logger.LogInformation("Переход на страницу меню - успешен.");
+#endif
+            return;
+        }
+#if DEBUG
+        MyLogger.logger.LogInformation("Кнопка открытия страницы меню - занята!");
+#endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
 }

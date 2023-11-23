@@ -9,25 +9,38 @@ public partial class SettingsPage : ContentPage
 {
     //------------------------------------------------------------------------------------------------------------------------------------------
 
+    private bool isBusy = false;
     private bool IsInitSound = false;
     MainPage mainPage;
 
     //------------------------------------------------------------------------------------------------------------------------------------------
     public SettingsPage(MainPage mainPage)
 	{
-		InitializeComponent();
+#if DEBUG
+        MyLogger.logger.LogInformation("Начало инициализации страницы настроек.");
+#endif
+        InitializeComponent();
         this.mainPage = mainPage;
         InitAudio();
         InitLanguage();
+#if DEBUG
+        MyLogger.logger.LogInformation("Конец инициализации страницы настроек.");
+#endif
     }
     //------------------------------------------------------------------------------------------------------------------------------------------
     private void InitAudio()
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Получение аудиоплеера для работы.");
+#endif
         soundSlider.Value = WorkingAudioPlayer.audioPlayer.Volume;
         IsInitSound = true;
     }
     private void InitLanguage()
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Начало инициализации языка для страницы настроек.");
+#endif
         switch (SelectLanguage.language)
         {
             case "Ru":
@@ -46,11 +59,26 @@ public partial class SettingsPage : ContentPage
     //------------------------------------------------------------------------------------------------------------------------------------------
     public void SelectedIndexLanguagePicker(object sender, EventArgs eventArgs)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Изменение языка игры.");
+#endif
         ChoiceLanguage();
     }
     private async void BackBtn_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PopModalAsync(true);
+        if (!isBusy)
+        {
+            isBusy = true;
+            await Navigation.PopModalAsync();
+            isBusy = false;
+#if DEBUG
+            MyLogger.logger.LogInformation("Переход на страницу меню - успешен.");
+#endif
+            return;
+        }
+#if DEBUG
+        MyLogger.logger.LogInformation("Кнопка открытия страницы меню - занята!");
+#endif
     }
     //------------------------------------------------------------------------------------------------------------------------------------------
     private void ChoiceLanguage()
@@ -79,19 +107,29 @@ public partial class SettingsPage : ContentPage
     {
         if (IsInitSound)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation("Изменение громкости аудио в игре.");
+#endif
             await ChangeSettingSoundValue();
-            WorkingAudioPlayer.audioPlayer.Volume = soundSlider.Value;
+            WorkingAudioPlayer.valume = soundSlider.Value;
+            WorkingAudioPlayer.audioPlayer.Volume = WorkingAudioPlayer.valume;
         }
     }
     //------------------------------------------------------------------------------------------------------------------------------------------
     private void ReWriteTXTSettingFile(string newLanguage)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Изменение языка игры для файла настроек.");
+#endif
         string[] lines = ReadAllLinesSettingsFile();
         lines[0] = newLanguage;
         ReWriteSettingsFile(lines);
     }
     private Task ChangeSettingSoundValue()
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Изменение громкости аудио игры для файла настроек.");
+#endif
         string[] lines = ReadAllLinesSettingsFile();
         lines[1] = ChangeSettingLine(lines);
         ReWriteSettingsFile(lines);
@@ -104,6 +142,9 @@ public partial class SettingsPage : ContentPage
     private void ReWriteSettingsFile(string[] lines)
     {
         File.WriteAllLines(Path.Combine(GetFolderPath(), "setting.txt"), lines);
+#if DEBUG
+        MyLogger.logger.LogInformation("Файл перезаписан.");
+#endif
     }
     //------------------------------------------------------------------------------------------------------------------------------------------
     private string GetFolderPath()

@@ -22,5 +22,9 @@ global using QuantumJourneys.Animation;
 global using QuantumJourneys.Pages.Game;
 global using QuantumJourneys.StaticObject.AudioPlayer;
 global using QuantumJourneys.StaticObject.SelectLanguage;
+global using QuantumJourneys.StaticObject.Logger;
+global using QuantumJourneys.Pages.Game.Language;
+global using QuantumJourneys.Pages.Game.GameplayMeetingWithGod;
+global using QuantumJourneys.StructAndEnum.EnumStateGameUi;
 
 //--------------------------------------------------------------------------------------------------------------------------
