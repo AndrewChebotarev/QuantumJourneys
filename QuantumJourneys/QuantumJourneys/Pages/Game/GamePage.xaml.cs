@@ -57,7 +57,7 @@ public partial class GamePage : ContentPage
         this.characterCreationPage = characterCreationPage;
         await WalkingAnimation();
         await InitWhiteMainPic();
-        await CreateNewLabel(meetingWithGodTextTransfer.GiveFirstText());
+        await CreateNewLabel(meetingWithGodTextTransfer.SetFirstText());
         InitSpaceForClick();
     }
     //--------------------------------------------------------------------------------------------------------------------------
@@ -85,7 +85,17 @@ public partial class GamePage : ContentPage
     {
         tapGesture.Tapped += async (s, e) =>
         {
-            if (!isWaitSelectButton) await NewStateUi();
+            if (!isWaitSelectButton)
+            {
+#if DEBUG
+                MyLogger.logger.LogInformation("Событие: нажатие на игровую область.");
+#endif
+                await NewStateUi();
+                return;
+            }
+#if DEBUG
+            MyLogger.logger.LogInformation("Событие: нажатие на игровую область - занято.");
+#endif
         };
 
         SpaceForClickFirst.GestureRecognizers.Add(tapGesture);
@@ -94,16 +104,18 @@ public partial class GamePage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task NewStateUi()
     {
-        StateGameUI state = meetingWithGodTextTransfer.GiveStateUi();
+        StateGameUI state = meetingWithGodTextTransfer.GetStateUi();
 
         if (state == StateGameUI.label) await NewStateUI_Label();
         else if (state == StateGameUI.button) await NewStateUI_Button();
+        else if (state == StateGameUI.img) await NewStateUi_Img();
+        else if (state == StateGameUI.endSceneButton) await NewStateUi_EndSceneButton();
         else return;
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task NewStateUI_Label()
     {
-        Label newLabel = await CreateNewLabel(meetingWithGodTextTransfer.GiveLabelText());
+        Label newLabel = await CreateNewLabel(meetingWithGodTextTransfer.GetLabelText());
         await NewScrollPosition(newLabel);
     }
     private async Task NewStateUI_Button()
@@ -111,9 +123,23 @@ public partial class GamePage : ContentPage
         isWaitSelectButton = true;
         isCreateNewButton = true;
 
+        await CreateNewPanelSelectButtons();
+
+        isCreateNewButton = false;
+
+        SelectButtonEnabled();
+    }
+    private async Task NewStateUi_Img()
+    {
+        SetNewMainImg(meetingWithGodTextTransfer.GetMainImg());
+        await NewStateUi();
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+    private async Task CreateNewPanelSelectButtons()
+    {
         BoxView StartLine = CreateWhiteLine(20, 10);
 
-        List<string> texts = meetingWithGodTextTransfer.GiveButtonsText();
+        List<string> texts = meetingWithGodTextTransfer.GetFourButtonsText();
 
         foreach (string text in texts)
         {
@@ -124,8 +150,9 @@ public partial class GamePage : ContentPage
         BoxView EndLine = CreateWhiteLine(0, 20);
 
         AddFromListBoxView(StartLine, EndLine);
-        isCreateNewButton = false;
-
+    }
+    private void SelectButtonEnabled()
+    {
         foreach (Button button in selectButtons) button.IsEnabled = true;
     }
     //--------------------------------------------------------------------------------------------------------------------------
@@ -191,11 +218,14 @@ public partial class GamePage : ContentPage
     {
         if (!isCreateNewButton)
         {
+#if DEBUG
+            MyLogger.logger.LogInformation("Кнопка выбора персонажа - нажата.");
+#endif
+
             Button clickedButton = (Button)sender;
             string text = clickedButton.Text;
 
-            foreach (Button button in selectButtons) SpaceForClickSecond.Remove(button);
-            foreach (BoxView boxView in boxViews) SpaceForClickSecond.Remove(boxView);
+            RemovePandelSelectButtons();
 
             Label newLabel = await CreateNewLabel(text);
             await NewScrollPosition(newLabel);
@@ -204,7 +234,12 @@ public partial class GamePage : ContentPage
 
             await NewStateUi();
             isWaitSelectButton = false;
+
+            return;
         }
+#if DEBUG
+        MyLogger.logger.LogInformation("Кнопка выбора персонажа - занята!");
+#endif
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private BoxView CreateWhiteLine(int topMargin, int backMargin)
@@ -230,6 +265,20 @@ public partial class GamePage : ContentPage
         boxViews.Add(EndLine);
     }
     //--------------------------------------------------------------------------------------------------------------------------
+    private void RemovePandelSelectButtons()
+    {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: удаление панели для выбора игрока.");
+#endif
+        foreach (Button button in selectButtons) SpaceForClickSecond.Remove(button);
+        foreach (BoxView boxView in boxViews) SpaceForClickSecond.Remove(boxView);
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+    private void SetNewMainImg(string imgName)
+    {
+        ImageWindow.Source = imgName;
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
     private async Task NewScrollPosition(View view)
     {
 #if DEBUG
@@ -240,22 +289,25 @@ public partial class GamePage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private void AudioBtn_Clicked(object sender, EventArgs e)
     {
-        if (audioBtn.Text == "🔊")
-        {
-            audioBtn.Text = "🔇";
-            WorkingAudioPlayer.audioPlayer.Volume = 0;
+        if (audioBtn.Text == "🔊") AudioOff();
+        else AudioOn();
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+    private void AudioOff()
+    {
+        audioBtn.Text = "🔇";
+        WorkingAudioPlayer.audioPlayer.Volume = 0;
 #if DEBUG
-            MyLogger.logger.LogInformation("Звук отключен.");
+        MyLogger.logger.LogInformation("Звук отключен.");
 #endif
-        }
-        else
-        {
-            audioBtn.Text = "🔊";
-            WorkingAudioPlayer.audioPlayer.Volume = WorkingAudioPlayer.valume;
+    }
+    private void AudioOn()
+    {
+        audioBtn.Text = "🔊";
+        WorkingAudioPlayer.audioPlayer.Volume = WorkingAudioPlayer.valume;
 #if DEBUG
-            MyLogger.logger.LogInformation("Звук включен.");
+        MyLogger.logger.LogInformation("Звук включен.");
 #endif
-        }
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private async void MenuBtn_Clicked(object sender, EventArgs e)

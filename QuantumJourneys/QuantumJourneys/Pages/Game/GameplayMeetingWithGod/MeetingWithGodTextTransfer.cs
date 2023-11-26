@@ -1,89 +1,98 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
+﻿//Класс для передачи в игровую область Ui объекст и его текст
+//------------------------------------------------------------------------------------------------------------------------------------------
 namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
 {
+    //--------------------------------------------------------------------------------------------------------------------------------------
     public class MeetingWithGodTextTransfer
     {
+        //----------------------------------------------------------------------------------------------------------------------------------
+
         private int counter = 0;
+        private List<string> textsList;
 
-        private string[] Text_Ru = {
+        //----------------------------------------------------------------------------------------------------------------------------------
+        public MeetingWithGodTextTransfer()
+        {
+            InitLanguage();
+        }
+        //----------------------------------------------------------------------------------------------------------------------------------
+        private void InitLanguage()
+        {
+#if DEBUG
+            MyLogger.logger.LogInformation("Начало инициализации языка для страницы игры.");
+#endif
+            switch (SelectLanguage.language)
+            {
+                case "Ru":
+                    TextGame_Ru textList_Ru = new TextGame_Ru();
+                    textsList = textList_Ru.SetTextGame();
+                    break;
 
-            "Вы внезапно очнулся в маленькой комнате, которая полностью окрашена в чистейшую белую краску. Пол, стены и потолок — все идеально белое.",
+                case "En":
+                    TextGame_En textList_En = new TextGame_En();
+                    textsList = textList_En.SetTextGame();
+                    break;
 
-            "Button: Выбор1",
-            "Button: Выбор2",
-            "Button: Выбор3",
-            "Button: Выбор4",
-
-            "Text: тест1",
-            "Text: тест2",
-
-            "Button: Выбор5",
-            "Button: Выбор6",
-            "Button: Выбор7",
-            "Button: Выбор8",
-
-            "Text: тест3",
-            "Text: тест3",
-            "Text: тест3",
-            "Text: тест3",
-
-            "Button: Выбор5",
-            "Button: Выбор6",
-            "Button: Выбор7",
-            "Button: Выбор8",
-
-            "Text: тест3",
-            "Text: тест3",
-            "Text: тест3",
-
-            "Text: тест3",
-            "Text: тест3",
-            "Text: тест3",
-            "Text: тест3",
-
-            "Button: Выбор5",
-            "Button: Выбор6",
-            "Button: Выбор7",
-            "Button: Выбор8",
-
-            "Text: тест3",
-            "Text: тест3",
-            "Text: тест3"
-        };
-
-        public string GiveFirstText()
+                default:
+                    TextGame_En textList_Default = new TextGame_En();
+                    textsList = textList_Default.SetTextGame();
+                    break;
+            }
+        }
+        //----------------------------------------------------------------------------------------------------------------------------------
+        public string SetFirstText()
         {
             counter++;
-            return Text_Ru[0];
+            return textsList[0];
         }
-
-        public StateGameUI GiveStateUi()
+        //----------------------------------------------------------------------------------------------------------------------------------
+        public StateGameUI GetStateUi()
         {
-            if (counter < Text_Ru.Length - 1 && Text_Ru[counter].StartsWith("Text: ")) return StateGameUI.label;
-            else if (counter < Text_Ru.Length - 1 && Text_Ru[counter].StartsWith("Button: ")) return StateGameUI.button;
+            if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Text: ")) return StateGameUI.label;
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Button: ")) return StateGameUI.button;
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Img: ")) return StateGameUI.img;
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("EndSceneButton: ")) return StateGameUI.endSceneButton;
             else return StateGameUI.none;
         }
-
-        public string GiveLabelText()
+        //----------------------------------------------------------------------------------------------------------------------------------
+        public string GetLabelText()
         {
-            string text = Text_Ru[counter];
+            string text = textsList[counter];
             counter++;
             return text.Substring("Text: ".Length);
         }
-
-        public List<string> GiveButtonsText()
+        public List<string> GetTwoButtonsText()
         {
             List<string> texts = new();
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 2; i++)
             {
-                texts.Add(Text_Ru[counter].Substring("Button: ".Length));
+                texts.Add(textsList[counter].Substring("Button: ".Length));
                 counter++;
             }
 
             return texts;
         }
+        public List<string> GetFourButtonsText()
+        {
+            List<string> texts = new();
+
+            for (int i = 0; i < 4; i++)
+            {
+                texts.Add(textsList[counter].Substring("Button: ".Length));
+                counter++;
+            }
+
+            return texts;
+        }
+        public string GetMainImg()
+        {
+            string imgName = textsList[counter];
+            counter++;
+            return imgName.Substring("Img: ".Length);
+        }
+        //----------------------------------------------------------------------------------------------------------------------------------
     }
+    //--------------------------------------------------------------------------------------------------------------------------------------
 }
+//------------------------------------------------------------------------------------------------------------------------------------------

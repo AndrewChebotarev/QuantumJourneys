@@ -7,6 +7,8 @@ namespace QuantumJourneys.StructAndEnum.EnumStateGameUi
     {
         label,
         button,
+        img,
+        endSceneButton,
         none
     }
     //--------------------------------------------------------------------------------------------------------------------------------------

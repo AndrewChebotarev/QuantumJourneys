@@ -121,6 +121,8 @@
 	  <None Remove="Resources\Images\CreateCharacter\malegreenblonde.png" />
 	  <None Remove="Resources\Images\CreateCharacter\malegreenginger.png" />
 	  <None Remove="Resources\Images\EnteringNewWorld\whitebackground.png" />
+	  <None Remove="Resources\Images\EnteringNewWorld\maingod.png" />
+	  <None Remove="Resources\Images\EnteringNewWorld\doorstonewworld.png" />
 	  <None Remove="Resources\Images\MenuImg.png" />
 	  <None Remove="Resources\Raw\Menu.mp3" />
 	</ItemGroup>
@@ -151,11 +153,13 @@
 	  <MauiImage Include="Resources\Images\CreateCharacter\malegreenblack.png" />
 	  <MauiImage Include="Resources\Images\CreateCharacter\malegreenblonde.png" />
 	  <MauiImage Include="Resources\Images\CreateCharacter\malegreenginger.png" />
-	  <MauiImage Include="Resources\Images\Menu\menuimg.png" />
+	  <MauiImage Include="Resources\Images\Menu\doorstonewworld.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiImage Include="Resources\Images\EnteringNewWorld\whitebackground.png" />
+	  <MauiImage Include="Resources\Images\EnteringNewWorld\maingod.png" />
+	  <MauiImage Include="Resources\Images\EnteringNewWorld\doorstonewworld.png" />
 	</ItemGroup>
 
 	<ItemGroup>
