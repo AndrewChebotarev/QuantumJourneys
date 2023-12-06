@@ -6,9 +6,11 @@ namespace QuantumJourneys.StructAndEnum.EnumStateGameUi
     public enum StateGameUI
     {
         label,
-        button,
+        button_two,
+        button_four,
         img,
-        endSceneButton,
+        miniGame,
+        endScene,
         none
     }
     //--------------------------------------------------------------------------------------------------------------------------------------

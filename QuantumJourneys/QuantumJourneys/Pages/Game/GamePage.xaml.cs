@@ -9,6 +9,7 @@ public partial class GamePage : ContentPage
     private bool isBusy = false;
     private bool isWaitSelectButton = false;
     private bool isCreateNewButton = false;
+    public bool isNotMiniGame = true;
 
     private List<Button> selectButtons = new();
     private List<BoxView> boxViews = new();
@@ -107,9 +108,11 @@ public partial class GamePage : ContentPage
         StateGameUI state = meetingWithGodTextTransfer.GetStateUi();
 
         if (state == StateGameUI.label) await NewStateUI_Label();
-        else if (state == StateGameUI.button) await NewStateUI_Button();
+        else if (state == StateGameUI.button_two) await NewStateUI_Button(StateGameUI.button_two);
+        else if (state == StateGameUI.button_four) await NewStateUI_Button(StateGameUI.button_four);
         else if (state == StateGameUI.img) await NewStateUi_Img();
-        else if (state == StateGameUI.endSceneButton) await NewStateUi_EndSceneButton();
+        else if (state == StateGameUI.miniGame) await NewState_StartMiniGame();
+        else if (state == StateGameUI.endScene) await NewStateUi_EndScene();
         else return;
     }
     //--------------------------------------------------------------------------------------------------------------------------
@@ -118,12 +121,12 @@ public partial class GamePage : ContentPage
         Label newLabel = await CreateNewLabel(meetingWithGodTextTransfer.GetLabelText());
         await NewScrollPosition(newLabel);
     }
-    private async Task NewStateUI_Button()
+    private async Task NewStateUI_Button(StateGameUI state)
     {
         isWaitSelectButton = true;
         isCreateNewButton = true;
 
-        await CreateNewPanelSelectButtons();
+        await CreateNewPanelSelectButtons(state);
 
         isCreateNewButton = false;
 
@@ -134,12 +137,34 @@ public partial class GamePage : ContentPage
         SetNewMainImg(meetingWithGodTextTransfer.GetMainImg());
         await NewStateUi();
     }
+    private async Task NewState_StartMiniGame()
+    {
+        if (!isBusy)
+        {
+            isNotMiniGame = false;
+            isBusy = true;
+            await Navigation.PushModalAsync(new MiniGame_OpenDoor());
+            isBusy = false;
+
+#if DEBUG
+            MyLogger.logger.LogInformation("Переход на страницу выбора одиночной игры - успешен.");
+#endif
+            return;
+        }
+#if DEBUG
+        MyLogger.logger.LogInformation("Кнопка открытия страницы выбора одиночной игры - занята!");
+#endif
+    }
+
     //--------------------------------------------------------------------------------------------------------------------------
-    private async Task CreateNewPanelSelectButtons()
+    private async Task CreateNewPanelSelectButtons(StateGameUI state)
     {
         BoxView StartLine = CreateWhiteLine(20, 10);
 
-        List<string> texts = meetingWithGodTextTransfer.GetFourButtonsText();
+        List<string> texts = new();
+
+        if (state == StateGameUI.button_four) texts = meetingWithGodTextTransfer.GetFourButtonsText();
+        else texts = meetingWithGodTextTransfer.GetTwoButtonsText();
 
         foreach (string text in texts)
         {
@@ -326,14 +351,22 @@ public partial class GamePage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     protected async override void OnDisappearing()
     {
+        if (isNotMiniGame)
+        {
 #if DEBUG
-        MyLogger.logger.LogInformation("Закрытие страницы создания персонажа.");
+            MyLogger.logger.LogInformation("Закрытие страницы создания персонажа.");
 #endif
-        base.OnDisappearing();
-        await characterCreationPage.BackGamePage();
+            base.OnDisappearing();
+            await characterCreationPage.BackGamePage();
 #if DEBUG
-        MyLogger.logger.LogInformation("Переход на страницу выбора одиночной игры - успешен.");
+            MyLogger.logger.LogInformation("Переход на страницу выбора одиночной игры - успешен.");
 #endif
+        }
+        else
+        {
+            isNotMiniGame = true;
+            await NewStateUi();
+        }
     }
     //--------------------------------------------------------------------------------------------------------------------------
 }

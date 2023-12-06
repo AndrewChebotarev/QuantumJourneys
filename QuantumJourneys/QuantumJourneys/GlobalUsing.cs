@@ -4,6 +4,8 @@
 global using Microsoft.Extensions.Logging;
 global using Plugin.Maui.Audio;
 global using System.Text.RegularExpressions;
+global using CommunityToolkit.Maui;
+global using MetroLog.MicrosoftExtensions;
 
 global using QuantumJourneys.Pages;
 global using QuantumJourneys.Pages.CreateGameMulty;
@@ -27,5 +29,6 @@ global using QuantumJourneys.Pages.Game.Language;
 global using QuantumJourneys.Pages.Game.GameplayMeetingWithGod;
 global using QuantumJourneys.StructAndEnum.EnumStateGameUi;
 global using QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame;
+global using QuantumJourneys.Pages.MiniGame.OpenDoor;
 
 //--------------------------------------------------------------------------------------------------------------------------

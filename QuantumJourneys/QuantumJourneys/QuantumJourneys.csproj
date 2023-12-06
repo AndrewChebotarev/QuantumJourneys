@@ -102,6 +102,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\Menu\menuimg.png" />
 	  <None Remove="Resources\Images\CreateCharacter\femaleblueblack.png" />
 	  <None Remove="Resources\Images\CreateCharacter\femaleblueblonde.png" />
 	  <None Remove="Resources\Images\CreateCharacter\femaleblueginger.png" />
@@ -123,7 +124,6 @@
 	  <None Remove="Resources\Images\EnteringNewWorld\whitebackground.png" />
 	  <None Remove="Resources\Images\EnteringNewWorld\maingod.png" />
 	  <None Remove="Resources\Images\EnteringNewWorld\doorstonewworld.png" />
-	  <None Remove="Resources\Images\MenuImg.png" />
 	  <None Remove="Resources\Raw\Menu.mp3" />
 	</ItemGroup>
 
@@ -135,6 +135,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Menu\menuimg.png" />
 	  <MauiImage Include="Resources\Images\CreateCharacter\femaleblueblack.png" />
 	  <MauiImage Include="Resources\Images\CreateCharacter\femaleblueblonde.png" />
 	  <MauiImage Include="Resources\Images\CreateCharacter\femaleblueginger.png" />
@@ -153,7 +154,6 @@
 	  <MauiImage Include="Resources\Images\CreateCharacter\malegreenblack.png" />
 	  <MauiImage Include="Resources\Images\CreateCharacter\malegreenblonde.png" />
 	  <MauiImage Include="Resources\Images\CreateCharacter\malegreenginger.png" />
-	  <MauiImage Include="Resources\Images\Menu\doorstonewworld.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -179,6 +179,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\LoadGame\LoadGamePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\MiniGame\OpenDoor\MiniGame_OpenDoor.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\NewOrLoadGameSolo\NewOrLoadGameSoloPage.xaml">

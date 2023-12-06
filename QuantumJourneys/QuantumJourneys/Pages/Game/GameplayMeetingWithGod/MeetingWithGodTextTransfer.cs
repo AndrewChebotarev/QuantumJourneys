@@ -49,9 +49,11 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
         public StateGameUI GetStateUi()
         {
             if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Text: ")) return StateGameUI.label;
-            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Button: ")) return StateGameUI.button;
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Button_two: ")) return StateGameUI.button_two;
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Button_four: ")) return StateGameUI.button_four;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Img: ")) return StateGameUI.img;
-            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("EndSceneButton: ")) return StateGameUI.endSceneButton;
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("MiniGame: ")) { counter++;  return StateGameUI.miniGame; }
+            else if (counter < textsList.Count - 1 && textsList[counter] == "EndScene") return StateGameUI.endScene;
             else return StateGameUI.none;
         }
         //----------------------------------------------------------------------------------------------------------------------------------
