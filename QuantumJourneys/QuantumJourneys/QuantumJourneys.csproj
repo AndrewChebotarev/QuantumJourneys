@@ -125,6 +125,10 @@
 	  <None Remove="Resources\Images\EnteringNewWorld\maingod.png" />
 	  <None Remove="Resources\Images\EnteringNewWorld\doorstonewworld.png" />
 	  <None Remove="Resources\Raw\Menu.mp3" />
+	  <None Remove="Resources\Raw\MeetingWithGodSceneSounds\MeetingWithGodSound.mp3" />
+	  <None Remove="Resources\Raw\MeetingWithGodSceneSounds\MinigameSound.mp3" />
+	  <None Remove="Resources\Raw\MeetingWithGodSceneSounds\OpenDoorSound.mp3" />
+	  <None Remove="Resources\Raw\MeetingWithGodSceneSounds\TransitionSound.mp3" />
 	</ItemGroup>
 
 	<ItemGroup>

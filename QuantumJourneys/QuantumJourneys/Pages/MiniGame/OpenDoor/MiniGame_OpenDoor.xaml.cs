@@ -1,37 +1,40 @@
-namespace QuantumJourneys.Pages.MiniGame.OpenDoor;
-
-public partial class MiniGame_OpenDoor : ContentPage
+//Класс для работы с миниигрой
+//----------------------------------------------------------------------------------------------------------------------------------
+namespace QuantumJourneys.Pages.MiniGame.OpenDoor
 {
-    //--------------------------------------------------------------------------------------------------------------------------
-
-    private bool isBusy = false;
-
-    //--------------------------------------------------------------------------------------------------------------------------
-    public MiniGame_OpenDoor()
+    //------------------------------------------------------------------------------------------------------------------------------
+    public partial class MiniGame_OpenDoor : ContentPage
     {
-#if DEBUG
-        MyLogger.logger.LogInformation("Начало инициализации мини игры.");
-#endif
-        InitializeComponent();
-#if DEBUG
-        MyLogger.logger.LogInformation("Конец инициализации мини игры.");
-#endif
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
-    private async void BackBtn_Clicked(object sender, EventArgs e)
-    {
-        if (!isBusy)
+        //--------------------------------------------------------------------------------------------------------------------------
+        public MiniGame_OpenDoor()
         {
-            isBusy = true;
-            await Navigation.PopModalAsync();
-            isBusy = false;
 #if DEBUG
-            MyLogger.logger.LogInformation("Переход на страницу мини игра - успешен.");
+            MyLogger.logger.LogInformation("Начало инициализации мини игры.");
 #endif
-            return;
+            InitializeComponent();
+#if DEBUG
+            MyLogger.logger.LogInformation("Конец инициализации мини игры.");
+#endif
         }
+        //--------------------------------------------------------------------------------------------------------------------------
+        private async void BackBtn_Clicked(object sender, EventArgs e)
+        {
+            if (!CheckProcessBusy.isProcessBusy)
+            {
+                CheckProcessBusy.isProcessBusy = true;
+                await Navigation.PopModalAsync();
+                CheckProcessBusy.isProcessBusy = false;
 #if DEBUG
-        MyLogger.logger.LogInformation("Кнопка открытия страницы мини игра - занята!");
+                MyLogger.logger.LogInformation("Переход на страницу мини игра - успешен.");
 #endif
+                return;
+            }
+#if DEBUG
+            MyLogger.logger.LogInformation("Кнопка открытия страницы мини игра - занята!");
+#endif
+        }
+        //--------------------------------------------------------------------------------------------------------------------------
     }
+    //------------------------------------------------------------------------------------------------------------------------------
 }
+//----------------------------------------------------------------------------------------------------------------------------------

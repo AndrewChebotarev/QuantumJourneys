@@ -8,7 +8,7 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame
         public List<string> SetTextGame()
         {
 #if DEBUG
-            MyLogger.logger.LogInformation("Инициализация текста для UI английский - завершена.");
+            MyLogger.logger.LogInformation("Инициализация игрового текста для UI английский - завершена.");
 #endif
             return new List<string>
             {

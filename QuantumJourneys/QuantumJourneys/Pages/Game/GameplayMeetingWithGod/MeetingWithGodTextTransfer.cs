@@ -42,12 +42,18 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
         //----------------------------------------------------------------------------------------------------------------------------------
         public string SetFirstText()
         {
+#if DEBUG
+            MyLogger.logger.LogInformation("Установка первого Label.");
+#endif
             counter++;
             return textsList[0];
         }
         //----------------------------------------------------------------------------------------------------------------------------------
         public StateGameUI GetStateUi()
         {
+#if DEBUG
+            MyLogger.logger.LogInformation($"Текущие состояние ui объекта - {textsList[counter]}.");
+#endif
             if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Text: ")) return StateGameUI.label;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Button_two: ")) return StateGameUI.button_two;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Button_four: ")) return StateGameUI.button_four;
@@ -69,7 +75,7 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
 
             for (int i = 0; i < 2; i++)
             {
-                texts.Add(textsList[counter].Substring("Button: ".Length));
+                texts.Add(textsList[counter].Substring("Button_two: ".Length));
                 counter++;
             }
 
@@ -81,7 +87,7 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
 
             for (int i = 0; i < 4; i++)
             {
-                texts.Add(textsList[counter].Substring("Button: ".Length));
+                texts.Add(textsList[counter].Substring("Button_four: ".Length));
                 counter++;
             }
 

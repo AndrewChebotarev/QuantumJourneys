@@ -8,7 +8,6 @@ public partial class NewOrLoadGameSoloPage : ContentPage
 {
     //------------------------------------------------------------------------------------------------------------------------------
 
-    private bool isBusy = false;
     private LoadGameSoloPage loadGameSoloPage;
 
     //------------------------------------------------------------------------------------------------------------------------------
@@ -62,12 +61,12 @@ public partial class NewOrLoadGameSoloPage : ContentPage
     //------------------------------------------------------------------------------------------------------------------------------
     private async void LoadGameBtn_Clicked(object sender, EventArgs e)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             СharacterСharacteristics сharacterСharacteristics = loadGameSoloPage.GetCurrentCharacterToStruct();
             await Navigation.PushModalAsync(new LoadGamePage());
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 #if DEBUG
             MyLogger.logger.LogInformation("Переход на страницу загрузки игры - успешен.");
 #endif
@@ -79,13 +78,13 @@ public partial class NewOrLoadGameSoloPage : ContentPage
     }
     private async void NewGameBtn_Clicked(object sender, EventArgs e)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             loadingIndicator.IsRunning = true;
             await Navigation.PushModalAsync(new CharacterCreationPage(LoadGameBtn));
             loadingIndicator.IsRunning = false;
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 #if DEBUG
             MyLogger.logger.LogInformation("Переход на страницу создание персонажа - успешен.");
 #endif
@@ -97,11 +96,11 @@ public partial class NewOrLoadGameSoloPage : ContentPage
     }
     private async void BackBtn_Clicked(object sender, EventArgs e)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             await Navigation.PopModalAsync();
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 #if DEBUG
             MyLogger.logger.LogInformation("Переход на страницу меню - успешен.");
 #endif

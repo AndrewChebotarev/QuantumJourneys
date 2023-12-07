@@ -8,10 +8,6 @@ namespace QuantumJourneys;
 public partial class MainPage : ContentPage
 {
     //--------------------------------------------------------------------------------------------------------------------------
-
-    private bool isBusy = false;
-
-    //--------------------------------------------------------------------------------------------------------------------------
     public MainPage(IAudioManager audioManager, ILogger<MainPage> logger)
 	{
 #if DEBUG
@@ -38,11 +34,7 @@ public partial class MainPage : ContentPage
 #endif
     private async void InitAudio(IAudioManager audioManager)
     {
-        WorkingAudioPlayer.audioPlayer = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("Menu.mp3"));
-        WorkingAudioPlayer.audioPlayer.Volume = new();
-        WorkingAudioPlayer.audioPlayer.Loop = true;
-        WorkingAudioPlayer.audioPlayer.Play();
-
+        await WorkWithSound.InitNewAudioPlayer(audioManager, "Menu.mp3");
 #if DEBUG
         MyLogger.logger.LogInformation("Инициализация аудименеджера, аудио плеера пройдена.");
 #endif
@@ -50,11 +42,11 @@ public partial class MainPage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private async void OnSoloButtonClicked(object sender, EventArgs args)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             await Navigation.PushModalAsync(new NewOrLoadGameSoloPage());
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 #if DEBUG
             MyLogger.logger.LogInformation("Переход на страницу выбора одиночной игры - успешен.");
 #endif
@@ -66,11 +58,11 @@ public partial class MainPage : ContentPage
     }
     private async void OnMultyButtonClicked(object sender, EventArgs args)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             await Navigation.PushModalAsync(new CreateGameMultyPage());
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 #if DEBUG
             MyLogger.logger.LogInformation("Переход на страницу выбора многопользовательской игры - успешен.");
 #endif
@@ -83,11 +75,11 @@ public partial class MainPage : ContentPage
     }
     private async void StatisticsBtn_Clicked(object sender, EventArgs e)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             await Navigation.PushModalAsync(new StatisticsPage()); ;
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 #if DEBUG
             MyLogger.logger.LogInformation("Переход на страницу статистики - успешен.");
 #endif
@@ -98,11 +90,11 @@ public partial class MainPage : ContentPage
     }
     private async void OnSettingButtonClicked(object sender, EventArgs args)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             await Navigation.PushModalAsync(new SettingsPage(this));
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 #if DEBUG
             MyLogger.logger.LogInformation("Переход на страницу настройки - успешен.");
 #endif

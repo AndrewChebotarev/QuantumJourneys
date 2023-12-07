@@ -6,13 +6,15 @@ namespace QuantumJourneys.Pages.Game;
 //------------------------------------------------------------------------------------------------------------------------------
 public partial class GamePage : ContentPage
 {
-    private bool isBusy = false;
-    private bool isWaitSelectButton = false;
+    //--------------------------------------------------------------------------------------------------------------------------
+
+    private bool isWait = false;
     private bool isCreateNewButton = false;
-    public bool isNotMiniGame = true;
+    public bool isMiniGame = false;
 
     private List<Button> selectButtons = new();
     private List<BoxView> boxViews = new();
+    private List<string> texts = new();
 
     private WalkingAnimation walkingAnimation;
     private CharacterCreationPage characterCreationPage;
@@ -71,7 +73,7 @@ public partial class GamePage : ContentPage
     private async Task InitWhiteMainPic()
     {
         ImageWindow.Source = "whitebackground.png";
-        await walkingAnimation.AnimationMainPic(ImageWindow);
+        await walkingAnimation.AnimationAppearanceMainPic(ImageWindow);
     }
     private void InitSpaceForClick()
     {
@@ -86,7 +88,7 @@ public partial class GamePage : ContentPage
     {
         tapGesture.Tapped += async (s, e) =>
         {
-            if (!isWaitSelectButton)
+            if (!isWait)
             {
 #if DEBUG
                 MyLogger.logger.LogInformation("Событие: нажатие на игровую область.");
@@ -105,6 +107,9 @@ public partial class GamePage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task NewStateUi()
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Получение нужного следующего состояния ui объекта.");
+#endif
         StateGameUI state = meetingWithGodTextTransfer.GetStateUi();
 
         if (state == StateGameUI.label) await NewStateUI_Label();
@@ -118,12 +123,18 @@ public partial class GamePage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task NewStateUI_Label()
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Следующий ui объект - Label.");
+#endif
         Label newLabel = await CreateNewLabel(meetingWithGodTextTransfer.GetLabelText());
         await NewScrollPosition(newLabel);
     }
     private async Task NewStateUI_Button(StateGameUI state)
     {
-        isWaitSelectButton = true;
+#if DEBUG
+        MyLogger.logger.LogInformation("Следующий ui объект - Button.");
+#endif
+        isWait = true;
         isCreateNewButton = true;
 
         await CreateNewPanelSelectButtons(state);
@@ -134,51 +145,81 @@ public partial class GamePage : ContentPage
     }
     private async Task NewStateUi_Img()
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Следующий ui объект - Image.");
+#endif
         SetNewMainImg(meetingWithGodTextTransfer.GetMainImg());
         await NewStateUi();
     }
     private async Task NewState_StartMiniGame()
     {
-        if (!isBusy)
+#if DEBUG
+        MyLogger.logger.LogInformation("Следующий ui объект - страница миниигры.");
+#endif
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isNotMiniGame = false;
-            isBusy = true;
+            isMiniGame = true;
+            CheckProcessBusy.isProcessBusy = true;
             await Navigation.PushModalAsync(new MiniGame_OpenDoor());
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 
 #if DEBUG
-            MyLogger.logger.LogInformation("Переход на страницу выбора одиночной игры - успешен.");
+            MyLogger.logger.LogInformation("Переход на страницу миниигры - успешен.");
 #endif
             return;
         }
 #if DEBUG
-        MyLogger.logger.LogInformation("Кнопка открытия страницы выбора одиночной игры - занята!");
+        MyLogger.logger.LogInformation("Кнопка открытия страницы миниигры - занята!");
 #endif
     }
-
+    private async Task NewStateUi_EndScene()
+    {
+#if DEBUG
+        MyLogger.logger.LogInformation("Следующий конец сцены.");
+#endif
+        isWait = true;
+        SpaceForClickSecond.Children.Clear();
+        await walkingAnimation.AnimationBlackoutMainPic(ImageWindow);
+        await walkingAnimation.Animation(this);
+        await InitWhiteMainPic();
+        isWait = false;
+    }
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task CreateNewPanelSelectButtons(StateGameUI state)
     {
         BoxView StartLine = CreateWhiteLine(20, 10);
-
-        List<string> texts = new();
-
+        SelectingNumberButtons(state);
+        await CreateButtonsFromText();
+        BoxView EndLine = CreateWhiteLine(0, 20);
+        AddFromListBoxView(StartLine, EndLine);
+    }
+    private void SelectingNumberButtons(StateGameUI state)
+    {
         if (state == StateGameUI.button_four) texts = meetingWithGodTextTransfer.GetFourButtonsText();
         else texts = meetingWithGodTextTransfer.GetTwoButtonsText();
-
+    }
+    private async Task CreateButtonsFromText()
+    {
         foreach (string text in texts)
         {
             Button newButton = await CreateNewButton(text);
             await NewScrollPosition(newButton);
         }
-
-        BoxView EndLine = CreateWhiteLine(0, 20);
-
-        AddFromListBoxView(StartLine, EndLine);
     }
     private void SelectButtonEnabled()
     {
+#if DEBUG
+        MyLogger.logger.LogInformation("Перевод кнопок выбора в активное состояние.");
+#endif
         foreach (Button button in selectButtons) button.IsEnabled = true;
+    }
+    private void RemovePandelSelectButtons()
+    {
+#if DEBUG
+        MyLogger.logger.LogInformation("Событие: удаление панели для выбора игрока.");
+#endif
+        foreach (Button button in selectButtons) SpaceForClickSecond.Remove(button);
+        foreach (BoxView boxView in boxViews) SpaceForClickSecond.Remove(boxView);
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task<Label> CreateNewLabel(string text)
@@ -258,7 +299,7 @@ public partial class GamePage : ContentPage
             await Task.Delay(300);
 
             await NewStateUi();
-            isWaitSelectButton = false;
+            isWait = false;
 
             return;
         }
@@ -290,17 +331,11 @@ public partial class GamePage : ContentPage
         boxViews.Add(EndLine);
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    private void RemovePandelSelectButtons()
-    {
-#if DEBUG
-        MyLogger.logger.LogInformation("Событие: удаление панели для выбора игрока.");
-#endif
-        foreach (Button button in selectButtons) SpaceForClickSecond.Remove(button);
-        foreach (BoxView boxView in boxViews) SpaceForClickSecond.Remove(boxView);
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
     private void SetNewMainImg(string imgName)
     {
+#if DEBUG
+        MyLogger.logger.LogInformation($"Установка новой картинки - {imgName}.");
+#endif
         ImageWindow.Source = imgName;
     }
     //--------------------------------------------------------------------------------------------------------------------------
@@ -337,11 +372,14 @@ public partial class GamePage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private async void MenuBtn_Clicked(object sender, EventArgs e)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isBusy = true;
+#if DEBUG
+            MyLogger.logger.LogInformation("Кнопка открытия страницы выбора одиночной игры - нажата!");
+#endif
+            CheckProcessBusy.isProcessBusy = true;
             await Navigation.PopModalAsync();
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
             return;
         }
 #if DEBUG
@@ -351,22 +389,25 @@ public partial class GamePage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     protected async override void OnDisappearing()
     {
-        if (isNotMiniGame)
-        {
+        if (!isMiniGame) await CloseGamePage();
+        else await IsMinigamePage();
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+    private async Task CloseGamePage()
+    {
 #if DEBUG
-            MyLogger.logger.LogInformation("Закрытие страницы создания персонажа.");
+        MyLogger.logger.LogInformation("Закрытие страницы игры.");
 #endif
-            base.OnDisappearing();
-            await characterCreationPage.BackGamePage();
+        base.OnDisappearing();
+        await characterCreationPage.BackGamePage();
 #if DEBUG
-            MyLogger.logger.LogInformation("Переход на страницу выбора одиночной игры - успешен.");
+        MyLogger.logger.LogInformation("Переход на страницу выбора одиночной игры - успешен.");
 #endif
-        }
-        else
-        {
-            isNotMiniGame = true;
-            await NewStateUi();
-        }
+    }
+    private async Task IsMinigamePage()
+    {
+        isMiniGame = false;
+        await NewStateUi();
     }
     //--------------------------------------------------------------------------------------------------------------------------
 }

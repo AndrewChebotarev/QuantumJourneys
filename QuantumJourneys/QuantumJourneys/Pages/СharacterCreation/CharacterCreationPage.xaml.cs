@@ -9,8 +9,6 @@ public partial class CharacterCreationPage : ContentPage
 {
     //----------------------------------------------------------------------------------------------------------------------------------
 
-    private bool isBusy = false;
-
     private string characteristicsName;
     private int numberStatsChange;
 
@@ -541,12 +539,12 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     private void NextBtn_Clicked(object sender, EventArgs e)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
 #if DEBUG
             MyLogger.logger.LogInformation("Кнопка перехода далее нажата.");
 #endif
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             if (characteristicsName == "CreateCharacterAppearance") CreateCharacterAppearancePanelNext();
             else if (characteristicsName == "CreateCharacterNature") CreateCharacterNaturePanelNext();
             else if (characteristicsName == "CreateCharacterStats")
@@ -554,7 +552,7 @@ public partial class CharacterCreationPage : ContentPage
                 CreateCharacterStatsPanelNext();
                 ChangeNextButton();
             }
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 
             return;
         }
@@ -642,12 +640,12 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     private async void BackBtn_Clicked(object sender, EventArgs e)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
 #if DEBUG
             MyLogger.logger.LogInformation("Кнопка перехода назад нажата.");
 #endif
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             if (characteristicsName == "CreateCharacterAppearance") await Navigation.PopModalAsync();
             else if (characteristicsName == "CreateCharacterNature") CreateCharacterAppearancePanelBack();
             else if (characteristicsName == "CreateCharacterStats") CreateCharacterNaturePanelBack();
@@ -656,7 +654,7 @@ public partial class CharacterCreationPage : ContentPage
                 CreateCharacterStatsPanelBack();
                 ChangeNextButtonFromBack();
             }
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 
             return;
         }
@@ -767,17 +765,17 @@ public partial class CharacterCreationPage : ContentPage
     }
     private async void StartGamePage()
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
 #if DEBUG
             MyLogger.logger.LogInformation("Переход на страницу игры - успешен.");
 #endif
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             loadGameBtn.IsVisible = true;
             loadingIndicator.IsRunning = true;
             await Navigation.PushModalAsync(new GamePage(this));
             loadingIndicator.IsRunning = false;
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 
             return;
         }
@@ -788,11 +786,11 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     public async Task BackGamePage()
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             await Navigation.PopModalAsync(false);
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 #if DEBUG
             MyLogger.logger.LogInformation("Переход на страницу выбора одиночной игры - успешен.");
 #endif

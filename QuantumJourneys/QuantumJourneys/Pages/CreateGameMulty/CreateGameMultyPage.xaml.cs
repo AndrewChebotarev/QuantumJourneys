@@ -8,10 +8,6 @@ namespace QuantumJourneys.Pages.CreateGameMulty;
 public partial class CreateGameMultyPage : ContentPage
 {
     //--------------------------------------------------------------------------------------------------------------------------
-
-    private bool isBusy = false;
-
-    //--------------------------------------------------------------------------------------------------------------------------
     public CreateGameMultyPage()
 	{
 #if DEBUG
@@ -25,11 +21,11 @@ public partial class CreateGameMultyPage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private async void BackBtn_Clicked(object sender, EventArgs e)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             await Navigation.PopModalAsync();
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 #if DEBUG
             MyLogger.logger.LogInformation("Переход на страницу меню - успешен.");
 #endif

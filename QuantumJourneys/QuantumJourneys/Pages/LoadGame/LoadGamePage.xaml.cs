@@ -7,10 +7,6 @@ namespace QuantumJourneys.Pages.LoadGame;
 public partial class LoadGamePage : ContentPage
 {
     //--------------------------------------------------------------------------------------------------------------------------
-
-    private bool isBusy = false;
-
-    //--------------------------------------------------------------------------------------------------------------------------
     public LoadGamePage()
 	{
 #if DEBUG
@@ -24,11 +20,11 @@ public partial class LoadGamePage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private async void BackBtn_Clicked(object sender, EventArgs e)
     {
-        if (!isBusy)
+        if (!CheckProcessBusy.isProcessBusy)
         {
-            isBusy = true;
+            CheckProcessBusy.isProcessBusy = true;
             await Navigation.PopModalAsync();
-            isBusy = false;
+            CheckProcessBusy.isProcessBusy = false;
 #if DEBUG
             MyLogger.logger.LogInformation("Переход на страницу меню - успешен.");
 #endif

@@ -30,5 +30,7 @@ global using QuantumJourneys.Pages.Game.GameplayMeetingWithGod;
 global using QuantumJourneys.StructAndEnum.EnumStateGameUi;
 global using QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame;
 global using QuantumJourneys.Pages.MiniGame.OpenDoor;
+global using QuantumJourneys.StaticObject.ProcessBusy;
+global using QuantumJourneys.Sound;
 
 //--------------------------------------------------------------------------------------------------------------------------

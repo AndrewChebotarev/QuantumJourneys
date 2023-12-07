@@ -53,7 +53,7 @@ namespace QuantumJourneys.Animation
             gamePage.Background = Color.FromRgb(0, 0, 0);
         }
         //--------------------------------------------------------------------------------------------------------------------------
-        public async Task AnimationMainPic(Image ImageWindow)
+        public async Task AnimationAppearanceMainPic(Image ImageWindow)
         {
 #if DEBUG
             MyLogger.logger.LogInformation("Анимация плавного показа главной картинки - начата.");
@@ -65,6 +65,20 @@ namespace QuantumJourneys.Animation
             }
 #if DEBUG
             MyLogger.logger.LogInformation("Анимация плавного показа главной картинки - конец.");
+#endif
+        }
+        public async Task AnimationBlackoutMainPic(Image ImageWindow)
+        {
+#if DEBUG
+            MyLogger.logger.LogInformation("Анимация плавного затемнения главной картинки - начата.");
+#endif
+            for (double i = 1; i > 0; i -= 0.1)
+            {
+                ImageWindow.Opacity = i;
+                await Task.Delay(40);
+            }
+#if DEBUG
+            MyLogger.logger.LogInformation("Анимация плавного затемнения главной картинки - конец.");
 #endif
         }
         //--------------------------------------------------------------------------------------------------------------------------

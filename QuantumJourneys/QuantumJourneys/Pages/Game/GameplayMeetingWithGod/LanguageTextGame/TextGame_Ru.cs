@@ -8,7 +8,7 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame
         public List<string> SetTextGame()
         {
 #if DEBUG
-            MyLogger.logger.LogInformation("Инициализация текста для UI русский - завершена.");
+            MyLogger.logger.LogInformation("Инициализация игрового текста для UI русский - завершена.");
 #endif
             return new List<string>
             {
@@ -86,6 +86,8 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame
             "Button_two: Выбор: зайти - 2",
 
             "EndScene",
+
+            ""
 
             };
         }
