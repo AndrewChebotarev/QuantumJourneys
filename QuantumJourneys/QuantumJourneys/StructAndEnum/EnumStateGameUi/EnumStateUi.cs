@@ -9,6 +9,8 @@ namespace QuantumJourneys.StructAndEnum.EnumStateGameUi
         button_two,
         button_four,
         img,
+        audio,
+        audio_loop,
         miniGame,
         endScene,
         none

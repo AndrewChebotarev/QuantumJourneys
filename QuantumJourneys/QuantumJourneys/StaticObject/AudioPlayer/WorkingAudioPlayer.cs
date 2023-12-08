@@ -5,6 +5,7 @@ namespace QuantumJourneys.StaticObject.AudioPlayer
     //--------------------------------------------------------------------------------------------------------------------------
     public static class WorkingAudioPlayer
     {
+        public static IAudioManager audioManager;
         public static IAudioPlayer audioPlayer;
         public static double valume;
     }

@@ -102,36 +102,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\Menu\menuimg.png" />
-	  <None Remove="Resources\Images\CreateCharacter\femaleblueblack.png" />
-	  <None Remove="Resources\Images\CreateCharacter\femaleblueblonde.png" />
-	  <None Remove="Resources\Images\CreateCharacter\femaleblueginger.png" />
-	  <None Remove="Resources\Images\CreateCharacter\femalebrownblack.png" />
-	  <None Remove="Resources\Images\CreateCharacter\femalebrownblonde.png" />
-	  <None Remove="Resources\Images\CreateCharacter\femalebrownginger.png" />
-	  <None Remove="Resources\Images\CreateCharacter\femalegreenblack.png" />
-	  <None Remove="Resources\Images\CreateCharacter\femalegreenblonde.png" />
-	  <None Remove="Resources\Images\CreateCharacter\femalegreenginger.png" />
-	  <None Remove="Resources\Images\CreateCharacter\maleblueblack.png" />
-	  <None Remove="Resources\Images\CreateCharacter\maleblueblonde.png" />
-	  <None Remove="Resources\Images\CreateCharacter\maleblueginger.png" />
-	  <None Remove="Resources\Images\CreateCharacter\malebrownblack.png" />
-	  <None Remove="Resources\Images\CreateCharacter\malebrownblonde.png" />
-	  <None Remove="Resources\Images\CreateCharacter\malebrownginger.png" />
-	  <None Remove="Resources\Images\CreateCharacter\malegreenblack.png" />
-	  <None Remove="Resources\Images\CreateCharacter\malegreenblonde.png" />
-	  <None Remove="Resources\Images\CreateCharacter\malegreenginger.png" />
-	  <None Remove="Resources\Images\EnteringNewWorld\whitebackground.png" />
-	  <None Remove="Resources\Images\EnteringNewWorld\maingod.png" />
-	  <None Remove="Resources\Images\EnteringNewWorld\doorstonewworld.png" />
-	  <None Remove="Resources\Raw\Menu.mp3" />
-	  <None Remove="Resources\Raw\MeetingWithGodSceneSounds\MeetingWithGodSound.mp3" />
-	  <None Remove="Resources\Raw\MeetingWithGodSceneSounds\MinigameSound.mp3" />
-	  <None Remove="Resources\Raw\MeetingWithGodSceneSounds\OpenDoorSound.mp3" />
-	  <None Remove="Resources\Raw\MeetingWithGodSceneSounds\TransitionSound.mp3" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="2.0.0" />
 		<PackageReference Include="MetroLog.Maui" Version="2.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />

@@ -10,7 +10,8 @@ public partial class GamePage : ContentPage
 
     private bool isWait = false;
     private bool isCreateNewButton = false;
-    public bool isMiniGame = false;
+    private bool isMiniGame = false;
+    private bool isNotFirstText = false;
 
     private List<Button> selectButtons = new();
     private List<BoxView> boxViews = new();
@@ -58,9 +59,10 @@ public partial class GamePage : ContentPage
     {
         meetingWithGodTextTransfer = new();
         this.characterCreationPage = characterCreationPage;
+        await NewStateUi();
         await WalkingAnimation();
         await InitWhiteMainPic();
-        await CreateNewLabel(meetingWithGodTextTransfer.SetFirstText());
+        await NewStateUi();
         InitSpaceForClick();
     }
     //--------------------------------------------------------------------------------------------------------------------------
@@ -113,9 +115,11 @@ public partial class GamePage : ContentPage
         StateGameUI state = meetingWithGodTextTransfer.GetStateUi();
 
         if (state == StateGameUI.label) await NewStateUI_Label();
-        else if (state == StateGameUI.button_two) await NewStateUI_Button(StateGameUI.button_two);
-        else if (state == StateGameUI.button_four) await NewStateUI_Button(StateGameUI.button_four);
+        else if (state == StateGameUI.button_two) await NewStateUI_Button(state);
+        else if (state == StateGameUI.button_four) await NewStateUI_Button(state);
         else if (state == StateGameUI.img) await NewStateUi_Img();
+        else if (state == StateGameUI.audio) await NewStateUi_Audio(state);
+        else if (state == StateGameUI.audio_loop) await NewStateUi_Audio(state);
         else if (state == StateGameUI.miniGame) await NewState_StartMiniGame();
         else if (state == StateGameUI.endScene) await NewStateUi_EndScene();
         else return;
@@ -151,6 +155,12 @@ public partial class GamePage : ContentPage
         SetNewMainImg(meetingWithGodTextTransfer.GetMainImg());
         await NewStateUi();
     }
+    private async Task NewStateUi_Audio(StateGameUI state)
+    {
+        await WorkWithSound.StopAudioPlayer();
+        await ChoiceAudioIsLoopOrNot(state);
+        await ExaminationOnFirstText();
+    }
     private async Task NewState_StartMiniGame()
     {
 #if DEBUG
@@ -160,7 +170,7 @@ public partial class GamePage : ContentPage
         {
             isMiniGame = true;
             CheckProcessBusy.isProcessBusy = true;
-            await Navigation.PushModalAsync(new MiniGame_OpenDoor());
+            await Navigation.PushModalAsync(new MiniGame_OpenDoor("MeetingWithGodSound.mp3"));
             CheckProcessBusy.isProcessBusy = false;
 
 #if DEBUG
@@ -222,6 +232,11 @@ public partial class GamePage : ContentPage
         foreach (BoxView boxView in boxViews) SpaceForClickSecond.Remove(boxView);
     }
     //--------------------------------------------------------------------------------------------------------------------------
+    private async Task ExaminationOnFirstText()
+    {
+        if (isNotFirstText) await NewStateUi();
+        isNotFirstText = true;
+    }
     private async Task<Label> CreateNewLabel(string text)
     {
 #if DEBUG
@@ -347,6 +362,11 @@ public partial class GamePage : ContentPage
         await ScrollAreaLabel.ScrollToAsync(view, ScrollToPosition.End, true);
     }
     //--------------------------------------------------------------------------------------------------------------------------
+    private async Task ChoiceAudioIsLoopOrNot(StateGameUI state)
+    {
+        if (state == StateGameUI.audio) await WorkWithSound.InitNewAudioPlayer(meetingWithGodTextTransfer.GetAudio(), false);
+        else await WorkWithSound.InitNewAudioPlayer(meetingWithGodTextTransfer.GetAudio(), true);
+    }
     private void AudioBtn_Clicked(object sender, EventArgs e)
     {
         if (audioBtn.Text == "🔊") AudioOff();
@@ -378,6 +398,7 @@ public partial class GamePage : ContentPage
             MyLogger.logger.LogInformation("Кнопка открытия страницы выбора одиночной игры - нажата!");
 #endif
             CheckProcessBusy.isProcessBusy = true;
+            await SettingMenuAudio();
             await Navigation.PopModalAsync();
             CheckProcessBusy.isProcessBusy = false;
             return;
@@ -385,6 +406,11 @@ public partial class GamePage : ContentPage
 #if DEBUG
         MyLogger.logger.LogInformation("Кнопка открытия страницы выбора одиночной игры - занята!");
 #endif
+    }
+    private async Task SettingMenuAudio()
+    {
+        await WorkWithSound.StopAudioPlayer();
+        await WorkWithSound.InitNewAudioPlayer("Menu.mp3", true);
     }
     //--------------------------------------------------------------------------------------------------------------------------
     protected async override void OnDisappearing()

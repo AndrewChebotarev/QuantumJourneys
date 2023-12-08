@@ -40,15 +40,6 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
             }
         }
         //----------------------------------------------------------------------------------------------------------------------------------
-        public string SetFirstText()
-        {
-#if DEBUG
-            MyLogger.logger.LogInformation("Установка первого Label.");
-#endif
-            counter++;
-            return textsList[0];
-        }
-        //----------------------------------------------------------------------------------------------------------------------------------
         public StateGameUI GetStateUi()
         {
 #if DEBUG
@@ -58,7 +49,9 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Button_two: ")) return StateGameUI.button_two;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Button_four: ")) return StateGameUI.button_four;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Img: ")) return StateGameUI.img;
-            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("MiniGame: ")) { counter++;  return StateGameUI.miniGame; }
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Audio: ")) return StateGameUI.audio;
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Audio_loop: ")) return StateGameUI.audio_loop;
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("MiniGame: ")) { counter++; return StateGameUI.miniGame; }
             else if (counter < textsList.Count - 1 && textsList[counter] == "EndScene") return StateGameUI.endScene;
             else return StateGameUI.none;
         }
@@ -98,6 +91,14 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
             string imgName = textsList[counter];
             counter++;
             return imgName.Substring("Img: ".Length);
+        }
+        public string GetAudio()
+        {
+            string audioName = textsList[counter];
+            counter++;
+
+            if (audioName.StartsWith("Audio: ")) return audioName.Substring("Audio: ".Length);
+            else return audioName.Substring("Audio_loop: ".Length);
         }
         //----------------------------------------------------------------------------------------------------------------------------------
     }

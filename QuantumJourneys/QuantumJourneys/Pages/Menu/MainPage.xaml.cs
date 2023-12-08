@@ -24,7 +24,6 @@ public partial class MainPage : ContentPage
 #endif
     }
     //--------------------------------------------------------------------------------------------------------------------------
-
 #if DEBUG
     private void InitLogger(ILogger<MainPage> logger)
     {
@@ -34,7 +33,8 @@ public partial class MainPage : ContentPage
 #endif
     private async void InitAudio(IAudioManager audioManager)
     {
-        await WorkWithSound.InitNewAudioPlayer(audioManager, "Menu.mp3");
+        WorkingAudioPlayer.audioManager = audioManager;
+        await WorkWithSound.InitNewAudioPlayer("Menu.mp3", true);
 #if DEBUG
         MyLogger.logger.LogInformation("Инициализация аудименеджера, аудио плеера пройдена.");
 #endif

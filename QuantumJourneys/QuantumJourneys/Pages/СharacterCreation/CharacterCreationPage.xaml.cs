@@ -786,18 +786,9 @@ public partial class CharacterCreationPage : ContentPage
     //----------------------------------------------------------------------------------------------------------------------------------
     public async Task BackGamePage()
     {
-        if (!CheckProcessBusy.isProcessBusy)
-        {
-            CheckProcessBusy.isProcessBusy = true;
-            await Navigation.PopModalAsync(false);
-            CheckProcessBusy.isProcessBusy = false;
+        await Navigation.PopModalAsync(false);
 #if DEBUG
-            MyLogger.logger.LogInformation("Переход на страницу выбора одиночной игры - успешен.");
-#endif
-            return;
-        }
-#if DEBUG
-        MyLogger.logger.LogInformation("Кнопка открытия страницы выбора одиночной игры - занята!");
+        MyLogger.logger.LogInformation("Переход на страницу выбора одиночной игры - успешен.");
 #endif
     }
     //----------------------------------------------------------------------------------------------------------------------------------
