@@ -521,10 +521,11 @@
                 HorizontalOptions="Center" 
                 Margin="0,0,0,50"/>
 
-            <Entry 
+            <Entry
                 
                 IsVisible="false"
                 x:Name="NameEntry"
+                
                 Completed="CloseKeyboard_Clicked"
             
                 FontSize="Title"
@@ -532,7 +533,18 @@
                 
                 HorizontalOptions="Center"         
                 VerticalOptions="Center"
-                Margin="0,0,0,120"/>
+                Margin="0,0,0,120">
+
+                <Entry.Keyboard>
+                    <Keyboard x:FactoryMethod="Create">
+                        <x:Arguments>
+                            <KeyboardFlags>CapitalizeSentence</KeyboardFlags>
+                        </x:Arguments>
+                    </Keyboard>
+                </Entry.Keyboard>
+
+            </Entry>
+
 
             <Button
                 

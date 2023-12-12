@@ -773,7 +773,7 @@ public partial class CharacterCreationPage : ContentPage
             CheckProcessBusy.isProcessBusy = true;
             loadGameBtn.IsVisible = true;
             loadingIndicator.IsRunning = true;
-            await Navigation.PushModalAsync(new GamePage(this));
+            await Navigation.PushModalAsync(new GamePage(this, сharacterСharacteristics));
             loadingIndicator.IsRunning = false;
             CheckProcessBusy.isProcessBusy = false;
 

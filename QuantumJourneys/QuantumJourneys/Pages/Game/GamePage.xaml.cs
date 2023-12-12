@@ -20,16 +20,17 @@ public partial class GamePage : ContentPage
     private WalkingAnimation walkingAnimation;
     private CharacterCreationPage characterCreationPage;
     private MeetingWithGodTextTransfer meetingWithGodTextTransfer;
+    private СharacterСharacteristics сharacterСharacteristics;
 
     //--------------------------------------------------------------------------------------------------------------------------
-    public GamePage(CharacterCreationPage characterCreationPage)
+    public GamePage(CharacterCreationPage characterCreationPage, СharacterСharacteristics сharacterСharacteristics)
 	{
 #if DEBUG
         MyLogger.logger.LogInformation("Начало инициализации страницы игрового действия.");
 #endif
         InitializeComponent();
         InitLanguage();
-        Task InitTask = InitAsync(characterCreationPage);
+        Task InitTask = InitAsync(characterCreationPage, сharacterСharacteristics);
 #if DEBUG
         MyLogger.logger.LogInformation("Конец инициализации страницы игрового действия.");
 #endif
@@ -55,10 +56,11 @@ public partial class GamePage : ContentPage
                 break;
         }
     }
-    private async Task InitAsync(CharacterCreationPage characterCreationPage)
+    private async Task InitAsync(CharacterCreationPage characterCreationPage, СharacterСharacteristics сharacterСharacteristics)
     {
         meetingWithGodTextTransfer = new();
         this.characterCreationPage = characterCreationPage;
+        this.сharacterСharacteristics = сharacterСharacteristics;
         await NewStateUi();
         await WalkingAnimation();
         await InitWhiteMainPic();
@@ -242,11 +244,18 @@ public partial class GamePage : ContentPage
 #if DEBUG
         MyLogger.logger.LogInformation("Создание нового текста.");
 #endif
-        Label label = CreateLabel(text);
+        Label label = SelectLabelTitleOrNot(text);
         await walkingAnimation.AnimationLabel(label);
-
         return label;
     }
+    private Label SelectLabelTitleOrNot(string text)
+    {
+        if (text.StartsWith("(")) return CreateLabelWithTitle(GetTitleText(text), GetTitleColor(text), GetMainText(text));
+        else return CreateLabel(text);
+    }
+    private string GetTitleText(string text) => text.Substring(1, text.IndexOf(",") - 1);
+    private string GetTitleColor(string text) => text.Substring(text.IndexOf(",") + 1, (text.IndexOf(")") - text.IndexOf(",")) - 1);
+    private string GetMainText(string text) => text.Remove(0, text.IndexOf(")") + 1);
     private Label CreateLabel(string text)
     {
         Label label = new()
@@ -254,7 +263,7 @@ public partial class GamePage : ContentPage
             Opacity = 0,
             Text = text,
             FontSize = 20,
-            HorizontalTextAlignment = TextAlignment.Start,
+            HorizontalTextAlignment = TextAlignment.Center,
             LineBreakMode = LineBreakMode.WordWrap,
             VerticalOptions = LayoutOptions.Start,
             Margin = new Thickness(0,0,0,20)
@@ -263,6 +272,50 @@ public partial class GamePage : ContentPage
         SpaceForClickSecond.Add(label);
 
         return label;
+    }
+    private Label CreateLabelWithTitle(string title, string color, string text)
+    {
+        Label label = new()
+        {
+            Opacity = 0,
+            FontSize = 20,
+            HorizontalTextAlignment = TextAlignment.Center,
+            LineBreakMode = LineBreakMode.WordWrap,
+            VerticalOptions = LayoutOptions.Start,
+            Margin = new Thickness(0, 0, 0, 20)
+        };
+
+        FormattedString formattedString = new();
+        SetTitleForLabel(formattedString, title, color);
+        SetTextForLabel(formattedString, text);
+        label.FormattedText = formattedString;
+        SpaceForClickSecond.Add(label);
+
+        return label;
+    }
+    private void SetTitleForLabel(FormattedString formattedString, string title, string color)
+    {
+        formattedString.Spans.Add(new Span
+        {
+            Text = title + ": ",
+            TextColor = ChoiceColorForTitle(color),
+            FontAttributes = FontAttributes.Bold
+        });
+    }
+    private void SetTextForLabel(FormattedString formattedString, string text)
+    {
+        formattedString.Spans.Add(new Span
+        {
+            Text = text,
+        });
+    }
+    private Color ChoiceColorForTitle(string color)
+    {
+        if (color == "White") return Colors.White;
+        else if (color == "Blue") return Colors.Blue;
+        else if (color == "Brown") return Colors.Brown;
+        else if (color == "Green") return Colors.Green;
+        else return Colors.White;
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task<Button> CreateNewButton(string text)
@@ -282,6 +335,7 @@ public partial class GamePage : ContentPage
             Opacity = 0,
             Text = text,
             FontSize = 20,
+            LineBreakMode = LineBreakMode.WordWrap,
 
             IsEnabled = false,
 
@@ -304,7 +358,7 @@ public partial class GamePage : ContentPage
 #endif
 
             Button clickedButton = (Button)sender;
-            string text = clickedButton.Text;
+            string text = $"({сharacterСharacteristics.characterName},{ChoiceMainCharacterTitleColor()})" + clickedButton.Text;
 
             RemovePandelSelectButtons();
 
@@ -321,6 +375,13 @@ public partial class GamePage : ContentPage
 #if DEBUG
         MyLogger.logger.LogInformation("Кнопка выбора персонажа - занята!");
 #endif
+    }
+    private string ChoiceMainCharacterTitleColor()
+    {
+        if (сharacterСharacteristics.eyeColor == EyeColorEnum.Blue) return "Blue";
+        else if (сharacterСharacteristics.eyeColor == EyeColorEnum.Brown) return "Brown";
+        else if (сharacterСharacteristics.eyeColor == EyeColorEnum.Green) return "Green";
+        else return "Blue";
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private BoxView CreateWhiteLine(int topMargin, int backMargin)
