@@ -13,6 +13,7 @@ namespace QuantumJourneys.StructAndEnum.EnumStateGameUi
         audio_loop,
         miniGame,
         endScene,
+        nameMiniGame,
         none
     }
     //--------------------------------------------------------------------------------------------------------------------------------------

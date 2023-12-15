@@ -1,16 +1,16 @@
 ﻿//Класс для передачи текста для игровой области - русский
 //--------------------------------------------------------------------------------------------------------------------------------------
-using System.Diagnostics.Metrics;
+
+using QuantumJourneys.Pages.Game.HelpFunction;
 
 namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame
 {
     //----------------------------------------------------------------------------------------------------------------------------------
-    public class TextGame_Ru
+    public class TextMeetingWithGod_Ru
     {
         //------------------------------------------------------------------------------------------------------------------------------
 
-        private int randomCounterText = 0;
-        private Random rnd_Number = new();
+        RandomText randomHelp = new();
 
         //------------------------------------------------------------------------------------------------------------------------------
         public List<string> SetTextGame()
@@ -23,84 +23,88 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame
 
             "Audio_loop: MeetingWithGodSound.mp3",
 
-            GetRandomText(),
+            randomHelp.GetRandomText(randomText),
 
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
 
-            GetRandomText(),
+            randomHelp.GetRandomText(randomText),
 
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-
-            GetRandomText(),
-
-            GetRandomText(),
-
-            "Img: maingod.png",
-
-            GetRandomText(),
-
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-
-            GetRandomText(),
-
-            GetRandomText(),
-
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-
-            GetRandomText(),
-
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-
-            GetRandomText(),
-
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-
-            GetRandomText(),
-
-            GetRandomText(),
-
-            "Img: doorstonewworld.png",
-
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-
-            GetRandomText(),
-
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
-            GetRandomText(),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
 
             "Audio_loop: MinigameSound.mp3",
 
             "MiniGame: OpenDoor",
 
-            GetRandomText(),
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+
+            "Img: maingod.png",
+
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+
+            "Img: doorstonewworld.png",
+
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
+
+            "Audio_loop: MinigameSound.mp3",
+
+            "MiniGame: OpenDoor",
+
+            randomHelp.GetRandomText(randomText),
 
             "Audio: OpenDoorSound.mp3",
 
-            GetRandomText(),
-            GetRandomText(),
+            randomHelp.GetRandomText(randomText),
+            randomHelp.GetRandomText(randomText),
 
             "Audio: TransitionSound.mp3",
 
@@ -111,16 +115,6 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame
             };
         }
         //------------------------------------------------------------------------------------------------------------------------------
-        private string GetRandomText()
-        {
-            int value = rnd_Number.Next(0, GetNumberLineInText() - 1);
-            string receivedText = randomText[randomCounterText][value];
-            randomCounterText++;
-            return receivedText;
-        }
-
-        private int GetNumberLineInText() => randomText[randomCounterText].Count();
-
         private string[][] randomText =
         {
             //
@@ -267,7 +261,7 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame
             {
                 "Button_four: Что ты хочешь от меня?",
                 "Button_four: Скажи мне свою истинную сущность!",
-                "Button_four: Кто ты, загадочный шар с шипами?",                                                  //Сделать случайные кнопки и разного цвета имена
+                "Button_four: Кто ты, загадочный шар с шипами?",
                 "Button_four: Какой тайный мир ты открываешь, черный шар с шипами?"
             },
             new string[]

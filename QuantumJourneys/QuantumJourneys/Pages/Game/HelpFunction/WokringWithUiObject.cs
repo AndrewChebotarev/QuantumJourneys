@@ -1,9 +1,11 @@
 ﻿//Класс для передачи в игровую область Ui объекст и его текст
 //------------------------------------------------------------------------------------------------------------------------------------------
+using QuantumJourneys.Pages.Game.MiniGame.GuessNumberPlayerPage.LanguageTextMiniGame;
+
 namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
 {
     //--------------------------------------------------------------------------------------------------------------------------------------
-    public class MeetingWithGodTextTransfer
+    public class WokringWithUiObject
     {
         //----------------------------------------------------------------------------------------------------------------------------------
 
@@ -11,12 +13,17 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
         private List<string> textsList;
 
         //----------------------------------------------------------------------------------------------------------------------------------
-        public MeetingWithGodTextTransfer()
+        public WokringWithUiObject()
         {
-            InitLanguage();
+            SelectNewLocationStateGameplay();
         }
         //----------------------------------------------------------------------------------------------------------------------------------
-        private void InitLanguage()
+        private void SelectNewLocationStateGameplay()
+        {
+            if (LocationStateGameplay.locationStateGameplay == "GameMeetingWithGod") InitLanguageMeetingWithGod();
+            else if (LocationStateGameplay.locationStateGameplay == "MiniGameGuessNumberPlayer") InitLanguageMiniGameNumberPlayer();
+        }
+        private void InitLanguageMeetingWithGod()
         {
 #if DEBUG
             MyLogger.logger.LogInformation("Начало инициализации языка для страницы игры.");
@@ -24,17 +31,40 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
             switch (SelectLanguage.language)
             {
                 case "Ru":
-                    TextGame_Ru textList_Ru = new TextGame_Ru();
-                    textsList = textList_Ru.SetTextGame();
+                    TextMeetingWithGod_Ru textMeetingWithGod_Ru = new TextMeetingWithGod_Ru();
+                    textsList = textMeetingWithGod_Ru.SetTextGame();
                     break;
 
                 case "En":
-                    TextGame_En textList_En = new TextGame_En();
-                    textsList = textList_En.SetTextGame();
+                    TextMeetingWithGod_En textMeetingWithGod_En = new TextMeetingWithGod_En();
+                    textsList = textMeetingWithGod_En.SetTextGame();
                     break;
 
                 default:
-                    TextGame_En textList_Default = new TextGame_En();
+                    TextMeetingWithGod_En textList_Default = new TextMeetingWithGod_En();
+                    textsList = textList_Default.SetTextGame();
+                    break;
+            }
+        }
+        private void InitLanguageMiniGameNumberPlayer()
+        {
+#if DEBUG
+            MyLogger.logger.LogInformation("Начало инициализации языка для страницы миниигры - угадай число (игрок).");
+#endif
+            switch (SelectLanguage.language)
+            {
+                case "Ru":
+                    TextGuessNumberPlayer_Ru textMeetingWithGod_Ru = new TextGuessNumberPlayer_Ru();
+                    textsList = textMeetingWithGod_Ru.SetTextGame();
+                    break;
+
+                case "En":
+                    TextGuessNumberPlayer_En textMeetingWithGod_En = new TextGuessNumberPlayer_En();
+                    textsList = textMeetingWithGod_En.SetTextGame();
+                    break;
+
+                default:
+                    TextGuessNumberPlayer_En textList_Default = new TextGuessNumberPlayer_En();
                     textsList = textList_Default.SetTextGame();
                     break;
             }
@@ -52,6 +82,7 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Audio: ")) return StateGameUI.audio;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Audio_loop: ")) return StateGameUI.audio_loop;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("MiniGame: ")) { counter++; return StateGameUI.miniGame; }
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("NameMiniGame: ")) return StateGameUI.nameMiniGame;
             else if (counter < textsList.Count - 1 && textsList[counter] == "EndScene") return StateGameUI.endScene;
             else return StateGameUI.none;
         }
@@ -99,6 +130,12 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
 
             if (audioName.StartsWith("Audio: ")) return audioName.Substring("Audio: ".Length);
             else return audioName.Substring("Audio_loop: ".Length);
+        }
+        public string GetNameNameMiniGame()
+        {
+            string text = textsList[counter];
+            counter++;
+            return text.Substring("NameMiniGame: ".Length);
         }
         //----------------------------------------------------------------------------------------------------------------------------------
     }

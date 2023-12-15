@@ -149,13 +149,13 @@
 	  <MauiXaml Update="Pages\CreateGameMulty\CreateGameMultyPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\Game\GamePage.xaml">
+	  <MauiXaml Update="Pages\Game\GamePage\GamePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\LoadGame\LoadGamePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\MiniGame\OpenDoor\MiniGame_OpenDoor.xaml">
+	  <MauiXaml Update="Pages\Game\MiniGame\GuessNumberPlayerPage\GuessNumberPlayer.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\NewOrLoadGameSolo\NewOrLoadGameSoloPage.xaml">

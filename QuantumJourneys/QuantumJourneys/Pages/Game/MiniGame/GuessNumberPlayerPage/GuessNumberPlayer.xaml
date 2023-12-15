@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuantumJourneys.Pages.MiniGame.GuessNumberPlayerPage.GuessNumberPlayer"
+             Title="GuessNumberPlayer">
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="*"/>
+
+            <RowDefinition Height="2*"/>
+
+            <RowDefinition Height="0.25*"/>
+
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition />
+
+            </Grid.ColumnDefinitions>
+
+            <VerticalStackLayout x:Name="SpaceForClickFirst">
+
+                <Image
+                
+                    x:Name="ImageWindow"
+                    Source="maingod.png"
+                
+                    VerticalOptions="Start"
+                    Aspect="AspectFill"
+                    Margin="0,0,0,40"/>
+
+            </VerticalStackLayout>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition />
+
+            </Grid.ColumnDefinitions>
+
+            <ScrollView x:Name="ScrollAreaLabel">
+
+                <VerticalStackLayout x:Name="SpaceForClickSecond">
+
+                </VerticalStackLayout>
+
+            </ScrollView>
+
+        </Grid>
+
+        <Grid Grid.Row="2">
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition />
+
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,0" VerticalOptions="EndAndExpand">
+
+                <Button
+                
+                    x:Name="menuBtn"
+                    Clicked="MenuBtn_Clicked"
+                    
+                    TextColor="#FFFFFF"
+                    FontSize="Subtitle"
+                
+                    BackgroundColor="#5C2ACE"
+                    BorderWidth="1"
+                    BorderColor="#000000"
+                
+                    HorizontalOptions="Start" 
+                    VerticalOptions="EndAndExpand"
+                    Margin="10,0,0,10"/>
+
+                <BoxView 
+                    
+                    x:Name="EndBoxView"
+                    
+                    Opacity="0"
+                    
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Button
+                
+                    x:Name="audioBtn"
+                    Clicked="AudioBtn_Clicked"
+                    
+                    Text="🔊"
+                    TextColor="#FFFFFF"
+                    FontSize="Subtitle"
+                
+                    BackgroundColor="#5C2ACE"
+                    BorderWidth="1"
+                    BorderColor="#000000"
+                
+                    HorizontalOptions="End" 
+                    VerticalOptions="EndAndExpand"
+                    Margin="0,0,10,10"/>
+
+            </StackLayout>
+
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

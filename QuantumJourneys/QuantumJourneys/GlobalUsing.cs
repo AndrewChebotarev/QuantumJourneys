@@ -29,8 +29,10 @@ global using QuantumJourneys.Pages.Game.Language;
 global using QuantumJourneys.Pages.Game.GameplayMeetingWithGod;
 global using QuantumJourneys.StructAndEnum.EnumStateGameUi;
 global using QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame;
-global using QuantumJourneys.Pages.MiniGame.OpenDoor;
 global using QuantumJourneys.StaticObject.ProcessBusy;
 global using QuantumJourneys.Sound;
+global using QuantumJourneys.Pages.MiniGame.GuessNumberPlayerPage;
+global using QuantumJourneys.Pages.MiniGame.GuessNumberPlayerPage.Language;
+global using QuantumJourneys.Pages.Game.HelpFunction;
 
 //--------------------------------------------------------------------------------------------------------------------------

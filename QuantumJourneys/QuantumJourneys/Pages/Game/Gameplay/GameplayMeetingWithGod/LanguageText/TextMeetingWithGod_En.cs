@@ -3,7 +3,7 @@
 namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame
 {
     //----------------------------------------------------------------------------------------------------------------------------------
-    public class TextGame_En
+    public class TextMeetingWithGod_En
     {
         public List<string> SetTextGame()
         {

@@ -73,7 +73,6 @@
                     x:Name="menuBtn"
                     Clicked="MenuBtn_Clicked"
                     
-                    Text="Меню"
                     TextColor="#FFFFFF"
                     FontSize="Subtitle"
                 

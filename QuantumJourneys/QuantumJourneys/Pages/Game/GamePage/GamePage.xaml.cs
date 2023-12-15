@@ -19,7 +19,7 @@ public partial class GamePage : ContentPage
 
     private WalkingAnimation walkingAnimation;
     private CharacterCreationPage characterCreationPage;
-    private MeetingWithGodTextTransfer meetingWithGodTextTransfer;
+    private WokringWithUiObject workingWithUiObject;
     private СharacterСharacteristics сharacterСharacteristics;
 
     //--------------------------------------------------------------------------------------------------------------------------
@@ -29,7 +29,6 @@ public partial class GamePage : ContentPage
         MyLogger.logger.LogInformation("Начало инициализации страницы игрового действия.");
 #endif
         InitializeComponent();
-        InitLanguage();
         Task InitTask = InitAsync(characterCreationPage, сharacterСharacteristics);
 #if DEBUG
         MyLogger.logger.LogInformation("Конец инициализации страницы игрового действия.");
@@ -58,7 +57,9 @@ public partial class GamePage : ContentPage
     }
     private async Task InitAsync(CharacterCreationPage characterCreationPage, СharacterСharacteristics сharacterСharacteristics)
     {
-        meetingWithGodTextTransfer = new();
+        SetNewLocationStateGameplay("GameMeetingWithGod");
+        InitLanguage();
+        workingWithUiObject = new();
         this.characterCreationPage = characterCreationPage;
         this.сharacterСharacteristics = сharacterСharacteristics;
         await NewStateUi();
@@ -68,6 +69,10 @@ public partial class GamePage : ContentPage
         InitSpaceForClick();
     }
     //--------------------------------------------------------------------------------------------------------------------------
+    private void SetNewLocationStateGameplay(string newLocationState)
+    {
+        LocationStateGameplay.locationStateGameplay = newLocationState;
+    }
     private async Task WalkingAnimation()
     {
         WalkingAnimation walkingAnimation = new();
@@ -114,7 +119,7 @@ public partial class GamePage : ContentPage
 #if DEBUG
         MyLogger.logger.LogInformation("Получение нужного следующего состояния ui объекта.");
 #endif
-        StateGameUI state = meetingWithGodTextTransfer.GetStateUi();
+        StateGameUI state = workingWithUiObject.GetStateUi();
 
         if (state == StateGameUI.label) await NewStateUI_Label();
         else if (state == StateGameUI.button_two) await NewStateUI_Button(state);
@@ -132,7 +137,7 @@ public partial class GamePage : ContentPage
 #if DEBUG
         MyLogger.logger.LogInformation("Следующий ui объект - Label.");
 #endif
-        Label newLabel = await CreateNewLabel(meetingWithGodTextTransfer.GetLabelText());
+        Label newLabel = await CreateNewLabel(workingWithUiObject.GetLabelText());
         await NewScrollPosition(newLabel);
     }
     private async Task NewStateUI_Button(StateGameUI state)
@@ -154,7 +159,7 @@ public partial class GamePage : ContentPage
 #if DEBUG
         MyLogger.logger.LogInformation("Следующий ui объект - Image.");
 #endif
-        SetNewMainImg(meetingWithGodTextTransfer.GetMainImg());
+        SetNewMainImg(workingWithUiObject.GetMainImg());
         await NewStateUi();
     }
     private async Task NewStateUi_Audio(StateGameUI state)
@@ -172,7 +177,7 @@ public partial class GamePage : ContentPage
         {
             isMiniGame = true;
             CheckProcessBusy.isProcessBusy = true;
-            await Navigation.PushModalAsync(new MiniGame_OpenDoor("MeetingWithGodSound.mp3"));
+            await Navigation.PushModalAsync(new GuessNumberPlayer(this, "MeetingWithGodSound.mp3"));
             CheckProcessBusy.isProcessBusy = false;
 
 #if DEBUG
@@ -207,8 +212,8 @@ public partial class GamePage : ContentPage
     }
     private void SelectingNumberButtons(StateGameUI state)
     {
-        if (state == StateGameUI.button_four) texts = meetingWithGodTextTransfer.GetFourButtonsText();
-        else texts = meetingWithGodTextTransfer.GetTwoButtonsText();
+        if (state == StateGameUI.button_four) texts = workingWithUiObject.GetFourButtonsText();
+        else texts = workingWithUiObject.GetTwoButtonsText();
     }
     private async Task CreateButtonsFromText()
     {
@@ -425,8 +430,8 @@ public partial class GamePage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task ChoiceAudioIsLoopOrNot(StateGameUI state)
     {
-        if (state == StateGameUI.audio) await WorkWithSound.InitNewAudioPlayer(meetingWithGodTextTransfer.GetAudio(), false);
-        else await WorkWithSound.InitNewAudioPlayer(meetingWithGodTextTransfer.GetAudio(), true);
+        if (state == StateGameUI.audio) await WorkWithSound.InitNewAudioPlayer(workingWithUiObject.GetAudio(), false);
+        else await WorkWithSound.InitNewAudioPlayer(workingWithUiObject.GetAudio(), true);
     }
     private void AudioBtn_Clicked(object sender, EventArgs e)
     {
@@ -453,14 +458,19 @@ public partial class GamePage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private async void MenuBtn_Clicked(object sender, EventArgs e)
     {
+        await CloseGamePageAndCharacterCreationPage(false);
+    }
+    public async Task CloseGamePageAndCharacterCreationPage(bool isCallMiniGame)
+    {
         if (!CheckProcessBusy.isProcessBusy)
         {
 #if DEBUG
             MyLogger.logger.LogInformation("Кнопка открытия страницы выбора одиночной игры - нажата!");
 #endif
             CheckProcessBusy.isProcessBusy = true;
-            await SettingMenuAudio();
-            await Navigation.PopModalAsync();
+            await SettingMenuAudio("Menu.mp3", true);
+            await Navigation.PopModalAsync(false);
+            await CallFromMiniGameClose(isCallMiniGame);
             CheckProcessBusy.isProcessBusy = false;
             return;
         }
@@ -468,10 +478,10 @@ public partial class GamePage : ContentPage
         MyLogger.logger.LogInformation("Кнопка открытия страницы выбора одиночной игры - занята!");
 #endif
     }
-    private async Task SettingMenuAudio()
+    private async Task SettingMenuAudio(string audioName, bool isLoop)
     {
         await WorkWithSound.StopAudioPlayer();
-        await WorkWithSound.InitNewAudioPlayer("Menu.mp3", true);
+        await WorkWithSound.InitNewAudioPlayer(audioName, isLoop);
     }
     //--------------------------------------------------------------------------------------------------------------------------
     protected async override void OnDisappearing()
@@ -480,6 +490,11 @@ public partial class GamePage : ContentPage
         else await IsMinigamePage();
     }
     //--------------------------------------------------------------------------------------------------------------------------
+    private async Task CallFromMiniGameClose(bool isCallMiniGame)
+    {
+        if (isCallMiniGame) await Navigation.PopModalAsync(false);
+        else return;
+    }
     private async Task CloseGamePage()
     {
 #if DEBUG
