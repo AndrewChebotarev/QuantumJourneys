@@ -367,7 +367,7 @@ public partial class GamePage : ContentPage
             Button clickedButton = (Button)sender;
             string text = $"({сharacterСharacteristics.characterName},{ChoiceMainCharacterTitleColor()})" + clickedButton.Text;
 
-            RemovePandelSelectButtons();
+            RemovePanelSelectButtons();
 
             Label newLabel = await CreateNewLabel(text);
             await NewScrollPosition(newLabel);
