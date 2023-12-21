@@ -17,11 +17,13 @@ public partial class GamePage : ContentPage
     private List<BoxView> boxViews = new();
     private List<string> texts = new();
 
-    private WalkingAnimation walkingAnimation;
+    private GenaralPageFunctions genaralPageFunctions = new();
+    private WokringWithUiObject workingWithUiObject = new();
+    private WalkingAnimation walkingAnimation = new();
+    private ResultMiniGame resultMiniGame = new();
+
     private CharacterCreationPage characterCreationPage;
-    private WokringWithUiObject workingWithUiObject;
     private СharacterСharacteristics сharacterСharacteristics;
-    private ResultMiniGame resultMiniGame;
 
     //--------------------------------------------------------------------------------------------------------------------------
     public GamePage(CharacterCreationPage characterCreationPage, СharacterСharacteristics сharacterСharacteristics)
@@ -58,12 +60,10 @@ public partial class GamePage : ContentPage
     }
     private async Task InitAsync(CharacterCreationPage characterCreationPage, СharacterСharacteristics сharacterСharacteristics)
     {
-        SetNewLocationStateGameplay("GameMeetingWithGod");
+        genaralPageFunctions.SetNewLocationStateGameplay("GameMeetingWithGod");
         InitLanguage();
-        workingWithUiObject = new();
         this.characterCreationPage = characterCreationPage;
         this.сharacterСharacteristics = сharacterСharacteristics;
-        this.resultMiniGame = new();
         await NewStateUi();
         await WalkingAnimation();
         await InitWhiteMainPic();
@@ -71,14 +71,8 @@ public partial class GamePage : ContentPage
         InitSpaceForClick();
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    private void SetNewLocationStateGameplay(string newLocationState)
-    {
-        LocationStateGameplay.locationStateGameplay = newLocationState;
-    }
     private async Task WalkingAnimation()
     {
-        WalkingAnimation walkingAnimation = new();
-        this.walkingAnimation = walkingAnimation;
         await walkingAnimation.Animation(this);
     }
     private async Task InitWhiteMainPic()
@@ -140,7 +134,7 @@ public partial class GamePage : ContentPage
         MyLogger.logger.LogInformation("Следующий ui объект - Label.");
 #endif
         Label newLabel = await CreateNewLabel(workingWithUiObject.GetLabelText());
-        await NewScrollPosition(newLabel);
+        await genaralPageFunctions.NewScrollPosition(ScrollAreaLabel, newLabel);
     }
     private async Task NewStateUI_Button(StateGameUI state)
     {
@@ -206,11 +200,11 @@ public partial class GamePage : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task CreateNewPanelSelectButtons(StateGameUI state)
     {
-        BoxView StartLine = CreateWhiteLine(20, 10);
+        BoxView StartLine = genaralPageFunctions.CreateWhiteLine(SpaceForClickSecond, 20, 10);
         SelectingNumberButtons(state);
         await CreateButtonsFromText();
-        BoxView EndLine = CreateWhiteLine(0, 20);
-        AddFromListBoxView(StartLine, EndLine);
+        BoxView EndLine = genaralPageFunctions.CreateWhiteLine(SpaceForClickSecond, 0, 20);
+        genaralPageFunctions.AddFromListBoxView(boxViews, StartLine, EndLine);
     }
     private void SelectingNumberButtons(StateGameUI state)
     {
@@ -221,8 +215,7 @@ public partial class GamePage : ContentPage
     {
         foreach (string text in texts)
         {
-            Button newButton = await CreateNewButton(text);
-            await NewScrollPosition(newButton);
+            Button newButton = await genaralPageFunctions.CreateNewButton(walkingAnimation, text, ScrollAreaLabel);
         }
     }
     private void SelectButtonEnabled()
@@ -257,101 +250,16 @@ public partial class GamePage : ContentPage
     }
     private Label SelectLabelTitleOrNot(string text)
     {
-        if (text.StartsWith("(")) return CreateLabelWithTitle(GetTitleText(text), GetTitleColor(text), GetMainText(text));
-        else return CreateLabel(text);
-    }
-    private string GetTitleText(string text) => text.Substring(1, text.IndexOf(",") - 1);
-    private string GetTitleColor(string text) => text.Substring(text.IndexOf(",") + 1, (text.IndexOf(")") - text.IndexOf(",")) - 1);
-    private string GetMainText(string text) => text.Remove(0, text.IndexOf(")") + 1);
-    private Label CreateLabel(string text)
-    {
-        Label label = new()
-        {
-            Opacity = 0,
-            Text = text,
-            FontSize = 20,
-            HorizontalTextAlignment = TextAlignment.Center,
-            LineBreakMode = LineBreakMode.WordWrap,
-            VerticalOptions = LayoutOptions.Start,
-            Margin = new Thickness(0,0,0,20)
-        };
-
-        SpaceForClickSecond.Add(label);
-
-        return label;
-    }
-    private Label CreateLabelWithTitle(string title, string color, string text)
-    {
-        Label label = new()
-        {
-            Opacity = 0,
-            FontSize = 20,
-            HorizontalTextAlignment = TextAlignment.Center,
-            LineBreakMode = LineBreakMode.WordWrap,
-            VerticalOptions = LayoutOptions.Start,
-            Margin = new Thickness(0, 0, 0, 20)
-        };
-
-        FormattedString formattedString = new();
-        SetTitleForLabel(formattedString, title, color);
-        SetTextForLabel(formattedString, text);
-        label.FormattedText = formattedString;
-        SpaceForClickSecond.Add(label);
-
-        return label;
-    }
-    private void SetTitleForLabel(FormattedString formattedString, string title, string color)
-    {
-        formattedString.Spans.Add(new Span
-        {
-            Text = title + ": ",
-            TextColor = ChoiceColorForTitle(color),
-            FontAttributes = FontAttributes.Bold
-        });
-    }
-    private void SetTextForLabel(FormattedString formattedString, string text)
-    {
-        formattedString.Spans.Add(new Span
-        {
-            Text = text,
-        });
-    }
-    private Color ChoiceColorForTitle(string color)
-    {
-        if (color == "White") return Colors.White;
-        else if (color == "Blue") return Colors.Blue;
-        else if (color == "Brown") return Colors.Brown;
-        else if (color == "Green") return Colors.Green;
-        else return Colors.White;
+        if (text.StartsWith("(")) return genaralPageFunctions.CreateLabelWithTitle(SpaceForClickSecond, genaralPageFunctions.GetTitleText(text), genaralPageFunctions.GetTitleColor(text), genaralPageFunctions.GetMainText(text));
+        else return genaralPageFunctions.CreateLabel(SpaceForClickSecond, text);
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    private async Task<Button> CreateNewButton(string text)
-    {
-#if DEBUG
-        MyLogger.logger.LogInformation("Создание новой кнопки.");
-#endif
-        Button button = CreateButton(text);
-        await walkingAnimation.AnimationButton(button);
-
-        return button;
-    }
     private Button CreateButton(string text)
     {
-        Button button = new()
-        {
-            Opacity = 0,
-            Text = text,
-            FontSize = 20,
-            LineBreakMode = LineBreakMode.WordWrap,
-
-            IsEnabled = false,
-
-            VerticalOptions = LayoutOptions.Start,
-            Margin = new Thickness(0, 0, 0, 10)
-        };
+        Button button = genaralPageFunctions.CreateButton(text);
         button.Clicked += SelectBtn_Clicked;
 
-        SpaceForClickSecond.Add(button);
+        genaralPageFunctions.AddToLayoutView(SpaceForClickSecond, button);
         selectButtons.Add(button);
 
         return button;
@@ -365,12 +273,12 @@ public partial class GamePage : ContentPage
 #endif
 
             Button clickedButton = (Button)sender;
-            string text = $"({сharacterСharacteristics.characterName},{ChoiceMainCharacterTitleColor()})" + clickedButton.Text;
+            string text = $"({сharacterСharacteristics.characterName},{genaralPageFunctions.ChoiceMainCharacterTitleColor(сharacterСharacteristics)})" + clickedButton.Text;
 
             RemovePanelSelectButtons();
 
             Label newLabel = await CreateNewLabel(text);
-            await NewScrollPosition(newLabel);
+            await genaralPageFunctions.NewScrollPosition(ScrollAreaLabel, newLabel);
 
             await Task.Delay(300);
 
@@ -383,36 +291,6 @@ public partial class GamePage : ContentPage
         MyLogger.logger.LogInformation("Кнопка выбора персонажа - занята!");
 #endif
     }
-    private string ChoiceMainCharacterTitleColor()
-    {
-        if (сharacterСharacteristics.eyeColor == EyeColorEnum.Blue) return "Blue";
-        else if (сharacterСharacteristics.eyeColor == EyeColorEnum.Brown) return "Brown";
-        else if (сharacterСharacteristics.eyeColor == EyeColorEnum.Green) return "Green";
-        else return "Blue";
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
-    private BoxView CreateWhiteLine(int topMargin, int backMargin)
-    {
-#if DEBUG
-        MyLogger.logger.LogInformation("Создание белой линии.");
-#endif
-        BoxView boxView = new BoxView
-        {
-            BackgroundColor = Colors.White,
-            VerticalOptions = LayoutOptions.Start,
-            HeightRequest = 5,
-            Margin = new Thickness(0, topMargin, 0, backMargin)
-        };
-
-        SpaceForClickSecond.Add(boxView);
-
-        return boxView;
-    }
-    private void AddFromListBoxView(BoxView StartLine, BoxView EndLine)
-    {
-        boxViews.Add(StartLine);
-        boxViews.Add(EndLine);
-    }
     //--------------------------------------------------------------------------------------------------------------------------
     private void SetNewMainImg(string imgName)
     {
@@ -422,14 +300,6 @@ public partial class GamePage : ContentPage
         ImageWindow.Source = imgName;
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    private async Task NewScrollPosition(View view)
-    {
-#if DEBUG
-        MyLogger.logger.LogInformation("Изменение позиции скролла.");
-#endif
-        await ScrollAreaLabel.ScrollToAsync(view, ScrollToPosition.End, true);
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
     private async Task ChoiceAudioIsLoopOrNot(StateGameUI state)
     {
         if (state == StateGameUI.audio) await WorkWithSound.InitNewAudioPlayer(workingWithUiObject.GetAudio(), false);
@@ -437,25 +307,8 @@ public partial class GamePage : ContentPage
     }
     private void AudioBtn_Clicked(object sender, EventArgs e)
     {
-        if (audioBtn.Text == "🔊") AudioOff();
-        else AudioOn();
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
-    private void AudioOff()
-    {
-        audioBtn.Text = "🔇";
-        WorkingAudioPlayer.audioPlayer.Volume = 0;
-#if DEBUG
-        MyLogger.logger.LogInformation("Звук отключен.");
-#endif
-    }
-    private void AudioOn()
-    {
-        audioBtn.Text = "🔊";
-        WorkingAudioPlayer.audioPlayer.Volume = WorkingAudioPlayer.valume;
-#if DEBUG
-        MyLogger.logger.LogInformation("Звук включен.");
-#endif
+        if (audioBtn.Text == "🔊") genaralPageFunctions.AudioOff(audioBtn);
+        else genaralPageFunctions.AudioOn(audioBtn);
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private async void MenuBtn_Clicked(object sender, EventArgs e)

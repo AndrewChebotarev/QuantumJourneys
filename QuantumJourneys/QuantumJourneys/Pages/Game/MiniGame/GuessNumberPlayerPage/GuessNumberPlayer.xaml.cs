@@ -1,8 +1,6 @@
 ﻿//Класс для работы с миниигрой - угадай число (игрок)
 //------------------------------------------------------------------------------------------------------------------------------
 
-using System.Runtime.CompilerServices;
-
 namespace QuantumJourneys.Pages.MiniGame.GuessNumberPlayerPage;
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -23,9 +21,11 @@ public partial class GuessNumberPlayer : ContentPage
     private List<BoxView> boxViews = new();
     private Dictionary<Button, Entry> EntryButtonDictionary = new();
 
+    private GenaralPageFunctions genaralPageFunctions = new();
+    private WokringWithUiObject workingWithUiObject = new();
+    private WalkingAnimation walkingAnimation = new();
+
     private GamePage gamePage;
-    private WokringWithUiObject workingWithUiObject;
-    private WalkingAnimation walkingAnimation;
     private СharacterСharacteristics сharacterСharacteristics;
     private ResultMiniGame resultMiniGame;
 
@@ -44,22 +44,16 @@ public partial class GuessNumberPlayer : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     private async void InitAsync(GamePage gamePage, СharacterСharacteristics сharacterСharacteristics, ResultMiniGame resultMiniGame)
     {
-        SetNewLocationStateGameplay("MiniGameGuessNumberPlayer");
+        genaralPageFunctions.SetNewLocationStateGameplay("MiniGameGuessNumberPlayer");
         InitLanguage();
-        workingWithUiObject = new();
-        walkingAnimation = new();
         this.сharacterСharacteristics = сharacterСharacteristics;
         this.resultMiniGame = resultMiniGame;
         this.gamePage = gamePage;
-        GetIntendedNumber();
+        genaralPageFunctions.GetIntendedNumber(rnd_Number, 1, 100);
         await NewStateUi();
         InitSpaceForClick();
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    private void SetNewLocationStateGameplay(string newLocationState)
-    {
-        LocationStateGameplay.locationStateGameplay = newLocationState;
-    }
     private void InitLanguage()
     {
 #if DEBUG
@@ -108,11 +102,6 @@ public partial class GuessNumberPlayer : ContentPage
         SpaceForClickSecond.GestureRecognizers.Add(tapGesture);
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    private void GetIntendedNumber()
-    {
-        intendedNumber = rnd_Number.Next(0, 100);
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
     private async Task NewStateUi()
     {
 #if DEBUG
@@ -132,8 +121,8 @@ public partial class GuessNumberPlayer : ContentPage
 #if DEBUG
         MyLogger.logger.LogInformation("Следующий ui объект - Label.");
 #endif
-        Label newLabel = await CreateNewLabel(workingWithUiObject.GetLabelText());
-        await NewScrollPosition(newLabel);
+        Label newLabel = await genaralPageFunctions.CreateNewLabel(SpaceForClickSecond, workingWithUiObject.GetLabelText(), walkingAnimation);
+        await genaralPageFunctions.NewScrollPosition(ScrollAreaLabel, newLabel);
     }
     private async Task NewStateUI_NameMiniGame()
     {
@@ -153,111 +142,31 @@ public partial class GuessNumberPlayer : ContentPage
     }
     private async Task NewStateUI_EndMiniGame()
     {
-        await WorkWithSound.StopAudioPlayer();
-        await WorkWithSound.InitNewAudioPlayer("MeetingWithGodSound.mp3", true);
+        await genaralPageFunctions.SettingMenuAudio("MeetingWithGodSound.mp3", true);
         isNotDefaultEndGame = false;
         await Navigation.PopModalAsync();
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task CreateNameMiniGame()
     {
-        Label newNameMiniGame = CreateLabelNameMiniGame(workingWithUiObject.GetNameNameMiniGame());
+        Label newNameMiniGame = await genaralPageFunctions.CreateLabelNameMiniGame(ScrollAreaLabel, workingWithUiObject.GetNameNameMiniGame());
         await walkingAnimation.AnimationLabel(newNameMiniGame);
-        await NewScrollPosition(newNameMiniGame);
+        await genaralPageFunctions.NewScrollPosition(ScrollAreaLabel, newNameMiniGame);
         await NewStateUi();
     }
-    private Label CreateLabelNameMiniGame(string text)
-    {
-        Label label = new()
-        {
-            Opacity = 0,
-            Text = text,
-            FontSize = 24,
-            FontAttributes = FontAttributes.Bold,
-            TextDecorations = TextDecorations.Underline,
-            HorizontalTextAlignment = TextAlignment.Center,
-            LineBreakMode = LineBreakMode.WordWrap,
-            VerticalOptions = LayoutOptions.Start,
-            Margin = new Thickness(0, 0, 0, 20)
-        };
 
-        SpaceForClickSecond.Add(label);
-
-        return label;
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
-    private async Task<Label> CreateNewLabel(string text)
-    {
-#if DEBUG
-        MyLogger.logger.LogInformation("Создание нового текста.");
-#endif
-        Label label = CreateLabelWithTitle(GetTitleText(text), GetTitleColor(text), GetMainText(text));
-        await walkingAnimation.AnimationLabel(label);
-        return label;
-    }
-    private string GetTitleText(string text) => text.Substring(1, text.IndexOf(",") - 1);
-    private string GetTitleColor(string text) => text.Substring(text.IndexOf(",") + 1, (text.IndexOf(")") - text.IndexOf(",")) - 1);
-    private string GetMainText(string text) => text.Remove(0, text.IndexOf(")") + 1);
-    private Label CreateLabelWithTitle(string title, string color, string text)
-    {
-        Label label = new()
-        {
-            Opacity = 0,
-            FontSize = 20,
-            HorizontalTextAlignment = TextAlignment.Center,
-            LineBreakMode = LineBreakMode.WordWrap,
-            VerticalOptions = LayoutOptions.Start,
-            Margin = new Thickness(0, 0, 0, 20)
-        };
-
-        FormattedString formattedString = new();
-        SetTitleForLabel(formattedString, title, color);
-        SetTextForLabel(formattedString, text);
-        label.FormattedText = formattedString;
-        SpaceForClickSecond.Add(label);
-
-        return label;
-    }
-    private void SetTitleForLabel(FormattedString formattedString, string title, string color)
-    {
-        formattedString.Spans.Add(new Span
-        {
-            Text = title + ": ",
-            TextColor = ChoiceColorForTitle(color),
-            FontAttributes = FontAttributes.Bold
-        });
-    }
-    private void SetTextForLabel(FormattedString formattedString, string text)
-    {
-        formattedString.Spans.Add(new Span
-        {
-            Text = text,
-        });
-    }
-    private Color ChoiceColorForTitle(string color)
-    {
-        if (color == "White") return Colors.White;
-        else if (color == "Blue") return Colors.Blue;
-        else if (color == "Brown") return Colors.Brown;
-        else if (color == "Green") return Colors.Green;
-        else return Colors.White;
-    }
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task CreateNewPanelEntryWithButton()
     {
         EntryButtonDictionary.Clear();
-        BoxView StartLine = CreateWhiteLine(20, 10);
+        BoxView StartLine = genaralPageFunctions.CreateWhiteLine(SpaceForClickSecond, 20, 10);
         List<string> EntryButtonTexts = workingWithUiObject.GetEntryButtonText();
         Entry entry = await CreateNewEntry(EntryButtonTexts[0]);
         Button button = await CreateNewButton(EntryButtonTexts[1]);
-        BoxView EndLine = CreateWhiteLine(0, 20);
-        EntryEnabled(entry);
+        BoxView EndLine = genaralPageFunctions.CreateWhiteLine(SpaceForClickSecond, 0, 20);
+        genaralPageFunctions.EntryEnabled(entry);
         EntryButtonDictionary.Add(button, entry);
-        AddFromListBoxView(StartLine, EndLine);
-    }
-    private void EntryEnabled(Entry entry)
-    {
-        entry.IsEnabled = true;
+        genaralPageFunctions.AddFromListBoxView(boxViews, StartLine, EndLine);
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task<Entry> CreateNewEntry(string text)
@@ -267,37 +176,22 @@ public partial class GuessNumberPlayer : ContentPage
 #endif
         Entry entry = CreateEntry(text);
         await walkingAnimation.AnimationEntry(entry);
-        await NewScrollPosition(entry);
+        await genaralPageFunctions.NewScrollPosition(ScrollAreaLabel, entry);
 
         return entry;
     }
     private Entry CreateEntry(string text)
     {
-        Entry entry = new Entry()
-        {
-            Opacity = 0,
-            Placeholder = text,
-            FontSize = 20,
-
-            IsEnabled = false,
-
-            Keyboard = Keyboard.Numeric,
-
-            VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.Center,
-            HorizontalTextAlignment = TextAlignment.Center,
-            Margin = new Thickness(0, 0, 0, 10)
-        };
+        Entry entry = genaralPageFunctions.CreateEntry(text);
         entry.Completed += (sender, e) => CloseKeyboard_Clicked((Entry)sender);
 
-        SpaceForClickSecond.Add(entry);
+        genaralPageFunctions.AddToLayoutView(SpaceForClickSecond, entry);
 
         return entry;
     }
     private void CloseKeyboard_Clicked(Entry entry)
     {
-        entry.IsEnabled = false;
-        entry.IsEnabled = true;
+        genaralPageFunctions.CloseKeyboard_Clicked(entry);
 
         try
         {
@@ -311,34 +205,24 @@ public partial class GuessNumberPlayer : ContentPage
         }
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    private async Task<Button> CreateNewButton(string text)
+
+    public async Task<Button> CreateNewButton(string text)
     {
 #if DEBUG
         MyLogger.logger.LogInformation("Создание новой кнопки.");
 #endif
         Button button = CreateButton(text);
         await walkingAnimation.AnimationButton(button);
-        await NewScrollPosition(button);
+        await genaralPageFunctions.NewScrollPosition(ScrollAreaLabel, button);
 
         return button;
     }
     private Button CreateButton(string text)
     {
-        Button button = new()
-        {
-            Opacity = 0,
-            Text = text,
-            FontSize = 20,
-            LineBreakMode = LineBreakMode.WordWrap,
-
-            IsEnabled = false,
-
-            VerticalOptions = LayoutOptions.Start,
-            Margin = new Thickness(0, 0, 0, 10)
-        };
+        Button button = genaralPageFunctions.CreateButton(text);
         button.Clicked += SelectBtn_Clicked;
 
-        SpaceForClickSecond.Add(button);
+        genaralPageFunctions.AddToLayoutView(SpaceForClickSecond, button);
 
         return button;
     }
@@ -351,12 +235,12 @@ public partial class GuessNumberPlayer : ContentPage
 #endif
 
             Button clickedButton = (Button)sender;
-            string text = $"({сharacterСharacteristics.characterName},{ChoiceMainCharacterTitleColor()})" + playerNumber;
+            string text = $"({сharacterСharacteristics.characterName},{genaralPageFunctions.ChoiceMainCharacterTitleColor(сharacterСharacteristics)})" + playerNumber;
 
             RemovePanelEntryWithButton((Button)sender);
 
-            Label newLabel = await CreateNewLabel(text);
-            await NewScrollPosition(newLabel);
+            Label newLabel = await genaralPageFunctions.CreateNewLabel(SpaceForClickSecond, text, walkingAnimation);
+            await genaralPageFunctions.NewScrollPosition(ScrollAreaLabel, newLabel);
 
             await Task.Delay(300);
 
@@ -411,29 +295,6 @@ public partial class GuessNumberPlayer : ContentPage
         return false;
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    private BoxView CreateWhiteLine(int topMargin, int backMargin)
-    {
-#if DEBUG
-        MyLogger.logger.LogInformation("Создание белой линии.");
-#endif
-        BoxView boxView = new BoxView
-        {
-            BackgroundColor = Colors.White,
-            VerticalOptions = LayoutOptions.Start,
-            HeightRequest = 5,
-            Margin = new Thickness(0, topMargin, 0, backMargin)
-        };
-
-        SpaceForClickSecond.Add(boxView);
-
-        return boxView;
-    }
-    private void AddFromListBoxView(BoxView StartLine, BoxView EndLine)
-    {
-        boxViews.Add(StartLine);
-        boxViews.Add(EndLine);
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
     private void RemovePanelEntryWithButton(Button button)
     {
         SpaceForClickSecond.Remove(boxViews[0]);
@@ -443,43 +304,10 @@ public partial class GuessNumberPlayer : ContentPage
         boxViews.Clear();
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    private string ChoiceMainCharacterTitleColor()
-    {
-        if (сharacterСharacteristics.eyeColor == EyeColorEnum.Blue) return "Blue";
-        else if (сharacterСharacteristics.eyeColor == EyeColorEnum.Brown) return "Brown";
-        else if (сharacterСharacteristics.eyeColor == EyeColorEnum.Green) return "Green";
-        else return "Blue";
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
-    private async Task NewScrollPosition(View view)
-    {
-#if DEBUG
-        MyLogger.logger.LogInformation("Изменение позиции скролла.");
-#endif
-        await ScrollAreaLabel.ScrollToAsync(view, ScrollToPosition.End, true);
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
     private void AudioBtn_Clicked(object sender, EventArgs e)
     {
-        if (audioBtn.Text == "🔊") AudioOff();
-        else AudioOn();
-    }
-    //--------------------------------------------------------------------------------------------------------------------------
-    private void AudioOff()
-    {
-        audioBtn.Text = "🔇";
-        WorkingAudioPlayer.audioPlayer.Volume = 0;
-#if DEBUG
-        MyLogger.logger.LogInformation("Звук отключен.");
-#endif
-    }
-    private void AudioOn()
-    {
-        audioBtn.Text = "🔊";
-        WorkingAudioPlayer.audioPlayer.Volume = WorkingAudioPlayer.valume;
-#if DEBUG
-        MyLogger.logger.LogInformation("Звук включен.");
-#endif
+        if (audioBtn.Text == "🔊") genaralPageFunctions.AudioOff(audioBtn);
+        else genaralPageFunctions.AudioOn(audioBtn);
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private async void MenuBtn_Clicked(object sender, EventArgs e)

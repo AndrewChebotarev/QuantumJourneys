@@ -35,5 +35,6 @@ global using QuantumJourneys.Pages.MiniGame.GuessNumberPlayerPage;
 global using QuantumJourneys.Pages.MiniGame.GuessNumberPlayerPage.Language;
 global using QuantumJourneys.Pages.Game.HelpFunction;
 global using QuantumJourneys.StructAndEnum.MainCharacter;
+global using QuantumJourneys.Pages.Game.HelpEssence;
 
 //--------------------------------------------------------------------------------------------------------------------------
