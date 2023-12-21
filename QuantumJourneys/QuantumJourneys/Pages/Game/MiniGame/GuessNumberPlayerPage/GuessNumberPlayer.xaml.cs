@@ -1,6 +1,8 @@
 ﻿//Класс для работы с миниигрой - угадай число (игрок)
 //------------------------------------------------------------------------------------------------------------------------------
 
+using System.Runtime.CompilerServices;
+
 namespace QuantumJourneys.Pages.MiniGame.GuessNumberPlayerPage;
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -8,53 +10,55 @@ public partial class GuessNumberPlayer : ContentPage
 {
     //--------------------------------------------------------------------------------------------------------------------------
 
-    private string audio;
     private bool isWait = false;
     private bool isCreateNewButton = false;
+    private bool isNotDefaultEndGame = true;
+
+
+    private int numberAttempts = 7;
+    private int intendedNumber;
+    private int playerNumber;
+    private Random rnd_Number = new();
+
+    private List<BoxView> boxViews = new();
+    private Dictionary<Button, Entry> EntryButtonDictionary = new();
 
     private GamePage gamePage;
     private WokringWithUiObject workingWithUiObject;
     private WalkingAnimation walkingAnimation;
     private СharacterСharacteristics сharacterСharacteristics;
+    private ResultMiniGame resultMiniGame;
 
     //--------------------------------------------------------------------------------------------------------------------------
-    public GuessNumberPlayer(GamePage gamePage, string audio)
+    public GuessNumberPlayer(GamePage gamePage, СharacterСharacteristics сharacterСharacteristics, ResultMiniGame resultMiniGame)
     {
 #if DEBUG
         MyLogger.logger.LogInformation("Начало инициализации мини игры - угудай число для игрока.");
 #endif
         InitializeComponent();
-        InitAsync(gamePage, audio);
+        InitAsync(gamePage, сharacterСharacteristics, resultMiniGame);
 #if DEBUG
         MyLogger.logger.LogInformation("Конец инициализации мини игры - угадай число для бога.");
 #endif
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    private async void InitAsync(GamePage gamePage, string audio)
+    private async void InitAsync(GamePage gamePage, СharacterСharacteristics сharacterСharacteristics, ResultMiniGame resultMiniGame)
     {
         SetNewLocationStateGameplay("MiniGameGuessNumberPlayer");
-        InitAudio(audio);
         InitLanguage();
         workingWithUiObject = new();
         walkingAnimation = new();
+        this.сharacterСharacteristics = сharacterСharacteristics;
+        this.resultMiniGame = resultMiniGame;
         this.gamePage = gamePage;
-        await NewStateUi();;
+        GetIntendedNumber();
+        await NewStateUi();
         InitSpaceForClick();
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private void SetNewLocationStateGameplay(string newLocationState)
     {
         LocationStateGameplay.locationStateGameplay = newLocationState;
-    }
-    private void InitAudio(string audio)
-    {
-#if DEBUG
-        MyLogger.logger.LogInformation("Начало инициализации аудио страницы миниигры.");
-#endif
-        this.audio = audio;
-#if DEBUG
-        MyLogger.logger.LogInformation("Конец инициализации аудио страницы миниигры.");
-#endif
     }
     private void InitLanguage()
     {
@@ -104,6 +108,11 @@ public partial class GuessNumberPlayer : ContentPage
         SpaceForClickSecond.GestureRecognizers.Add(tapGesture);
     }
     //--------------------------------------------------------------------------------------------------------------------------
+    private void GetIntendedNumber()
+    {
+        intendedNumber = rnd_Number.Next(0, 100);
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
     private async Task NewStateUi()
     {
 #if DEBUG
@@ -113,6 +122,8 @@ public partial class GuessNumberPlayer : ContentPage
 
         if (state == StateGameUI.label) await NewStateUI_Label();
         else if (state == StateGameUI.nameMiniGame) await NewStateUI_NameMiniGame();
+        else if (state == StateGameUI.entry_button) await NewStateUI_EntryButton();
+        else if (state == StateGameUI.endMiniGame) await NewStateUI_EndMiniGame();
         else return;
     }
     //--------------------------------------------------------------------------------------------------------------------------
@@ -130,6 +141,22 @@ public partial class GuessNumberPlayer : ContentPage
         MyLogger.logger.LogInformation("Следующий ui объект - Label (название игры).");
 #endif
         await CreateNameMiniGame();
+    }
+    private async Task NewStateUI_EntryButton()
+    {
+        isWait = true;
+        isCreateNewButton = true;
+
+        await CreateNewPanelEntryWithButton();
+
+        isCreateNewButton = false;
+    }
+    private async Task NewStateUI_EndMiniGame()
+    {
+        await WorkWithSound.StopAudioPlayer();
+        await WorkWithSound.InitNewAudioPlayer("MeetingWithGodSound.mp3", true);
+        isNotDefaultEndGame = false;
+        await Navigation.PopModalAsync();
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private async Task CreateNameMiniGame()
@@ -216,6 +243,74 @@ public partial class GuessNumberPlayer : ContentPage
         else return Colors.White;
     }
     //--------------------------------------------------------------------------------------------------------------------------
+    private async Task CreateNewPanelEntryWithButton()
+    {
+        EntryButtonDictionary.Clear();
+        BoxView StartLine = CreateWhiteLine(20, 10);
+        List<string> EntryButtonTexts = workingWithUiObject.GetEntryButtonText();
+        Entry entry = await CreateNewEntry(EntryButtonTexts[0]);
+        Button button = await CreateNewButton(EntryButtonTexts[1]);
+        BoxView EndLine = CreateWhiteLine(0, 20);
+        EntryEnabled(entry);
+        EntryButtonDictionary.Add(button, entry);
+        AddFromListBoxView(StartLine, EndLine);
+    }
+    private void EntryEnabled(Entry entry)
+    {
+        entry.IsEnabled = true;
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+    private async Task<Entry> CreateNewEntry(string text)
+    {
+#if DEBUG
+        MyLogger.logger.LogInformation("Создание нового текстового поля.");
+#endif
+        Entry entry = CreateEntry(text);
+        await walkingAnimation.AnimationEntry(entry);
+        await NewScrollPosition(entry);
+
+        return entry;
+    }
+    private Entry CreateEntry(string text)
+    {
+        Entry entry = new Entry()
+        {
+            Opacity = 0,
+            Placeholder = text,
+            FontSize = 20,
+
+            IsEnabled = false,
+
+            Keyboard = Keyboard.Numeric,
+
+            VerticalOptions = LayoutOptions.Center,
+            HorizontalOptions = LayoutOptions.Center,
+            HorizontalTextAlignment = TextAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 10)
+        };
+        entry.Completed += (sender, e) => CloseKeyboard_Clicked((Entry)sender);
+
+        SpaceForClickSecond.Add(entry);
+
+        return entry;
+    }
+    private void CloseKeyboard_Clicked(Entry entry)
+    {
+        entry.IsEnabled = false;
+        entry.IsEnabled = true;
+
+        try
+        {
+            playerNumber = int.Parse(entry.Text);
+            Button button = EntryButtonDictionary.Keys.FirstOrDefault();
+            button.IsEnabled = true;
+        }
+        catch
+        {
+            DisplayAlert("Некорректное значение!", "Введите целое число.", "Ок");
+        }
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
     private async Task<Button> CreateNewButton(string text)
     {
 #if DEBUG
@@ -223,6 +318,7 @@ public partial class GuessNumberPlayer : ContentPage
 #endif
         Button button = CreateButton(text);
         await walkingAnimation.AnimationButton(button);
+        await NewScrollPosition(button);
 
         return button;
     }
@@ -243,7 +339,6 @@ public partial class GuessNumberPlayer : ContentPage
         button.Clicked += SelectBtn_Clicked;
 
         SpaceForClickSecond.Add(button);
-        //selectButtons.Add(button);
 
         return button;
     }
@@ -256,16 +351,19 @@ public partial class GuessNumberPlayer : ContentPage
 #endif
 
             Button clickedButton = (Button)sender;
-            string text = $"({сharacterСharacteristics.characterName},{ChoiceMainCharacterTitleColor()})" + clickedButton.Text;
+            string text = $"({сharacterСharacteristics.characterName},{ChoiceMainCharacterTitleColor()})" + playerNumber;
 
-            //RemovePandelSelectButtons();
+            RemovePanelEntryWithButton((Button)sender);
 
             Label newLabel = await CreateNewLabel(text);
             await NewScrollPosition(newLabel);
 
             await Task.Delay(300);
 
-            await NewStateUi();
+            bool isAutoNewStateUi = await CheckPlayerIsGuessedNubmer();
+            numberAttempts--;
+
+            if (isAutoNewStateUi) await NewStateUi();
             isWait = false;
 
             return;
@@ -273,6 +371,76 @@ public partial class GuessNumberPlayer : ContentPage
 #if DEBUG
         MyLogger.logger.LogInformation("Кнопка выбора персонажа - занята!");
 #endif
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+    private async Task<bool> CheckPlayerIsGuessedNubmer()
+    {
+        if (intendedNumber == playerNumber) return await PlayerGuessedNumber();
+        else if (numberAttempts == 0) return await CheckRanOutAttempts();
+        else return await PlayerNotGuessedNumber();
+    }
+    private async Task<bool> PlayerGuessedNumber()
+    {
+        workingWithUiObject.CounterStepsForward(2);
+        resultMiniGame.GuessNumberPlayer = true;
+        await NewStateUi();
+        workingWithUiObject.CounterStepsForward(1);
+        return false;
+    }
+    private async Task<bool> PlayerNotGuessedNumber()
+    {
+        if (intendedNumber > playerNumber)
+        {
+            await NewStateUi();
+            workingWithUiObject.CounterStepsBack(3);
+            return true;
+        }
+        else
+        {
+            workingWithUiObject.CounterStepsForward(1);
+            await NewStateUi();
+            workingWithUiObject.CounterStepsBack(4);
+            return true;
+        }
+    }
+    private async Task<bool> CheckRanOutAttempts()
+    {
+        workingWithUiObject.CounterStepsForward(3);
+        resultMiniGame.GuessNumberPlayer = false;
+        await NewStateUi();
+        return false;
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+    private BoxView CreateWhiteLine(int topMargin, int backMargin)
+    {
+#if DEBUG
+        MyLogger.logger.LogInformation("Создание белой линии.");
+#endif
+        BoxView boxView = new BoxView
+        {
+            BackgroundColor = Colors.White,
+            VerticalOptions = LayoutOptions.Start,
+            HeightRequest = 5,
+            Margin = new Thickness(0, topMargin, 0, backMargin)
+        };
+
+        SpaceForClickSecond.Add(boxView);
+
+        return boxView;
+    }
+    private void AddFromListBoxView(BoxView StartLine, BoxView EndLine)
+    {
+        boxViews.Add(StartLine);
+        boxViews.Add(EndLine);
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+    private void RemovePanelEntryWithButton(Button button)
+    {
+        SpaceForClickSecond.Remove(boxViews[0]);
+        SpaceForClickSecond.Remove(EntryButtonDictionary[button]);
+        SpaceForClickSecond.Remove(button);
+        SpaceForClickSecond.Remove(boxViews[1]);
+        boxViews.Clear();
     }
     //--------------------------------------------------------------------------------------------------------------------------
     private string ChoiceMainCharacterTitleColor()
@@ -333,7 +501,7 @@ public partial class GuessNumberPlayer : ContentPage
     //--------------------------------------------------------------------------------------------------------------------------
     protected async override void OnDisappearing()
     {
-        await gamePage.CloseGamePageAndCharacterCreationPage(true);
+        if (isNotDefaultEndGame) await gamePage.CloseGamePageAndCharacterCreationPage(true);
     }
     protected override bool OnBackButtonPressed()
     {

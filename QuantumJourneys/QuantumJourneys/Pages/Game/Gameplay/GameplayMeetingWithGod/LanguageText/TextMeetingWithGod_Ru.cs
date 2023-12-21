@@ -37,10 +37,6 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame
             randomHelp.GetRandomText(randomText),
             randomHelp.GetRandomText(randomText),
 
-            "Audio_loop: MinigameSound.mp3",
-
-            "MiniGame: OpenDoor",
-
             randomHelp.GetRandomText(randomText),
 
             randomHelp.GetRandomText(randomText),
@@ -538,6 +534,10 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod.LanguageTextGame
                 "Button_two: Войти в пространство через дверь"
             }
         };
+        public string GetVariationText()
+        {
+            return "";
+        }
     }
     //----------------------------------------------------------------------------------------------------------------------------------
 }

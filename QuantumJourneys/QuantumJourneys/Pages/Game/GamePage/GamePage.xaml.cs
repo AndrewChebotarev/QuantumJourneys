@@ -21,6 +21,7 @@ public partial class GamePage : ContentPage
     private CharacterCreationPage characterCreationPage;
     private WokringWithUiObject workingWithUiObject;
     private СharacterСharacteristics сharacterСharacteristics;
+    private ResultMiniGame resultMiniGame;
 
     //--------------------------------------------------------------------------------------------------------------------------
     public GamePage(CharacterCreationPage characterCreationPage, СharacterСharacteristics сharacterСharacteristics)
@@ -62,6 +63,7 @@ public partial class GamePage : ContentPage
         workingWithUiObject = new();
         this.characterCreationPage = characterCreationPage;
         this.сharacterСharacteristics = сharacterСharacteristics;
+        this.resultMiniGame = new();
         await NewStateUi();
         await WalkingAnimation();
         await InitWhiteMainPic();
@@ -177,7 +179,7 @@ public partial class GamePage : ContentPage
         {
             isMiniGame = true;
             CheckProcessBusy.isProcessBusy = true;
-            await Navigation.PushModalAsync(new GuessNumberPlayer(this, "MeetingWithGodSound.mp3"));
+            await Navigation.PushModalAsync(new GuessNumberPlayer(this, сharacterСharacteristics, resultMiniGame));
             CheckProcessBusy.isProcessBusy = false;
 
 #if DEBUG
@@ -230,7 +232,7 @@ public partial class GamePage : ContentPage
 #endif
         foreach (Button button in selectButtons) button.IsEnabled = true;
     }
-    private void RemovePandelSelectButtons()
+    private void RemovePanelSelectButtons()
     {
 #if DEBUG
         MyLogger.logger.LogInformation("Событие: удаление панели для выбора игрока.");

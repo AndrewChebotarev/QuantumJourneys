@@ -34,5 +34,6 @@ global using QuantumJourneys.Sound;
 global using QuantumJourneys.Pages.MiniGame.GuessNumberPlayerPage;
 global using QuantumJourneys.Pages.MiniGame.GuessNumberPlayerPage.Language;
 global using QuantumJourneys.Pages.Game.HelpFunction;
+global using QuantumJourneys.StructAndEnum.MainCharacter;
 
 //--------------------------------------------------------------------------------------------------------------------------

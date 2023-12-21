@@ -12,6 +12,9 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
         private int counter = 0;
         private List<string> textsList;
 
+        TextGuessNumberPlayer_Ru textGuessNumberPlayer_Ru;
+        TextGuessNumberPlayer_En textGuessNumberPlayer_En;
+
         //----------------------------------------------------------------------------------------------------------------------------------
         public WokringWithUiObject()
         {
@@ -55,16 +58,19 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
             {
                 case "Ru":
                     TextGuessNumberPlayer_Ru textMeetingWithGod_Ru = new TextGuessNumberPlayer_Ru();
+                    this.textGuessNumberPlayer_Ru = textMeetingWithGod_Ru;
                     textsList = textMeetingWithGod_Ru.SetTextGame();
                     break;
 
                 case "En":
                     TextGuessNumberPlayer_En textMeetingWithGod_En = new TextGuessNumberPlayer_En();
+                    this.textGuessNumberPlayer_En = textMeetingWithGod_En;
                     textsList = textMeetingWithGod_En.SetTextGame();
                     break;
 
                 default:
                     TextGuessNumberPlayer_En textList_Default = new TextGuessNumberPlayer_En();
+                    this.textGuessNumberPlayer_En = textList_Default;
                     textsList = textList_Default.SetTextGame();
                     break;
             }
@@ -78,11 +84,13 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
             if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Text: ")) return StateGameUI.label;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Button_two: ")) return StateGameUI.button_two;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Button_four: ")) return StateGameUI.button_four;
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Entry_Button: ")) return StateGameUI.entry_button;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Img: ")) return StateGameUI.img;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Audio: ")) return StateGameUI.audio;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("Audio_loop: ")) return StateGameUI.audio_loop;
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("MiniGame: ")) { counter++; return StateGameUI.miniGame; }
             else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("NameMiniGame: ")) return StateGameUI.nameMiniGame;
+            else if (counter < textsList.Count - 1 && textsList[counter].StartsWith("EndMiniGame")) return StateGameUI.endMiniGame;
             else if (counter < textsList.Count - 1 && textsList[counter] == "EndScene") return StateGameUI.endScene;
             else return StateGameUI.none;
         }
@@ -90,6 +98,9 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
         public string GetLabelText()
         {
             string text = textsList[counter];
+
+            if (text.Contains("[Variation]")) text = GetVariationText(text);
+
             counter++;
             return text.Substring("Text: ".Length);
         }
@@ -117,6 +128,18 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
 
             return texts;
         }
+        public List<string> GetEntryButtonText()
+        {
+            List<string> texts = new();
+
+            for (int i = 0; i < 2; i++)
+            {
+                texts.Add(textsList[counter].Substring("Entry_Button: ".Length));
+                counter++;
+            }
+
+            return texts;
+        }
         public string GetMainImg()
         {
             string imgName = textsList[counter];
@@ -136,6 +159,23 @@ namespace QuantumJourneys.Pages.Game.GameplayMeetingWithGod
             string text = textsList[counter];
             counter++;
             return text.Substring("NameMiniGame: ".Length);
+        }
+        public void CounterStepsBack(int numberStepBack)
+        {
+            counter -= numberStepBack;
+        }
+        public void CounterStepsForward(int numberStepForward)
+        {
+            counter += numberStepForward;
+        }
+        //----------------------------------------------------------------------------------------------------------------------------------
+        private string GetVariationText(string text)
+        {
+            if (LocationStateGameplay.locationStateGameplay == "GameMeetingWithGod" && SelectLanguage.language == "Ru") return textGuessNumberPlayer_Ru.GetVariationText("");
+            if (LocationStateGameplay.locationStateGameplay == "GameMeetingWithGod" && SelectLanguage.language == "En") return "";
+            else if (LocationStateGameplay.locationStateGameplay == "MiniGameGuessNumberPlayer" && SelectLanguage.language == "Ru") return textGuessNumberPlayer_Ru.GetVariationText(text);
+            else if (LocationStateGameplay.locationStateGameplay == "MiniGameGuessNumberPlayer" && SelectLanguage.language == "En") return "";
+            else return "";
         }
         //----------------------------------------------------------------------------------------------------------------------------------
     }
